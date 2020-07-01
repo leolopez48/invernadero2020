@@ -10,6 +10,7 @@
 <script src="https://www.amcharts.com/lib/4/maps.js"></script>
 <script src="https://www.amcharts.com/lib/4/geodata/elSalvadorLow.js"></script>
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 <script src="//www.amcharts.com/lib/4/lang/es_ES.js"></script>
 @endsection
@@ -65,33 +66,37 @@
         <h4 class="center blue-text text-darken-4">Estaciones</h4>
         <div class="col s6 m6">
             <div class="card">
-                <div class="card-image">
-                    <img src="{{asset('imgs/background3.jpg')}}">
-                    <span class="card-title">Card Title</span>
-                </div>
-                <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                </div>
-                <!-- <div class="card-action">
+                <a href="" id="est1">
+                    <div class="card-image">
+                        <img src="{{asset('imgs/background3.jpg')}}">
+                        <span class="card-title">Card Title</span>
+                    </div>
+                    <div class="card-content">
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <!-- <div class="card-action">
                     <a href="#">This is a link</a>
                 </div> -->
+                </a>
             </div>
 
         </div>
         <div class="col s6 m6">
             <div class="card">
-                <div class="card-image">
-                    <img src="{{asset('imgs/background3.jpg')}}">
-                    <span class="card-title">Card Title</span>
-                </div>
-                <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                </div>
-                <!-- <div class="card-action">
-                    <a href="#">This is a link</a>
-                </div> -->
+                <a href="" id="est2">
+                    <div class="card-image">
+                        <img src="{{asset('imgs/background3.jpg')}}">
+                        <span class="card-title">Card Title</span>
+                    </div>
+                    <div class="card-content">
+                        <p>I am a very simple card. I am good at containing small bits of information.
+                            I am convenient because I require little markup to use effectively.</p>
+                    </div>
+                    <!-- <div class="card-action">
+        <a href="#">This is a link</a>
+    </div> -->
+                </a>
             </div>
         </div>
     </div>
@@ -120,77 +125,17 @@
 
 <div class="container">
     <div class="section ">
-        <div class="row">
-            <div class="col s12 m6 padding-20">
+        <div class="row center">
+            <div class="col s12 m12 padding-20" id="containerTable">
                 <table class="responsive-table highlight">
                     <thead>
                         <th>ID</th>
+                        <th>Fecha</th>
                         <th>Temperatura (°C)</th>
                         <th>Húmedad</th>
                         <th>Radiación solar</th>
                     </thead>
                     <tbody id="idTabla">
-                        <tr>
-                            <td>1</td>
-                            <td>28.5</td>
-                            <td>20</td>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>28.5</td>
-                            <td>20</td>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>28.5</td>
-                            <td>20</td>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>28.5</td>
-                            <td>20</td>
-                            <td>15</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col s12 m6 ">
-                <table class="responsive-table highlight padding-20">
-                    <thead>
-                        <th>ID</th>
-                        <th>Temperatura (°C)</th>
-                        <th>Húmedad</th>
-                        <th>Radiación solar</th>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>28.5</td>
-                            <td>20</td>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>28.5</td>
-                            <td>20</td>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>28.5</td>
-                            <td>20</td>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>28.5</td>
-                            <td>20</td>
-                            <td>15</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
