@@ -1,36 +1,41 @@
 var LowestLimit = 15;
 const DefaultValue = 0;
+const url = 'http://localhost:8000/api/';
 
 $('document').ready(function () {
-    //map();
-    loadGraphics();
-    loadTable();
+    getData(1);
 });
 
-function loadTable() {
+function getData(id) {
+    fetch(url + 'get' + `/${id}`, {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'default'
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            loadTable(data.registros);
+            loadGraphics(data.registros);
+        });
+}
+
+function loadTable(registros) {
     $('#idTabla').empty();
-    for (let i = 0; i < 30; i++) {
-        let randomTemp = Math.random() * (35 - 25) + 25;
-        let randomHum = Math.random() * (35 - 25) + 25;
-        let randomRad = Math.random() * (35 - 25) + 25;
-        var date = new Date();
-        var hour, time;
-        if (date.getHours() > 12) {
-            hour = date.getHours() % 12;
-            time = 'PM';
-        } else {
-            hour = date.getHours() % 12;
-            time = 'AM';
-        }
+
+    for (let i = 0; i < registros.length; i++) {
+        let temperatura = registros[i].temperatura;
+        let humedad = registros[i].humedad;
+        let radiacion = registros[i].radiacion;
+        let created_at = registros[i].created_at;
+
         $('#idTabla').append(
             '<tr>' +
             '<td>' + (i + 1) + '</td>' +
-            '<td>' + date.getDay() + '/' + date.getUTCMonth() + '/' + date.getFullYear() + ' ' + hour + ':' + date.getMinutes() + ' ' + time + '</td>' +
-            '<td>' + randomTemp.toFixed(2) + '</td>' +
-            '<td>' + randomHum.toFixed(2) + '</td>' +
-            '<td>' + randomRad.toFixed(2) + '</td>' +
+            '<td>' + created_at + '</td>' +
+            '<td>' + temperatura + '</td>' +
+            '<td>' + humedad + '</td>' +
+            '<td>' + radiacion + '</td>' +
             '</tr>'
-
         );
     }
 }
@@ -125,26 +130,23 @@ function message(estacion) {
     )
 }
 
-function loadGraphics() {
+function loadGraphics(registros) {
     am4core.disposeAllCharts(); //Advertencia 'Chart was not disposed'
-    //map();
-    graphics('graphicLineDiv', 0);
-    //graphics('graphicLineDiv', LowestLimit);
-    graphics('graphicLineHumDiv');
-    graphics('graphicLineRadDiv');
+    graphics('graphicLineDiv', registros, 1);
+    graphics('graphicLineHumDiv', registros, 2);
+    graphics('graphicLineRadDiv', registros, 3);
 }
 
-$('#idSantaAna1').on('click', (ev) => {
+/*$('#idSantaAna1').on('click', (ev) => {
 
     ev.preventDefault();
     $('#tituloEst').text("Santa Ana");
     $("#descEst").text("Santa Ana");
-    //map();
     emptyDiv();
     loadGraphics();
     message('Santa Ana');
     $('#idSelect').trigger('click');
-});
+});*/
 
 function emptyDiv() {
     $('#graphicLineDiv').empty();
@@ -152,7 +154,7 @@ function emptyDiv() {
     $('#graphicLineRadDiv').empty();
 }
 
-function graphics(graphicName, limit) {
+function graphics(graphicName, registros, type) {
 
     am4core.ready(function () {
         // Themes begin
@@ -166,11 +168,20 @@ function graphics(graphicName, limit) {
         chart.dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss";
 
         // Add data
-        var day, month, year, value, date;
-        for (var i = 1; i < 30; i++) {
-            value = Math.random() * (25 - 15) + 15;
-            date = new Date();
-            date.setDate(date.getDate() + i);
+        var value, date;
+        for (var i = 0; i < registros.length; i++) {
+            switch (type) {
+                case 1:
+                    value = registros[i].temperatura;
+                    break;
+                case 2:
+                    value = registros[i].humedad;
+                    break;
+                case 3:
+                    value = registros[i].radiacion;
+                    break;
+            }
+            date = new Date(registros[i].created_at);
 
             chart.data.push({
                 date: date,
@@ -214,22 +225,16 @@ $('#est1').on("click", (ev) => {
     ev.preventDefault();
     $('#tituloEst').text("Estación ENA 1");
     $("#descEst").text("Estación ENA 1");
-    //map();
     emptyDiv();
-    loadGraphics();
-    loadTable();
+    getData(1);
     message('Estación ENA 1');
-    //$('#idSelect').trigger('click');
 });
 
 $('#est2').on("click", (ev) => {
     ev.preventDefault();
     $('#tituloEst').text("Estación ENA 2");
     $("#descEst").text("Estación ENA 2");
-    //map();
     emptyDiv();
-    loadGraphics();
-    loadTable();
+    getData(2);
     message('Estación ENA 2');
-    //$('#idSelect').trigger('click');
 });

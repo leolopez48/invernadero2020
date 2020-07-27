@@ -21,8 +21,15 @@ Route::get('/nosotros', function () {
     return view('about');
 });
 
-//Auth::routes();
-
 Auth::routes(['register' => false], ['password.request' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Registros 
+Route::post('/api/add/', 'RegistroController@add');
+Route::get('/api/get/{id}', 'RegistroController@get');
+
+//Admin
+Route::get('/admin', function(){
+    return view('admin');
+});

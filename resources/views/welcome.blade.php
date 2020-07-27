@@ -50,56 +50,48 @@
     </div>
 </div>
 
-<!-- <div class="container-fluid padding-60">
-    <div class="section ">
-        <div class="row">
-            <div class="col s12 s12 ">
-                <div class="" id="chartdiv"></div> 
-            </div>
-        </div>
-
-    </div>
-</div> -->
-
 <div class="container">
     <div class="row">
         <h4 class="center blue-text text-darken-4">Estaciones</h4>
-        <div class="col s6 m6">
+        <div class="col s12 m6">
             <div class="card">
-                <a href="" id="est1">
-                    <div class="card-image">
-                        <img src="{{asset('imgs/background3.jpg')}}">
-                        <span class="card-title">Card Title</span>
+                <a href="#" id="est1">
+                    <div class="card-panel grey lighten-5 z-depth-2">
+                        <div class="row valign-wrapper">
+                            <div class="col s3">
+                                <img class="circle responsive-img" src="https://lorempixel.com/300/300/nature">
+                            </div>
+                            <div class="col s10">
+                                <h6>Estación 1</h6>
+                                <span class="black-text">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, velit.
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-content">
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <!-- <div class="card-action">
-                    <a href="#">This is a link</a>
-                </div> -->
                 </a>
             </div>
 
         </div>
-        <div class="col s6 m6">
-            <div class="card">
-                <a href="" id="est2">
-                    <div class="card-image">
-                        <img src="{{asset('imgs/background3.jpg')}}">
-                        <span class="card-title">Card Title</span>
+        <div class="col s12 m6">
+            <a href="#" id="est2">
+                <div class="card-panel grey lighten-5 z-depth-2">
+                    <div class="row valign-wrapper">
+                        <div class="col s3">
+                            <img class="circle responsive-img" src="https://lorempixel.com/300/300/nature">
+                        </div>
+                        <div class="col s10">
+                            <h6>Estación 2</h6>
+                            <span class="black-text">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, nam.
+                            </span>
+                        </div>
                     </div>
-                    <div class="card-content">
-                        <p>I am a very simple card. I am good at containing small bits of information.
-                            I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <!-- <div class="card-action">
-        <a href="#">This is a link</a>
-    </div> -->
-                </a>
-            </div>
+                </div>
+            </a>
         </div>
     </div>
+</div>
 </div>
 
 <div class="container-fluid">
@@ -146,6 +138,6 @@
 @endsection
 
 @section('js')
-<script src="{{asset('js/mapa.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="{{asset('js/mapa.js')}}"></script>
 @endsection
