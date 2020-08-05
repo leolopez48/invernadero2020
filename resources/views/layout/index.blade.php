@@ -21,7 +21,7 @@
 
 <body>
     @section('navbar')
-    <nav class="white" role="navigation">
+    <nav class="white z-depth-3" role="navigation">
         <div class="nav-wrapper container">
             <a id="logo-container" href="#" class="brand-logo">Invernadero</a>
             <ul class="right hide-on-med-and-down">
@@ -110,11 +110,11 @@
     @section('footer')
     <footer class="page-footer teal">
         <div class="container">
-                <div class="container padding-1 center">
-                    El Salvador, CA. <br>
-                    Copyright © 2020. Todos los derechos reservados. <br>
-                    ITCA-FEPADE.
-                </div>
+            <div class="container padding-1 center">
+                El Salvador, CA. <br>
+                Copyright © 2020. Todos los derechos reservados. <br>
+                ITCA-FEPADE.
+            </div>
         </div>
     </footer>
     @show
