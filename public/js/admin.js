@@ -4,15 +4,8 @@ const url = 'http://localhost:8000/api/';
 document.getElementById('btnNew').addEventListener('click', (ev) => {
     ev.preventDefault();
     document.getElementById('titleModal').textContent = 'Nueva estación';
-    // resetForm();
+    resetForm();
     closeLoader();
-});
-
-document.getElementById('station').addEventListener('click', (ev) => {
-    ev.preventDefault();
-    loadStationModal(ev);
-    document.getElementById('titleModal').textContent = 'Editar estación';
-
 });
 
 document.addEventListener('DOMContentLoaded', (ev) => {
@@ -22,6 +15,12 @@ document.addEventListener('DOMContentLoaded', (ev) => {
         closeLoader();
     }, 500);
 });
+
+document.getElementById('btnEdit').addEventListener('click', (ev) => {
+    ev.preventDefault();
+    loadStationModal(ev);
+    document.getElementById('titleModal').textContent = 'Editar estación';
+});
 // END LISTENERS
 
 //FUNCTIONS
@@ -30,20 +29,26 @@ function loadData() {
         const stations = document.getElementById('divStations');
         const station = document.createElement('div');
         station.innerHTML = `
-        <a class="station modal-trigger animate__animated animate__fadeIn" id="station" href="#modal1">
-            <div class="col s12 m3 l2 m-1 white rounded hoverable">
-                <div class=" col s12 center">
-                    <img class="circle center-align p-1" src="https://picsum.photos/id/110/110/110" alt="">
-                </div>
-                <div class="col s12 center">
-                    <strong class="center black-text">Titulo</strong>
-                    <p class="black-text p-1 left-align">Lorem ipsum dolor sit, amet consectetur adipisicing
-                        elit.
-                        Impedit, molestiae?
-                    </p>
-                </div>
+        <div class="col s12 m3 l2 m-1 white rounded hoverable">
+            <div class=" col s12 center">
+                <img class="circle center-align p-1" src="https://picsum.photos/id/110/110/110" alt="">
             </div>
-        </a>
+            <div class="col s12 center">
+                <strong class="center black-text">Titulo</strong>
+                <p class="black-text p-1 left-align">Lorem ipsum dolor sit, amet consectetur adipisicing
+                    elit.
+                    Impedit, molestiae?
+                </p>
+            </div>
+            <div class="col s12 center m-1">
+                <a class="station modal-trigger btn blue" id="btnEdit" href="#modal1"><i
+                        class="material-icons">edit</i>
+                </a>
+                <a class="station modal-trigger btn red" id="btnDelete" href=""><i
+                        class="material-icons">delete</i>
+                </a>
+            </div>
+        </div>
         `;
         stations.appendChild(station);
 

@@ -70,34 +70,15 @@
 
 <div class="container-fluid" id="content">
     <div class="row-fluid bg-green">
-
         <div class="row p-3 m-0">
-            <!-- <div class="col s12 center-align">
-                <h4 class="center-align white-text">Administración</h4>
-            </div> -->
             <div class="col s12">
                 <a href="#modal1" id="btnNew"
                     class="waves-effect blue-text waves-light btn blue white-text modal-trigger">
-                    <i class="fas fa-plus pr-1"></i>
+                    <i class="material-icons">add</i>
                     Nuevo
                 </a>
             </div>
-            <div class="col s12" id="divStations">
-
-                <a class="station modal-trigger" id="station" href="#modal1">
-                    <div class="col s12 m3 l2 m-1 white rounded hoverable">
-                        <div class=" col s12 center">
-                            <img class="circle center-align p-1" src="https://picsum.photos/id/110/110/110" alt="">
-                        </div>
-                        <div class="col s12 center">
-                            <strong class="center black-text">Titulo</strong>
-                            <p class="black-text p-1 left-align">Lorem ipsum dolor sit, amet consectetur adipisicing
-                                elit.
-                                Impedit, molestiae?
-                            </p>
-                        </div>
-                    </div>
-                </a>
+            <div class="col s12 center" id="divStations">
 
             </div>
 
