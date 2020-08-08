@@ -92,10 +92,6 @@
     display: inline;
 }
 
-.station:hover {
-    border: 1px solid red;
-}
-
 .pt-1 {
     padding-top: 10px;
 }
@@ -107,9 +103,8 @@
 #loader {
     position: absolute;
     height: 100%;
-    /* top: 50%; */
     z-index: 2;
-    /* left: 50%; */
+    padding-top: 20%;
     width: 100%;
     background-color: white;
 }

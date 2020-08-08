@@ -13,14 +13,44 @@ document.addEventListener('DOMContentLoaded', (ev) => {
     openLoader();
     setTimeout(() => {
         closeLoader();
-    }, 500);
+    }, 1000);
+
 });
 
-document.getElementById('btnEdit').addEventListener('click', (ev) => {
+document.getElementById('divStations').addEventListener('click', (ev) => {
     ev.preventDefault();
-    loadStationModal(ev);
-    document.getElementById('titleModal').textContent = 'Editar estación';
+    // console.log(ev.target)
+    console.log(ev.target);
+    if (ev.target.classList[1] === 'delete' || ev.target.classList[3] === 'a-delete') {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esta acción deshabilitará la estación.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Deshabilitar'
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire(
+                    '¡Deshabilitada!',
+                    'La estación ha sido deshabilitada.',
+                    'success'
+                )
+            }
+        })
+    }
+
+    if (ev.target.classList[1] === 'edit' || ev.target.classList[3] === 'a-edit') {
+
+    }
 });
+
+// document.getElementById('divStations').addEventListener('click', (ev) => {
+//     ev.preventDefault();
+//     loadStationModal(ev);
+//     document.getElementById('titleModal').textContent = 'Editar estación';
+// });
 // END LISTENERS
 
 //FUNCTIONS
@@ -41,11 +71,11 @@ function loadData() {
                 </p>
             </div>
             <div class="col s12 center m-1">
-                <a class="station modal-trigger btn blue" id="btnEdit" href="#modal1"><i
-                        class="material-icons">edit</i>
+                <a class="station modal-trigger btn blue a-edit" id="btnEdit" href="#modal1">
+                    <i class="material-icons edit">edit</i>
                 </a>
-                <a class="station modal-trigger btn red" id="btnDelete" href=""><i
-                        class="material-icons">delete</i>
+                <a class="station btn red a-delete" id="btnDelete" href="">
+                    <i class="material-icons delete">delete</i>
                 </a>
             </div>
         </div>
@@ -56,7 +86,7 @@ function loadData() {
 }
 
 function loadStationModal(ev) {
-    console.log(ev.target.parentNode)
+    // console.log(ev.target.parentNode)
     // while (ev.path[0] !== 'div.col.s12.m3.l2.m-1.white.rounded.hoverable') {
     //     ev.parentNode;
     //     console.log("no")
