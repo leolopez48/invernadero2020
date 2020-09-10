@@ -31,7 +31,7 @@
 
         </div>
     </div>
-    <div class="parallax"><img src="{{ asset('imgs/background3.jpg') }}" alt="Unsplashed background img 1"></div>
+    <div class="parallax"><img src="" alt="Unsplashed background img 1" id="stBackground"></div>
 </div>
 
 <!-- Modal Trigger -->
@@ -53,45 +53,46 @@
 <div class="container">
     <div class="row">
         <h4 class="center blue-text text-darken-4">Estaciones</h4>
-        <div class="col s12 m6">
-            <div class="card">
-                <a href="#" id="est1">
+        <div id="stations">
+            {{-- <div class="col s12 m6">
+                <div class="card">
+                    <a href="#" id="est1">
+                        <div class="card-panel grey lighten-5 z-depth-2">
+                            <div class="row valign-wrapper">
+                                <div class="col s3">
+                                    <img class="circle responsive-img" src="https://lorempixel.com/300/300/nature">
+                                </div>
+                                <div class="col s10">
+                                    <h6>Estación 1</h6>
+                                    <span class="black-text">
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, velit.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col s12 m6">
+                <a href="#" id="est2">
                     <div class="card-panel grey lighten-5 z-depth-2">
                         <div class="row valign-wrapper">
                             <div class="col s3">
                                 <img class="circle responsive-img" src="https://lorempixel.com/300/300/nature">
                             </div>
                             <div class="col s10">
-                                <h6>Estación 1</h6>
+                                <h6>Estación 2</h6>
                                 <span class="black-text">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, velit.
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, nam.
                                 </span>
                             </div>
                         </div>
                     </div>
                 </a>
-            </div>
-
-        </div>
-        <div class="col s12 m6">
-            <a href="#" id="est2">
-                <div class="card-panel grey lighten-5 z-depth-2">
-                    <div class="row valign-wrapper">
-                        <div class="col s3">
-                            <img class="circle responsive-img" src="https://lorempixel.com/300/300/nature">
-                        </div>
-                        <div class="col s10">
-                            <h6>Estación 2</h6>
-                            <span class="black-text">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, nam.
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </a>
+            </div> --}}
         </div>
     </div>
-</div>
 </div>
 
 <div class="container-fluid">

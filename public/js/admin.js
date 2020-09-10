@@ -1,4 +1,4 @@
-const url = 'http://localhost:8000/api/';
+const url = 'http://localhost:8000/api/stations/';
 
 //Listeners
 document.getElementById('btnNew').addEventListener('click', (ev) => {
@@ -9,19 +9,24 @@ document.getElementById('btnNew').addEventListener('click', (ev) => {
 });
 
 document.addEventListener('DOMContentLoaded', (ev) => {
-    loadData();
     openLoader();
-    setTimeout(() => {
-        closeLoader();
-    }, 1000);
+    const enabled = {
+        state: true
+    }
+    getData(enabled, "Habilitadas"); // Get enabled stations
+    const disabled = {
+        state: false
+    }
+    getData(disabled, "Deshabilitadas"); // Get disabled stations
 
 });
 
 document.getElementById('divStations').addEventListener('click', (ev) => {
     ev.preventDefault();
-    // console.log(ev.target)
-    console.log(ev.target);
+
     if (ev.target.classList[1] === 'delete' || ev.target.classList[3] === 'a-delete') {
+        let id = ev.target.parentNode.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue.toString();
+
         Swal.fire({
             title: '¿Estás seguro?',
             text: "Esta acción deshabilitará la estación.",
@@ -32,6 +37,12 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
             confirmButtonText: 'Deshabilitar'
         }).then((result) => {
             if (result.value) {
+
+                const data = {
+                    id: id
+                }
+
+                deleteStation(data);
                 Swal.fire(
                     '¡Deshabilitada!',
                     'La estación ha sido deshabilitada.',
@@ -41,48 +52,176 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
         })
     }
 
-    if (ev.target.classList[1] === 'edit' || ev.target.classList[3] === 'a-edit') {
+    if (ev.target.classList[1] === 'edit' || ev.target.classList[4] === 'a-edit') {
+        ev.preventDefault();
+        loadStationModal(ev);
+        document.getElementById('titleModal').textContent = 'Editar estación';
+        if (ev.target.classList[1] === 'edit') {
+            const id = ev.target.parentNode.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue;
+            const title = ev.target.parentNode.parentNode.parentNode.querySelector("#titleStation").firstChild.nodeValue;
+            const desc = ev.target.parentNode.parentNode.parentNode.querySelector("#descStation").firstChild.nodeValue;
+            const photo = ev.target.parentNode.parentNode.parentNode.querySelector("#photoStation").src;
+
+            document.getElementById('inId').textContent = id;
+            document.getElementById('inPhotoPre').src = photo;
+            document.getElementById('inName').value = title;
+            document.getElementById('inDescription').value = desc;
+
+        } else {
+            const id = ev.target.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue;
+            const title = ev.target.parentNode.parentNode.querySelector("#titleStation").firstChild.nodeValue;
+            const desc = ev.target.parentNode.parentNode.querySelector("#descStation").firstChild.nodeValue;
+            const photo = ev.target.parentNode.parentNode.querySelector("#photoStation").src;
+
+            document.getElementById('inId').textContent = id;
+            document.getElementById('inPhotoPre').src = photo;
+            document.getElementById('inName').value = title;
+            document.getElementById('inDescription').value = desc;
+        }
+    }
+});
+
+document.getElementById('saveStation').addEventListener('click', (ev) => {
+    if (document.getElementById('titleModal').textContent === "Editar estación") {
+
+        const id = document.getElementById('inId').textContent;
+        const photo = document.getElementById('inPhotoPre').src;
+        const name = document.getElementById('inName').value;
+        const desc = document.getElementById('inDescription').value;
+
+        const data = {
+            id: id,
+            photo: photo,
+            name: name,
+            desc: desc
+        }
+
+        editStation(data);
+
+    } else if (document.getElementById('titleModal').textContent === "Nueva estación") {
 
     }
 });
 
-// document.getElementById('divStations').addEventListener('click', (ev) => {
-//     ev.preventDefault();
-//     loadStationModal(ev);
-//     document.getElementById('titleModal').textContent = 'Editar estación';
-// });
 // END LISTENERS
 
 //FUNCTIONS
-function loadData() {
-    for (let i = 0; i < 5; i++) {
-        const stations = document.getElementById('divStations');
-        const station = document.createElement('div');
-        station.innerHTML = `
-        <div class="col s12 m3 l2 m-1 white rounded hoverable">
-            <div class=" col s12 center">
-                <img class="circle center-align p-1" src="https://picsum.photos/id/110/110/110" alt="">
-            </div>
-            <div class="col s12 center">
-                <strong class="center black-text">Titulo</strong>
-                <p class="black-text p-1 left-align">Lorem ipsum dolor sit, amet consectetur adipisicing
-                    elit.
-                    Impedit, molestiae?
-                </p>
-            </div>
-            <div class="col s12 center m-1">
-                <a class="station modal-trigger btn blue a-edit" id="btnEdit" href="#modal1">
-                    <i class="material-icons edit">edit</i>
-                </a>
-                <a class="station btn red a-delete" id="btnDelete" href="">
-                    <i class="material-icons delete">delete</i>
-                </a>
-            </div>
-        </div>
-        `;
-        stations.appendChild(station);
+function editStation(body) {
+    fetch(url + 'delete', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+        });
+}
 
+function deleteStation(body) {
+    console.log(body)
+    fetch(url + 'delete', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            body: JSON.stringify(body),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            openLoader();
+            cleanDivStations();
+            const enabled = {
+                state: true
+            }
+            getData(enabled, "Habilitadas"); // Get enabled stations
+            const disabled = {
+                state: false
+            }
+            getData(disabled, "Deshabilitadas"); // Get disabled stations
+        });
+}
+
+function getData(body, state) {
+    fetch(url + 'get', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+            loadData(data, state);
+        });
+}
+
+function loadData(data, stationType) {
+    const stations = document.getElementById('divStations');
+
+    const div = document.createElement('div');
+    div.classList.add('row');
+
+    const title = document.createElement('h4');
+    title.textContent = `${stationType}`;
+    title.style.color = "white";
+    title.style.textAlign = "left";
+
+    div.appendChild(title);
+    stations.appendChild(div);
+
+    if (data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
+            const station = document.createElement('div');
+            station.innerHTML = `
+            <div class="col s12 m3 l2 m-1 white rounded hoverable">
+                <div class=" col s12 center">
+                    <img class="circle center-align p-1" src="https://picsum.photos/id/110/110/110" alt="" id="photoStation">
+                </div>
+                <div class="col s12 center">
+                    <p id="idStation" style="display:none">${data[i].id}</p>
+                    <strong class="center black-text" id="titleStation">${data[i].title}</strong>
+                    <p class="black-text p-1 left-align" id="descStation">${data[i].description}</p>
+                </div>
+                <div class="col s12 center m-1">
+                    <a class="station modal-trigger btn blue a-edit" id="btnEdit" href="#modal1">
+                        <i class="material-icons edit">edit</i>
+                    </a>
+                    <a class="station btn red a-delete" id="btnDelete" href="">
+                        <i class="material-icons delete">delete</i>
+                    </a>
+                </div>
+            </div>
+            `;
+            div.appendChild(station);
+
+        }
+    } else {
+        const stationMessage = document.createElement('h6');
+        stationMessage.textContent = `No hay estaciones ${stationType.toLowerCase()}`;
+        stationMessage.style.color = "white";
+        stationMessage.style.textAlign = "left";
+        stations.appendChild(stationMessage);
     }
+    closeLoader();
 }
 
 function loadStationModal(ev) {
@@ -122,5 +261,9 @@ function closeLoader() {
 
 function openLoader() {
     document.getElementById('loader-toggle').classList.add('active');
+}
+
+function cleanDivStations() {
+    $('#divStations').empty();
 }
 // END LOADER
