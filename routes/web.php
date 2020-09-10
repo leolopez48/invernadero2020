@@ -25,9 +25,14 @@ Auth::routes(['register' => false], ['password.request' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-//Registros 
-Route::post('/api/add/', 'RegistroController@add');
-Route::get('/api/get/{id}', 'RegistroController@get');
+//Records
+Route::post('/api/add/', 'RecordController@add');
+Route::get('/api/get/{id}', 'RecordController@get');
+//Stations
+Route::post('/api/stations/get/', 'StationController@index');
+Route::post('/api/stations/edit', 'StationController@edit');
+Route::post('/api/stations/delete', 'StationController@delete');
+Route::post('/api/stations/add', 'StationController@add');
 
 //Admin
 Route::get('/admin', function(){

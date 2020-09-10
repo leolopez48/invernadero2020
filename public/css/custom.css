@@ -108,3 +108,7 @@
     width: 100%;
     background-color: white;
 }
+
+.d-none {
+    display: none;
+}

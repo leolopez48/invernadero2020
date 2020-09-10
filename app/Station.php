@@ -5,18 +5,18 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class Registro extends Eloquent
+class Station extends Eloquent
 {
     protected $connection = 'mongodb';
-    protected $table = 'registros';
+    protected $table = 'station';
 
     protected $fillable = [
-        'id', 'temperatura', 'radiacion', 'humedad', 'updated_at', 'created_at'
+        'id', 'title', 'radiation', 'humidity', 'updated_at', 'created_at'
     ];
 
     protected $dateFormat = 'U';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:m:s',

@@ -3,30 +3,109 @@ const DefaultValue = 0;
 const url = 'http://localhost:8000/api/';
 
 $('document').ready(function () {
+    const enabled = {
+        state: true
+    }
+    getStations(enabled);
     getData(1);
 });
 
+document.getElementById('stations').addEventListener('click', (ev) => {
+    ev.preventDefault();
+
+    if (ev.target.classList[0] === 'card-panel') {
+        const stId = ev.target.querySelector('#stId').firstChild.nodeValue;
+        const stPhoto = ev.target.querySelector('#stPhoto').src;
+        const stTitle = ev.target.querySelector('#stTitle').firstChild.nodeValue;
+        const stDescription = ev.target.querySelector('#stDescription').firstChild.nodeValue;
+
+        document.getElementById('tituloEst').textContent = stTitle;
+        document.getElementById('descEst').textContent = stDescription;
+        document.getElementById('stBackground').src = stPhoto;
+
+        getData(stId);
+        message(stTitle);
+    }
+});
+
 function getData(id) {
-    fetch(url + 'get' + `/${id}`, {
+    fetch(url + `get/${id}`, {
             method: 'GET',
             mode: 'cors',
             cache: 'default'
         })
         .then((response) => response.json())
         .then((data) => {
-            loadTable(data.registros);
-            loadGraphics(data.registros);
+            loadTable(data.records);
+            loadGraphics(data.records);
         });
 }
 
-function loadTable(registros) {
+function getStations(body) {
+    fetch(url + 'stations/get', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data)
+            selectStation(data);
+            loadStations(data);
+        });
+}
+
+function selectStation(station) {
+    document.getElementById('tituloEst').textContent = station[0].title;
+    document.getElementById('descEst').textContent = station[0].description;
+    document.getElementById('stBackground').src = station[0].photo;
+}
+
+function loadStations(stations) {
+    const divStations = document.getElementById('stations');
+    for (let i = 0; i < stations.length; i++) {
+        const station = document.createElement('div');
+        station.innerHTML = `
+        <div class="col s12 m6" id="est">
+            <div class="card">
+                <a href="#">
+                    <div class="card-panel grey lighten-5 z-depth-2">
+                        <div class="row valign-wrapper">
+                            <p id="stId" style="display: none;">${stations[i].id}</p>
+                            <div class="col s3">
+                                <img class="circle responsive-img" src="https://lorempixel.com/900/900/nature" id="stPhoto">
+                            </div>
+                            <div class="col s10">
+                                <h6 id="stTitle">${stations[i].title}</h6>
+                                <span id="stDescription" class="black-text">
+                                    ${stations[i].description}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        `;
+        divStations.appendChild(station);
+    }
+}
+
+function loadTable(records) {
     $('#idTabla').empty();
 
-    for (let i = 0; i < registros.length; i++) {
-        let temperatura = registros[i].temperatura;
-        let humedad = registros[i].humedad;
-        let radiacion = registros[i].radiacion;
-        let created_at = registros[i].created_at;
+    for (let i = 0; i < records.length; i++) {
+        let temperatura = records[i].temperature;
+        let humedad = records[i].humidity;
+        let radiacion = records[i].radiation;
+        let created_at = records[i].created_at;
 
         $('#idTabla').append(
             '<tr>' +
@@ -130,23 +209,12 @@ function message(estacion) {
     )
 }
 
-function loadGraphics(registros) {
+function loadGraphics(records) {
     am4core.disposeAllCharts(); //Advertencia 'Chart was not disposed'
-    graphics('graphicLineDiv', registros, 1);
-    graphics('graphicLineHumDiv', registros, 2);
-    graphics('graphicLineRadDiv', registros, 3);
+    graphics('graphicLineDiv', records, 1);
+    graphics('graphicLineHumDiv', records, 2);
+    graphics('graphicLineRadDiv', records, 3);
 }
-
-/*$('#idSantaAna1').on('click', (ev) => {
-
-    ev.preventDefault();
-    $('#tituloEst').text("Santa Ana");
-    $("#descEst").text("Santa Ana");
-    emptyDiv();
-    loadGraphics();
-    message('Santa Ana');
-    $('#idSelect').trigger('click');
-});*/
 
 function emptyDiv() {
     $('#graphicLineDiv').empty();
@@ -154,7 +222,7 @@ function emptyDiv() {
     $('#graphicLineRadDiv').empty();
 }
 
-function graphics(graphicName, registros, type) {
+function graphics(graphicName, records, type) {
 
     am4core.ready(function () {
         // Themes begin
@@ -169,19 +237,20 @@ function graphics(graphicName, registros, type) {
 
         // Add data
         var value, date;
-        for (var i = 0; i < registros.length; i++) {
+
+        for (var i = 0; i < records.length; i++) {
             switch (type) {
                 case 1:
-                    value = registros[i].temperatura;
+                    value = records[i].temperature;
                     break;
                 case 2:
-                    value = registros[i].humedad;
+                    value = records[i].humidity;
                     break;
                 case 3:
-                    value = registros[i].radiacion;
+                    value = records[i].radiation;
                     break;
             }
-            date = new Date(registros[i].created_at);
+            date = new Date(records[i].created_at);
 
             chart.data.push({
                 date: date,
@@ -220,21 +289,3 @@ function graphics(graphicName, registros, type) {
 
     }); // end am4core.ready()
 }
-
-$('#est1').on("click", (ev) => {
-    ev.preventDefault();
-    $('#tituloEst').text("Estación ENA 1");
-    $("#descEst").text("Estación ENA 1");
-    emptyDiv();
-    getData(1);
-    message('Estación ENA 1');
-});
-
-$('#est2').on("click", (ev) => {
-    ev.preventDefault();
-    $('#tituloEst').text("Estación ENA 2");
-    $("#descEst").text("Estación ENA 2");
-    emptyDiv();
-    getData(2);
-    message('Estación ENA 2');
-});

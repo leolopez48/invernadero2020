@@ -100,12 +100,13 @@
             <div class="row">
                 <div class="col s12 m-3">
                     <div class="col s12 l12 center">
-                        <img class="circle" src="https://picsum.photos/id/120/120/120" alt="">
+                        <img class="circle" src="" alt="" id="inPhotoPre">
                     </div>
                     <div class="col s12 pt-2">
+                        <p id="inId" style="display: none"></p>
                         <input type="file" name="" id="inFile">
                         <input type="text" name="" id="inName" placeholder="Nombre" maxlength="30">
-                        <textarea name="" id="inDescription" cols="3" rows="6" class="materialize-textarea m-2"
+                        <textarea name="" id="inDescription" cols="6" rows="6" class="materialize-textarea"
                             placeholder="Descripción" maxlength="50"></textarea>
                     </div>
                 </div>
@@ -113,8 +114,8 @@
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-red btn-flat">Eliminar</a>
-        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Guardar</a>
+        <a href="#!" class="modal-close waves-effect waves-red btn-flat">Cerrar</a>
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="saveStation">Guardar</a>
     </div>
 </div>
 

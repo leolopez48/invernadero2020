@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRegistrosTable extends Migration
+class CreateStationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateRegistrosTable extends Migration
      */
     public function up()
     {
-        Schema::create('registros', function (Blueprint $table) {
+        Schema::create('station', function (Blueprint $table) {
             $table->id();
+            $table->char('title', 30);
+            $table->char('photo', 300);
+            $table->char('description', 50);
+            $table->boolean('estado');
             $table->timestamps();
-            $table->string('id');
-            $table->double('temperatura');
-            $table->double('humedad');
-            $table->double('radiacion');
         });
     }
 
@@ -30,6 +30,6 @@ class CreateRegistrosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registros');
+        Schema::dropIfExists('station');
     }
 }
