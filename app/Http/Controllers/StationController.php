@@ -12,9 +12,28 @@ class StationController extends Controller
 
     public function add(Request $request){
             //$photo = Storage::put('storage/', $request->photo);
-            $photo = asset('storage/wallpaper.jpg');
-            $id=$request->id;
-            return response(["id"=>$id, "photo"=>$photo]);
+        if($request->hasFile('photo')){
+            $photo = Storage::put('storage/', $request->photo);
+        }
+
+        $lastId = (int)Station::all('id')->last()->id; //Get the lastest value of the stations
+        $lastId+=1; //Add 1 to set the new value to the station
+        $newId = strval($lastId);
+        $title = $request->title;
+        $description = $request->description;
+        $state = true;
+
+        $st = new Station();
+        $st->id = $newId;
+        $st->title = $title;
+        $st->description = $description;
+        $st->photo = $photo;
+        $st->state = $state;
+        $stSaved = $st->save();
+        //dd($stSaved);
+            $photo = asset($photo);
+            
+        return response(["photo"=>$photo])->withHeaders(["Content-Type"=>"image/jpeg"]);
     }
 
     public function index(Request $request)

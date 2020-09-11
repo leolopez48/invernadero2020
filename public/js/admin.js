@@ -26,15 +26,42 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
 
     if (ev.target.classList[1] === 'delete' || ev.target.classList[3] === 'a-delete') {
         let id = ev.target.parentNode.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue.toString();
+        let state = "";
+        let action = "";
+        let mensaje = "";
+
+        if (ev.target.classList[1] == 'delete') {
+            const section = ev.target.parentNode.parentNode.parentNode.parentNode.parentNode.firstChild.textContent;
+            if (section == "Deshabilitadas") {
+                state = "habilitará";
+                action = "Habilitar";
+                mensaje = "Habilitada";
+            } else if (section == "Habilitadas") {
+                state = "deshabilitará";
+                action = "Deshabilitar";
+                mensaje = "Deshabilitada";
+            }
+        } else if (ev.target.classList[3] === 'a-delete') {
+            const section = ev.target.parentNode.parentNode.parentNode.parentNode.firstChild.textContent;
+            if (section == "Deshabilitadas") {
+                state = "habilitará";
+                action = "Habilitar";
+                mensaje = "Habilitada";
+            } else if (section == "Habilitadas") {
+                state = "deshabilitará";
+                action = "Deshabilitar";
+                mensaje = "Deshabilitada";
+            }
+        }
 
         Swal.fire({
             title: '¿Estás seguro?',
-            text: "Esta acción deshabilitará la estación.",
+            text: `Esta acción ${state} la estación.`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Deshabilitar'
+            confirmButtonText: action
         }).then((result) => {
             if (result.value) {
 
@@ -44,8 +71,8 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
 
                 deleteStation(data);
                 Swal.fire(
-                    '¡Deshabilitada!',
-                    'La estación ha sido deshabilitada.',
+                    `¡${mensaje}!`,
+                    `La estación ha sido ${mensaje.toLowerCase()}.`,
                     'success'
                 )
             }
@@ -80,6 +107,22 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
         }
     }
 });
+
+function evaluateState(ev) {
+    let state;
+    if (ev.target.parentNode.parentNode.parentNode.parentNode.firstChild.textContent.toString() == "Habilitadas") {
+        state = {
+            state: "habilitará",
+            action: "Habilitar"
+        }
+    } else {
+        state = {
+            state: "deshabilitará",
+            action: "Deshabilitar"
+        }
+    }
+    return state;
+}
 
 document.getElementById('saveStation').addEventListener('click', (ev) => {
     if (document.getElementById('titleModal').textContent === "Editar estación") {
@@ -126,7 +169,6 @@ function editStation(body) {
 }
 
 function deleteStation(body) {
-    console.log(body)
     fetch(url + 'delete', {
             method: 'POST',
             mode: 'cors',
@@ -154,6 +196,26 @@ function deleteStation(body) {
         });
 }
 
+function addStation(body) {
+    fetch(url + 'add', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'default',
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json',
+            'Accept': 'image/jpg',
+            'Accept': 'image/jpeg',
+            'Accept': 'image/png'
+        }
+    }).then((response) => {
+        return response.json();
+    }).then((data) => {
+        console.log(data);
+    });
+}
+
 function getData(body, state) {
     fetch(url + 'get', {
             method: 'POST',
@@ -169,7 +231,6 @@ function getData(body, state) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data)
             loadData(data, state);
         });
 }
