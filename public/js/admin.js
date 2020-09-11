@@ -297,6 +297,7 @@ function loadStationModal(ev) {
 function resetForm() {
     document.getElementById('inPhotoPre').src = "";
     document.getElementById('inPhotoPre').value = "";
+
     document.getElementById('inFile').value = "";
     document.getElementById('inName').value = "";
     document.getElementById('inDescription').value = "";
