@@ -100,7 +100,7 @@
             <div class="row">
                 <div class="col s12 m-3">
                     <div class="col s12 l12 center">
-                        <img class="circle" src="" alt="" id="inPhotoPre">
+                        <img class="circle" src="" alt="" id="inPhotoPre" width="170px" height="170px">
                     </div>
                     <div class="col s12 pt-2">
                         <p id="inId" style="display: none"></p>

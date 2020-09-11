@@ -11,9 +11,11 @@ class StationController extends Controller
 {
 
     public function add(Request $request){
-            //$photo = Storage::put('storage/', $request->photo);
+
         if($request->hasFile('photo')){
-            $photo = Storage::put('storage/', $request->photo);
+            $photo = Storage::put('public', $request->photo);
+            $url = Storage::url($photo);
+            $fullUrl = asset($url);
         }
 
         $lastId = (int)Station::all('id')->last()->id; //Get the lastest value of the stations
@@ -27,13 +29,11 @@ class StationController extends Controller
         $st->id = $newId;
         $st->title = $title;
         $st->description = $description;
-        $st->photo = $photo;
+        $st->photo = $fullUrl;
         $st->state = $state;
         $stSaved = $st->save();
-        dd($photo);
-        $photo = asset($photo);
-            
-        return response(["photo"=>$photo])->withHeaders(["Content-Type"=>"image/jpeg"]);
+
+        return response()->json(["photo"=>$fullUrl])->withHeaders(["Content-Type"=>"image/jpeg"]);
     }
 
     public function index(Request $request)

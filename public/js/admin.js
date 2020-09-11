@@ -250,12 +250,13 @@ function loadData(data, stationType) {
     stations.appendChild(div);
 
     if (data.length > 0) {
+        console.log(data)
         for (let i = 0; i < data.length; i++) {
             const station = document.createElement('div');
             station.innerHTML = `
             <div class="col s12 m3 l2 m-1 white rounded hoverable">
                 <div class=" col s12 center">
-                    <img class="circle center-align p-1" src="https://picsum.photos/id/110/110/110" alt="" id="photoStation">
+                    <img class="circle center-align p-1" src="${data[i].photo}" width="130px" heigth="170px" alt="" id="photoStation">
                 </div>
                 <div class="col s12 center">
                     <p id="idStation" style="display:none">${data[i].id}</p>
@@ -294,6 +295,8 @@ function loadStationModal(ev) {
 }
 
 function resetForm() {
+    document.getElementById('inPhotoPre').src = "";
+    document.getElementById('inPhotoPre').value = "";
     document.getElementById('inFile').value = "";
     document.getElementById('inName').value = "";
     document.getElementById('inDescription').value = "";
