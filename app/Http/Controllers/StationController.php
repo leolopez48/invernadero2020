@@ -30,8 +30,8 @@ class StationController extends Controller
         $st->photo = $photo;
         $st->state = $state;
         $stSaved = $st->save();
-        //dd($stSaved);
-            $photo = asset($photo);
+        dd($photo);
+        $photo = asset($photo);
             
         return response(["photo"=>$photo])->withHeaders(["Content-Type"=>"image/jpeg"]);
     }
