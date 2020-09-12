@@ -56,7 +56,6 @@ function getStations(body) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data)
             selectStation(data);
             loadStations(data);
         });
@@ -74,23 +73,22 @@ function loadStations(stations) {
         const station = document.createElement('div');
         station.innerHTML = `
         <div class="col s12 m6" id="est">
-            <div class="card">
-                <a href="#">
-                    <div class="card-panel grey lighten-5 z-depth-2">
+            <div class="card" style="height:120px;">
+                <div class="card-panel grey lighten-5 z-depth-2">
                         <div class="row valign-wrapper">
                             <p id="stId" style="display: none;">${stations[i].id}</p>
                             <div class="col s3">
-                                <img class="circle responsive-img" src="https://lorempixel.com/900/900/nature" id="stPhoto">
+                                <img class="circle responsive-img" src="${stations[i].photo}" id="stPhoto">
                             </div>
                             <div class="col s10">
-                                <h6 id="stTitle">${stations[i].title}</h6>
+                                <h6 id="stTitle" class="blue-text">${stations[i].title}</h6>
                                 <span id="stDescription" class="black-text">
                                     ${stations[i].description}
                                 </span>
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
         `;

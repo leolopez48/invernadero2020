@@ -11,7 +11,7 @@ class StationController extends Controller
 {
 
     public function add(Request $request){
-
+        // return response($request->photo);
         if($request->hasFile('photo')){
             $photo = Storage::put('public', $request->photo);
             $url = Storage::url($photo);
@@ -33,7 +33,7 @@ class StationController extends Controller
         $st->state = $state;
         $stSaved = $st->save();
 
-        return response()->json(["photo"=>$fullUrl])->withHeaders(["Content-Type"=>"image/jpeg"]);
+        return response()->json(["message"=>"success"]);
     }
 
     public function index(Request $request)

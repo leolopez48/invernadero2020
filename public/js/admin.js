@@ -1,4 +1,5 @@
 const url = 'http://localhost:8000/api/stations/';
+const urlBase = 'http://localhost:8000/'
 
 //Listeners
 document.getElementById('btnNew').addEventListener('click', (ev) => {
@@ -128,27 +129,60 @@ document.getElementById('saveStation').addEventListener('click', (ev) => {
     if (document.getElementById('titleModal').textContent === "Editar estación") {
 
         const id = document.getElementById('inId').textContent;
-        const photo = document.getElementById('inPhotoPre').src;
+        const photo = document.getElementById('inPhotoPre');
         const name = document.getElementById('inName').value;
         const desc = document.getElementById('inDescription').value;
 
-        const data = {
-            id: id,
-            photo: photo,
-            name: name,
-            desc: desc
-        }
+        const data = new FormData();
+        data.append('photo', photo.files[0]);
+        data.append('')
 
         editStation(data);
 
     } else if (document.getElementById('titleModal').textContent === "Nueva estación") {
+        const photo = document.getElementById('inFile');
+        const name = document.getElementById('inName').value;
+        const desc = document.getElementById('inDescription').value;
 
+        // console.log(photo.files[0])
+
+        const data = new FormData();
+        data.append('photo', photo.files[0]);
+        data.append('title', name);
+        data.append('description', desc);
+        // console.log(data)
+
+        addStation(data);
     }
 });
 
+document.getElementById('inFile').addEventListener('change', (ev) => {
+    loadPreview(ev);
+});
 // END LISTENERS
 
 //FUNCTIONS
+function addStation(data) {
+    fetch(url + 'add', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            body: data,
+            headers: {
+                'Accept': 'application/json',
+                'Accept': 'image/jpg',
+                'Accept': 'image/jpeg',
+                'Accept': 'image/png'
+            }
+        }).then((response) => {
+            // console.log(response)
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+        });
+}
+
 function editStation(body) {
     fetch(url + 'delete', {
             method: 'POST',
@@ -196,26 +230,6 @@ function deleteStation(body) {
         });
 }
 
-function addStation(body) {
-    fetch(url + 'add', {
-        method: 'POST',
-        mode: 'cors',
-        cache: 'default',
-        body: JSON.stringify(body),
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Accept': 'application/json',
-            'Accept': 'image/jpg',
-            'Accept': 'image/jpeg',
-            'Accept': 'image/png'
-        }
-    }).then((response) => {
-        return response.json();
-    }).then((data) => {
-        console.log(data);
-    });
-}
-
 function getData(body, state) {
     fetch(url + 'get', {
             method: 'POST',
@@ -250,13 +264,12 @@ function loadData(data, stationType) {
     stations.appendChild(div);
 
     if (data.length > 0) {
-        console.log(data)
         for (let i = 0; i < data.length; i++) {
             const station = document.createElement('div');
             station.innerHTML = `
             <div class="col s12 m3 l2 m-1 white rounded hoverable">
                 <div class=" col s12 center">
-                    <img class="circle center-align p-1" src="${data[i].photo}" width="130px" heigth="170px" alt="" id="photoStation">
+                    <img class="circle center-align p-1 responsive-img" src="${data[i].photo}" width="130px" heigth="170px" alt="" id="photoStation">
                 </div>
                 <div class="col s12 center">
                     <p id="idStation" style="display:none">${data[i].id}</p>
@@ -295,12 +308,21 @@ function loadStationModal(ev) {
 }
 
 function resetForm() {
-    document.getElementById('inPhotoPre').src = "";
+    document.getElementById('inPhotoPre').src = `${urlBase}default/no-image.png`;
     document.getElementById('inPhotoPre').value = "";
 
     document.getElementById('inFile').value = "";
     document.getElementById('inName').value = "";
     document.getElementById('inDescription').value = "";
+}
+
+function loadPreview(ev) {
+    let preview = document.getElementById('inPhotoPre');
+    let file = document.getElementById('inFile');
+    preview.src = URL.createObjectURL(ev.target.files[0]);
+    preview.onload = function () {
+        URL.revokeObjectURL(preview.src) // free memory
+    }
 }
 
 function sendData(type, data) {

@@ -92,7 +92,7 @@
         </path>
     </svg>
 </div>
-
+<!-- MODAL -->
 <div id="modal1" class="modal">
     <div class="modal-content">
         <h4 id="titleModal">Editar estación</h4>
@@ -100,11 +100,11 @@
             <div class="row">
                 <div class="col s12 m-3">
                     <div class="col s12 l12 center">
-                        <img class="circle" src="" alt="" id="inPhotoPre" width="170px" height="170px">
+                        <img class="circle" id="inPhotoPre" width="130px" height="130px">
                     </div>
                     <div class="col s12 pt-2">
                         <p id="inId" style="display: none"></p>
-                        <input type="file" name="" id="inFile">
+                        <input type="file" name="" id="inFile" accept=".png, .jpg, .jpeg">
                         <input type="text" name="" id="inName" placeholder="Nombre" maxlength="30">
                         <textarea name="" id="inDescription" cols="6" rows="6" class="materialize-textarea"
                             placeholder="Descripción" maxlength="50"></textarea>
@@ -118,7 +118,7 @@
         <a href="#!" class="modal-close waves-effect waves-green btn-flat" id="saveStation">Guardar</a>
     </div>
 </div>
-
+<!-- END MODAL -->
 <div style="height: 50px;"></div>
 @endsection
 @section('js')
