@@ -21,7 +21,7 @@ Route::get('/nosotros', function () {
     return view('about');
 });
 
-Auth::routes(['register' => false], ['password.request' => false]);
+Auth::routes(['register' => true], ['password.request' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -38,3 +38,6 @@ Route::post('/api/stations/add', 'StationController@add');
 Route::get('/admin', function(){
     return view('admin');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

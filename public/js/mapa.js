@@ -23,7 +23,7 @@ document.getElementById('stations').addEventListener('click', (ev) => {
         document.getElementById('descEst').textContent = stDescription;
         document.getElementById('stBackground').src = stPhoto;
 
-        getData(stId);
+        getData(stId, stTitle);
         message(stTitle);
     }
 });
@@ -78,7 +78,7 @@ function loadStations(stations) {
                         <div class="row valign-wrapper">
                             <p id="stId" style="display: none;">${stations[i].id}</p>
                             <div class="col s3">
-                                <img class="circle responsive-img" src="${stations[i].photo}" id="stPhoto">
+                                <img class="circle center-align" src="${stations[i].photo}" id="stPhoto" width="60px" height="60px">
                             </div>
                             <div class="col s10">
                                 <h6 id="stTitle" class="blue-text">${stations[i].title}</h6>
@@ -208,10 +208,15 @@ function message(estacion) {
 }
 
 function loadGraphics(records) {
-    am4core.disposeAllCharts(); //Advertencia 'Chart was not disposed'
-    graphics('graphicLineDiv', records, 1);
-    graphics('graphicLineHumDiv', records, 2);
-    graphics('graphicLineRadDiv', records, 3);
+    if (records.length != 0) {
+        showDivData();
+        am4core.disposeAllCharts(); //Advertencia 'Chart was not disposed'
+        graphics('graphicLineDiv', records, 1);
+        graphics('graphicLineHumDiv', records, 2);
+        graphics('graphicLineRadDiv', records, 3);
+    } else {
+        hideDivData();
+    }
 }
 
 function emptyDiv() {
@@ -286,4 +291,16 @@ function graphics(graphicName, records, type) {
         chart.cursor.xAxis = dateAxis;
 
     }); // end am4core.ready()
+}
+
+function hideDivData() {
+    document.getElementById('divData').style.display = 'none';
+    document.getElementById('divTable').style.display = 'none';
+    document.getElementById('titleGraphics').textContent = 'Estación sin registros';
+}
+
+function showDivData() {
+    document.getElementById('divData').style.display = 'initial';
+    document.getElementById('divTable').style.display = 'initial';
+    document.getElementById('titleGraphics').textContent = 'Datos registrados';
 }

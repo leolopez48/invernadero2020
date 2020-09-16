@@ -54,51 +54,14 @@
     <div class="row">
         <h4 class="center blue-text text-darken-4">Estaciones</h4>
         <div id="stations">
-            {{-- <div class="col s12 m6">
-                <div class="card">
-                    <a href="#" id="est1">
-                        <div class="card-panel grey lighten-5 z-depth-2">
-                            <div class="row valign-wrapper">
-                                <div class="col s3">
-                                    <img class="circle responsive-img" src="https://lorempixel.com/300/300/nature">
-                                </div>
-                                <div class="col s10">
-                                    <h6>Estación 1</h6>
-                                    <span class="black-text">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, velit.
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-
-            <div class="col s12 m6">
-                <a href="#" id="est2">
-                    <div class="card-panel grey lighten-5 z-depth-2">
-                        <div class="row valign-wrapper">
-                            <div class="col s3">
-                                <img class="circle responsive-img" src="https://lorempixel.com/300/300/nature">
-                            </div>
-                            <div class="col s10">
-                                <h6>Estación 2</h6>
-                                <span class="black-text">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut, nam.
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div> --}}
         </div>
     </div>
 </div>
 
 <div class="container-fluid">
-    <div class="section ">
-        <h4 class="center teal-text">Datos registrados</h4>
-        <div class="row">
+    <div class="section">
+        <h4 class="center teal-text" id="titleGraphics">Datos registrados</h4>
+        <div class="row" id="divData">
             <div class="col s12 m4">
                 <h6 class="center blue-text text-darken-4">Temperatura</h6>
                 <div class="" id="graphicLineDiv"></div>
@@ -118,7 +81,7 @@
 
 <div class="container">
     <div class="section ">
-        <div class="row center">
+        <div class="row center" id="divTable">
             <div class="col s12 m12 padding-20" id="containerTable">
                 <table class="responsive-table highlight">
                     <thead>

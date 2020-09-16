@@ -11,7 +11,6 @@ class StationController extends Controller
 {
 
     public function add(Request $request){
-        // return response($request->photo);
         if($request->hasFile('photo')){
             $photo = Storage::put('public', $request->photo);
             $url = Storage::url($photo);
@@ -38,21 +37,34 @@ class StationController extends Controller
 
     public function index(Request $request)
     {
-        //dd(asset('storage/wallpaper.jpg'));
-        //$stations = Storage::get('storage/wallpaper.jpg');
         $stations = DB::table('station')->where(['state'=> $request->state])->get();
         
         return response($stations);
     }
 
     public function edit(Request $request){
-        return response()->json(["id"=>$request->id, "message"=>"success"]);
+        $id = $request->id;
+        $title = $request->title;
+        $description = $request->description;
+
+        if($request->hasFile('photo')){
+
+            $photo = Storage::put('public', $request->photo);
+            $url = Storage::url($photo);
+            $fullUrl = asset($url);
+
+            $stationU = DB::table('station')->where(['id'=>$id])->update(["photo"=>$fullUrl,"title"=>$title, "description"=>$description]);
+
+            return response()->json(["stationU"=>$stationU, 'id'=>$id, "message"=>"success"]);
+        }else{
+            $stationU = DB::table('station')->where(['id'=>$id])->update(["title"=>$title, "description"=>$description]);
+            return response()->json(["id"=>$stationU, "message"=>"success"]);
+        }
     }
 
     public function delete(Request $request){
         $id = $request->id;
         $stationA = DB::table('station')->where(['id'=>$id])->get();
-        //dd($stationA);
         if($stationA[0]["state"] == true){
             $stationA = DB::table('station')->where(['id'=>$id])->update(["state"=>false]);
         }else{

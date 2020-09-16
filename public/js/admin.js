@@ -10,16 +10,7 @@ document.getElementById('btnNew').addEventListener('click', (ev) => {
 });
 
 document.addEventListener('DOMContentLoaded', (ev) => {
-    openLoader();
-    const enabled = {
-        state: true
-    }
-    getData(enabled, "Habilitadas"); // Get enabled stations
-    const disabled = {
-        state: false
-    }
-    getData(disabled, "Deshabilitadas"); // Get disabled stations
-
+    loadStations();
 });
 
 document.getElementById('divStations').addEventListener('click', (ev) => {
@@ -82,7 +73,7 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
 
     if (ev.target.classList[1] === 'edit' || ev.target.classList[4] === 'a-edit') {
         ev.preventDefault();
-        loadStationModal(ev);
+
         document.getElementById('titleModal').textContent = 'Editar estación';
         if (ev.target.classList[1] === 'edit') {
             const id = ev.target.parentNode.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue;
@@ -109,6 +100,41 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
     }
 });
 
+document.getElementById('saveStation').addEventListener('click', (ev) => {
+    if (document.getElementById('titleModal').textContent === "Editar estación") {
+
+        const id = document.getElementById('inId').textContent;
+        const photoPre = document.getElementById('inPhotoPre').src;
+        const name = document.getElementById('inName').value;
+        const desc = document.getElementById('inDescription').value;
+
+        const data = new FormData();
+        data.append('id', id);
+        data.append('title', name);
+        data.append('description', desc);
+
+        if (document.getElementById('inFile').files[0] !== undefined) {
+            console.log("Hola")
+            const photo = document.getElementById('inFile');
+            data.append('photo', photo.files[0]);
+        }
+
+        editStation(data);
+
+    } else if (document.getElementById('titleModal').textContent === "Nueva estación") {
+        const photo = document.getElementById('inFile');
+        const name = document.getElementById('inName').value;
+        const desc = document.getElementById('inDescription').value;
+
+        const data = new FormData();
+        data.append('photo', photo.files[0]);
+        data.append('title', name);
+        data.append('description', desc);
+
+        addStation(data);
+    }
+});
+
 function evaluateState(ev) {
     let state;
     if (ev.target.parentNode.parentNode.parentNode.parentNode.firstChild.textContent.toString() == "Habilitadas") {
@@ -124,37 +150,6 @@ function evaluateState(ev) {
     }
     return state;
 }
-
-document.getElementById('saveStation').addEventListener('click', (ev) => {
-    if (document.getElementById('titleModal').textContent === "Editar estación") {
-
-        const id = document.getElementById('inId').textContent;
-        const photo = document.getElementById('inPhotoPre');
-        const name = document.getElementById('inName').value;
-        const desc = document.getElementById('inDescription').value;
-
-        const data = new FormData();
-        data.append('photo', photo.files[0]);
-        data.append('')
-
-        editStation(data);
-
-    } else if (document.getElementById('titleModal').textContent === "Nueva estación") {
-        const photo = document.getElementById('inFile');
-        const name = document.getElementById('inName').value;
-        const desc = document.getElementById('inDescription').value;
-
-        // console.log(photo.files[0])
-
-        const data = new FormData();
-        data.append('photo', photo.files[0]);
-        data.append('title', name);
-        data.append('description', desc);
-        // console.log(data)
-
-        addStation(data);
-    }
-});
 
 document.getElementById('inFile').addEventListener('change', (ev) => {
     loadPreview(ev);
@@ -175,30 +170,32 @@ function addStation(data) {
                 'Accept': 'image/png'
             }
         }).then((response) => {
-            // console.log(response)
             return response.json();
         })
         .then((data) => {
-            console.log(data);
+            loadStations();
         });
 }
 
 function editStation(body) {
-    fetch(url + 'delete', {
+    fetch(url + 'edit', {
             method: 'POST',
             mode: 'cors',
             cache: 'default',
-            body: JSON.stringify(body),
+            body: body,
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Accept': 'image/jpg',
+                'Accept': 'image/jpeg',
+                'Accept': 'image/png'
             }
         })
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
+            console.log(data)
+            loadStations();
         });
 }
 
@@ -217,17 +214,22 @@ function deleteStation(body) {
             return response.json();
         })
         .then(function (data) {
-            openLoader();
-            cleanDivStations();
-            const enabled = {
-                state: true
-            }
-            getData(enabled, "Habilitadas"); // Get enabled stations
-            const disabled = {
-                state: false
-            }
-            getData(disabled, "Deshabilitadas"); // Get disabled stations
+            loadStations();
         });
+}
+
+function loadStations() {
+    cleanDivStations();
+    openLoader();
+    const enabled = {
+        state: true
+    }
+    getData(enabled, "Habilitadas"); // Get enabled stations
+    const disabled = {
+        state: false
+    }
+    getData(disabled, "Deshabilitadas"); // Get disabled stations
+    resetForm();
 }
 
 function getData(body, state) {
@@ -269,7 +271,7 @@ function loadData(data, stationType) {
             station.innerHTML = `
             <div class="col s12 m3 l2 m-1 white rounded hoverable">
                 <div class=" col s12 center">
-                    <img class="circle center-align p-1 responsive-img" src="${data[i].photo}" width="130px" heigth="170px" alt="" id="photoStation">
+                    <img class="circle center-align p-1" src="${data[i].photo}" width="130px" height="130px" alt="" id="photoStation">
                 </div>
                 <div class="col s12 center">
                     <p id="idStation" style="display:none">${data[i].id}</p>
@@ -297,14 +299,6 @@ function loadData(data, stationType) {
         stations.appendChild(stationMessage);
     }
     closeLoader();
-}
-
-function loadStationModal(ev) {
-    // console.log(ev.target.parentNode)
-    // while (ev.path[0] !== 'div.col.s12.m3.l2.m-1.white.rounded.hoverable') {
-    //     ev.parentNode;
-    //     console.log("no")
-    // }
 }
 
 function resetForm() {
@@ -340,7 +334,7 @@ function sendData(type, data) {
 }
 // END FUNCTION
 
-// LOADER
+// CSS FUNCTIONS
 function closeLoader() {
     document.getElementById('loader').style.display = 'none';
     document.getElementById('loader-toggle').classList.remove('active');
@@ -353,4 +347,4 @@ function openLoader() {
 function cleanDivStations() {
     $('#divStations').empty();
 }
-// END LOADER
+// END CSS FUNCTIONS

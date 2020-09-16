@@ -23,7 +23,7 @@
     @section('navbar')
     <nav class="white z-depth-3" role="navigation">
         <div class="nav-wrapper container">
-            <a id="logo-container" href="#" class="brand-logo">Invernadero</a>
+            <a id="logo-container" href="{{url('/')}}" class="brand-logo">Invernadero</a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{url('/')}}">Inicio</a></li>
                 <li><a href="{{url('/nosotros')}}">Nosotros</a></li>
@@ -37,6 +37,9 @@
                 </li>
                 @endif
                 @else
+                <li>
+                    <a class="nav-link" href="{{ url('/admin') }}">Ajustes</a>
+                </li>
                 <li>
                     <div aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -82,7 +85,7 @@
                 <li><a href="{{url('/')}}">Inicio</a></li>
                 <li><a href="{{url('/nosotros')}}">Nosotros</a></li>
                 <li class="divider"></li>
-                <li><a href="">Ajustes</a></li>
+            <li><a href="{{url('/admin')}}">Ajustes</a></li>
                 <div aria-labelledby="navbarDropdown">
                     <li>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
