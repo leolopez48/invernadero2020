@@ -71,7 +71,7 @@
 <!-- END LOADER -->
 
 <div class="container-fluid" id="content">
-    <div class="row-fluid bg-green">
+    <div class="row bg-green p-0 m-0">
         <div class="row p-3 m-0">
             <div class="col s12">
                 <a href="#modal1" id="btnNew"
@@ -80,7 +80,7 @@
                     Nuevo
                 </a>
             </div>
-            <div class="col s12 center" id="divStations">
+            <div class="col s12" id="divStations">
 
             </div>
 
@@ -108,6 +108,13 @@
                         <input type="text" name="" id="inName" placeholder="Nombre" maxlength="30">
                         <textarea name="" id="inDescription" cols="6" rows="6" class="materialize-textarea"
                             placeholder="Descripción" maxlength="50"></textarea>
+                        <h5>Valores mínimos</h5>
+                        <h6>Temperatura</h6>                      
+                        <input type="number" name="" id="inLowestPT" min="1" placeholder="Temperatura">
+                        <h6>Humedad</h6> 
+                        <input type="number" name="" id="inLowestPH" min="1" placeholder="Humedad">
+                        <h6>Radiación</h6> 
+                        <input type="number" name="" id="inLowestPR" min="1" placeholder="Radiación">
                     </div>
                 </div>
             </div>

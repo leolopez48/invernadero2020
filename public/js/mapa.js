@@ -7,7 +7,9 @@ $('document').ready(function () {
         state: true
     }
     getStations(enabled);
-    getData(1);
+    document.getElementById('divData').style.display = 'none';
+    document.getElementById('divTable').style.display = 'none';
+    document.getElementById('titleGraphics').textContent = '';
 });
 
 document.getElementById('stations').addEventListener('click', (ev) => {
@@ -36,8 +38,9 @@ function getData(id) {
         })
         .then((response) => response.json())
         .then((data) => {
+            // console.log(data)
             loadTable(data.records);
-            loadGraphics(data.records);
+            loadGraphics(data);
         });
 }
 
@@ -56,7 +59,7 @@ function getStations(body) {
             return response.json();
         })
         .then(function (data) {
-            selectStation(data);
+            //selectStation(data);
             loadStations(data);
         });
 }
@@ -188,13 +191,13 @@ function map() {
         //alert(ev.target.dataItem.dataContext.name);
     });
 
-    // // Configure series tooltip
+    // Configure series tooltip
     var polygonTemplate = polygonSeries.mapPolygons.template;
     polygonTemplate.tooltipText = "{name} {value}";
     polygonTemplate.nonScalingStroke = true;
     polygonTemplate.strokeWidth = 0.5;
 
-    // // Create hover state and set alternative fill color
+    // Create hover state and set alternative fill color
     var hs = polygonTemplate.states.create("hover");
     hs.properties.fill = am4core.color("#3c5bdc");
 }
@@ -207,13 +210,13 @@ function message(estacion) {
     )
 }
 
-function loadGraphics(records) {
-    if (records.length != 0) {
+function loadGraphics(data) {
+    if (data.records.length != 0) {
         showDivData();
         am4core.disposeAllCharts(); //Advertencia 'Chart was not disposed'
-        graphics('graphicLineDiv', records, 1);
-        graphics('graphicLineHumDiv', records, 2);
-        graphics('graphicLineRadDiv', records, 3);
+        graphics('graphicLineDiv', data, 1);
+        graphics('graphicLineHumDiv', data, 2);
+        graphics('graphicLineRadDiv', data, 3);
     } else {
         hideDivData();
     }
@@ -225,7 +228,7 @@ function emptyDiv() {
     $('#graphicLineRadDiv').empty();
 }
 
-function graphics(graphicName, records, type) {
+function graphics(graphicName, data, type) {
 
     am4core.ready(function () {
         // Themes begin
@@ -240,20 +243,22 @@ function graphics(graphicName, records, type) {
 
         // Add data
         var value, date;
-
-        for (var i = 0; i < records.length; i++) {
+        for (var i = 0; i < data.records.length; i++) {
             switch (type) {
                 case 1:
-                    value = records[i].temperature;
+                    value = data.records[i].temperature;
+                    LowestLimit = data.temperatureL;
                     break;
                 case 2:
-                    value = records[i].humidity;
+                    value = data.records[i].humidity;
+                    LowestLimit = data.humidityL;
                     break;
                 case 3:
-                    value = records[i].radiation;
+                    value = data.records[i].radiation;
+                    LowestLimit = data.radiationL;
                     break;
             }
-            date = new Date(records[i].created_at);
+            date = new Date(data.records[i].created_at);
 
             chart.data.push({
                 date: date,

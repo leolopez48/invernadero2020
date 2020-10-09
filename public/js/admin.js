@@ -80,22 +80,34 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
             const title = ev.target.parentNode.parentNode.parentNode.querySelector("#titleStation").firstChild.nodeValue;
             const desc = ev.target.parentNode.parentNode.parentNode.querySelector("#descStation").firstChild.nodeValue;
             const photo = ev.target.parentNode.parentNode.parentNode.querySelector("#photoStation").src;
+            const humidity = ev.target.parentNode.parentNode.parentNode.querySelector("#humidityL").firstChild.nodeValue;
+            const temperature = ev.target.parentNode.parentNode.parentNode.querySelector("#temperatureL").firstChild.nodeValue;
+            const radiation = ev.target.parentNode.parentNode.parentNode.querySelector("#radiationL").firstChild.nodeValue;
 
             document.getElementById('inId').textContent = id;
             document.getElementById('inPhotoPre').src = photo;
             document.getElementById('inName').value = title;
             document.getElementById('inDescription').value = desc;
+            document.getElementById('inLowestPH').value = humidity;
+            document.getElementById('inLowestPR').value = radiation;
+            document.getElementById('inLowestPT').value = temperature;
 
         } else {
             const id = ev.target.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue;
             const title = ev.target.parentNode.parentNode.querySelector("#titleStation").firstChild.nodeValue;
             const desc = ev.target.parentNode.parentNode.querySelector("#descStation").firstChild.nodeValue;
             const photo = ev.target.parentNode.parentNode.querySelector("#photoStation").src;
+            const humidity = ev.target.parentNode.parentNode.querySelector("#humidityL").firstChild.nodeValue;
+            const temperature = ev.target.parentNode.parentNode.querySelector("#temperatureL").firstChild.nodeValue;
+            const radiation = ev.target.parentNode.parentNode.querySelector("#radiationL").firstChild.nodeValue;
 
             document.getElementById('inId').textContent = id;
             document.getElementById('inPhotoPre').src = photo;
             document.getElementById('inName').value = title;
             document.getElementById('inDescription').value = desc;
+            document.getElementById('inLowestPH').value = humidity;
+            document.getElementById('inLowestPR').value = radiation;
+            document.getElementById('inLowestPT').value = temperature;
         }
     }
 });
@@ -107,14 +119,19 @@ document.getElementById('saveStation').addEventListener('click', (ev) => {
         const photoPre = document.getElementById('inPhotoPre').src;
         const name = document.getElementById('inName').value;
         const desc = document.getElementById('inDescription').value;
+        const temperature = document.getElementById('inLowestPT').value;
+        const humidity = document.getElementById('inLowestPH').value;
+        const radiation = document.getElementById('inLowestPR').value;
 
         const data = new FormData();
         data.append('id', id);
         data.append('title', name);
         data.append('description', desc);
+        data.append('humidity', humidity);
+        data.append('temperature', temperature);
+        data.append('radiation', radiation);
 
         if (document.getElementById('inFile').files[0] !== undefined) {
-            console.log("Hola")
             const photo = document.getElementById('inFile');
             data.append('photo', photo.files[0]);
         }
@@ -125,11 +142,17 @@ document.getElementById('saveStation').addEventListener('click', (ev) => {
         const photo = document.getElementById('inFile');
         const name = document.getElementById('inName').value;
         const desc = document.getElementById('inDescription').value;
+        const temperature = document.getElementById('inLowestPT').value;
+        const humidity = document.getElementById('inLowestPH').value;
+        const radiation = document.getElementById('inLowestPR').value;
 
         const data = new FormData();
         data.append('photo', photo.files[0]);
         data.append('title', name);
         data.append('description', desc);
+        data.append('humidity', humidity);
+        data.append('temperature', temperature);
+        data.append('radiation', radiation);
 
         addStation(data);
     }
@@ -173,6 +196,7 @@ function addStation(data) {
             return response.json();
         })
         .then((data) => {
+            console.log(data)
             loadStations();
         });
 }
@@ -256,7 +280,6 @@ function loadData(data, stationType) {
 
     const div = document.createElement('div');
     div.classList.add('row');
-
     const title = document.createElement('h4');
     title.textContent = `${stationType}`;
     title.style.color = "white";
@@ -276,7 +299,10 @@ function loadData(data, stationType) {
                 <div class="col s12 center">
                     <p id="idStation" style="display:none">${data[i].id}</p>
                     <strong class="center black-text" id="titleStation">${data[i].title}</strong>
-                    <p class="black-text p-1 left-align" id="descStation">${data[i].description}</p>
+                    <p class="black-text p-1 left-align" id="descStation" >${data[i].description}</p>
+                    <p class="black-text p-1 left-align" id="humidityL" style="display:none;">${data[i].humidity}</p>
+                    <p class="black-text p-1 left-align" id="temperatureL" style="display:none;">${data[i].temperature}</p>
+                    <p class="black-text p-1 left-align" id="radiationL" style="display:none;">${data[i].radiation}</p>
                 </div>
                 <div class="col s12 center m-1">
                     <a class="station modal-trigger btn blue a-edit" id="btnEdit" href="#modal1">

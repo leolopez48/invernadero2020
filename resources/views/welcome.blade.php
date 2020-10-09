@@ -21,7 +21,7 @@
     <div class="section no-pad-bot">
         <div class="container">
             <br><br>
-            <h1 id="tituloEst" class="header center teal-text text-lighten-2 tituloEst">Estación ENA</h1>
+            <h1 id="tituloEst" class="header center teal-text text-lighten-2 tituloEst">Invernadero ENA</h1>
             <div class="row center">
                 <h5 class="header col s12 light text-bold">
                     <p id="descEst" class="descEst">Invernadero ubicado en ENA</p>
@@ -31,7 +31,7 @@
 
         </div>
     </div>
-    <div class="parallax"><img src="" alt="Unsplashed background img 1" id="stBackground"></div>
+    <div class="parallax"><img src="{{asset('imgs/background3.jpg')}}" alt="Unsplashed background img 1" id="stBackground"></div>
 </div>
 
 <!-- Modal Trigger -->

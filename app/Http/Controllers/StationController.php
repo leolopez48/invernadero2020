@@ -11,28 +11,44 @@ class StationController extends Controller
 {
 
     public function add(Request $request){
-        if($request->hasFile('photo')){
-            $photo = Storage::put('public', $request->photo);
-            $url = Storage::url($photo);
-            $fullUrl = asset($url);
+        try {
+            if($request->hasFile('photo')){
+                $photo = Storage::put('public', $request->photo);
+                $url = Storage::url($photo);
+                $fullUrl = asset($url);
+            }
+            if((int)Station::all('id')->count() == 0){
+                $lastId = 1;
+                
+            }else{
+                $lastId = (int)Station::all('id')->last()->id; //Get the lastest id value of stations
+                $lastId+=1; //Add 1 to set the new value to the station
+            }
+            $newId = strval($lastId);
+            $title = $request->title;
+            $description = $request->description;
+            $temperature = $request->temperature;
+            $humidity = $request->humidity;
+            $radiation = $request->radiation;
+            $state = true;
+    
+            $st = new Station();
+            $st->id = $newId;
+            $st->title = $title;
+            $st->description = $description;
+            $st->photo = $fullUrl;
+            $st->state = $state;
+            $st->temperature = (int)$temperature;
+            $st->humidity = (int)$humidity;
+            $st->radiation = (int)$radiation;
+            $stSaved = $st->save();
+    
+            return response()->json(["message"=>"success"]);
+        } catch (\Throwable $th) {
+            return response()->json(["message"=>$th->getMessage()]);
         }
-
-        $lastId = (int)Station::all('id')->last()->id; //Get the lastest value of the stations
-        $lastId+=1; //Add 1 to set the new value to the station
-        $newId = strval($lastId);
-        $title = $request->title;
-        $description = $request->description;
-        $state = true;
-
-        $st = new Station();
-        $st->id = $newId;
-        $st->title = $title;
-        $st->description = $description;
-        $st->photo = $fullUrl;
-        $st->state = $state;
-        $stSaved = $st->save();
-
-        return response()->json(["message"=>"success"]);
+        
+        
     }
 
     public function index(Request $request)
@@ -46,6 +62,9 @@ class StationController extends Controller
         $id = $request->id;
         $title = $request->title;
         $description = $request->description;
+        $temperature = $request->temperature;
+        $humidity = $request->humidity;
+        $radiation = $request->radiation;
 
         if($request->hasFile('photo')){
 
@@ -53,11 +72,13 @@ class StationController extends Controller
             $url = Storage::url($photo);
             $fullUrl = asset($url);
 
-            $stationU = DB::table('station')->where(['id'=>$id])->update(["photo"=>$fullUrl,"title"=>$title, "description"=>$description]);
+            $stationU = DB::table('station')->where(['id'=>$id])->update(["photo"=>$fullUrl,"title"=>$title, 
+            "description"=>$description, "humidity"=>$humidity, "temperature"=>$temperature, "radiation"=>$radiation]);
 
             return response()->json(["stationU"=>$stationU, 'id'=>$id, "message"=>"success"]);
         }else{
-            $stationU = DB::table('station')->where(['id'=>$id])->update(["title"=>$title, "description"=>$description]);
+            $stationU = DB::table('station')->where(['id'=>$id])->update(["title"=>$title, 
+            "description"=>$description, "humidity"=>$humidity, "temperature"=>$temperature, "radiation"=>$radiation]);
             return response()->json(["id"=>$stationU, "message"=>"success"]);
         }
     }

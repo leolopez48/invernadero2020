@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\Users;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
-
-Route::get('/nosotros', function () {
-    return view('about');
 });
 
 Auth::routes(['register' => true], ['password.request' => false]);
@@ -37,6 +34,14 @@ Route::post('/api/stations/add', 'StationController@add');
 //Admin
 Route::get('/admin', function(){
     return view('admin');
+})->middleware(Users::class);
+
+Route::get('/nosotros', function () {
+    return view('about');
+});
+
+Route::group(['middleware' => 'users'], function(){
+    
 });
 Auth::routes();
 

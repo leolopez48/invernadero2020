@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Record;
+use App\Station;
 use Illuminate\Http\Request;
 use DB;
 
@@ -27,7 +28,10 @@ class RecordController extends Controller
    function get($id){
        try{
             $records = DB::table('record')->where(['id'=>$id])->get();
-            return response()->json(['message'=>'success', 'records'=>$records]);
+            $stations = DB::table('station')->where(['id'=>$id])->get();
+            return response()->json(['message'=>'success', 'records'=>$records, 
+            'humidityL'=>$stations[0]['humidity'], 'temperatureL'=>$stations[0]['temperature'], 
+            'radiationL'=>$stations[0]['radiation']]);
         } catch (\Throwable $th) {
             return response()->json(['message'=>'failed']);
         }
