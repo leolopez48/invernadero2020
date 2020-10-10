@@ -37,16 +37,4 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-
-    protected function authenticated(Request $request, $user)
-    {
-        $email = $request->email;
-        $user = DB::table('users')->where(["email"=>$email])->get();
-        //return $user[0]["typeAccess"];
-        $this->verifyTypeAccess($user[0]["typeAccess"]);
-    }
-
-    public function verifyTypeAccess($typeAccess){
-        $this->$typeAccess = $typeAccess;
-    }
 }

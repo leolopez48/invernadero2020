@@ -6,44 +6,53 @@ use App\Station;
 use Illuminate\Http\Request;
 use DB;
 use Storage;
+use Auth;
 
 class StationController extends Controller
 {
 
     public function add(Request $request){
         try {
-            if($request->hasFile('photo')){
-                $photo = Storage::put('public', $request->photo);
-                $url = Storage::url($photo);
-                $fullUrl = asset($url);
-            }
-            if((int)Station::all('id')->count() == 0){
-                $lastId = 1;
-                
+            if($request->user()->typeAccess == 1){
+
+                if($request->hasFile('photo')){
+                    $photo = Storage::put('public', $request->photo);
+                    $url = Storage::url($photo);
+                    $fullUrl = asset($url);
+                }
+    
+                if((int)Station::all('id')->count() == 0){
+                    $lastId = 1;
+                    
+                }else{
+                    $lastId = (int)Station::all('id')->last()->id; //Get the lastest id value of stations
+                    $lastId+=1; //Add 1 to set the new value to the station
+                }
+    
+                $newId = strval($lastId);
+                $title = $request->title;
+                $description = $request->description;
+                $temperature = $request->temperature;
+                $humidity = $request->humidity;
+                $radiation = $request->radiation;
+                $state = true;
+        
+                $st = new Station();
+                $st->id = $newId;
+                $st->title = $title;
+                $st->description = $description;
+                $st->photo = $fullUrl;
+                $st->state = $state;
+                $st->temperature = (int)$temperature;
+                $st->humidity = (int)$humidity;
+                $st->radiation = (int)$radiation;
+                $stSaved = $st->save();
+
+                return response()->json(["message"=>"success"]);
             }else{
-                $lastId = (int)Station::all('id')->last()->id; //Get the lastest id value of stations
-                $lastId+=1; //Add 1 to set the new value to the station
+                return response()->json(["message"=>"error"]);
             }
-            $newId = strval($lastId);
-            $title = $request->title;
-            $description = $request->description;
-            $temperature = $request->temperature;
-            $humidity = $request->humidity;
-            $radiation = $request->radiation;
-            $state = true;
-    
-            $st = new Station();
-            $st->id = $newId;
-            $st->title = $title;
-            $st->description = $description;
-            $st->photo = $fullUrl;
-            $st->state = $state;
-            $st->temperature = (int)$temperature;
-            $st->humidity = (int)$humidity;
-            $st->radiation = (int)$radiation;
-            $stSaved = $st->save();
-    
-            return response()->json(["message"=>"success"]);
+
         } catch (\Throwable $th) {
             return response()->json(["message"=>$th->getMessage()]);
         }
@@ -53,9 +62,30 @@ class StationController extends Controller
 
     public function index(Request $request)
     {
-        $stations = DB::table('station')->where(['state'=> $request->state])->get();
-        
-        return response($stations);
+        if($request->action == 'admin'){
+
+            $allStations = DB::table('station')->where(['state'=> $request->state])->get();
+
+            $i = 0;
+            $stSus = $request->user()->stationsSuscribed;
+            $countStSus = count($request->user()->stationsSuscribed);
+            $stations = array();
+            
+            foreach($allStations as $st){
+                if($i != $countStSus){
+                    if($stSus[$i] == $st['id']){
+                        array_push($stations, $st);
+                    }
+                }else{
+                    break;
+                }
+                $i+=1;
+            }
+
+        }else{
+            $stations = DB::table('station')->where(['state'=> $request->state])->get();
+        }
+        return response()->json(['stations'=>$stations, 'typeAccess'=>$request->user()->typeAccess]);
     }
 
     public function edit(Request $request){

@@ -73,7 +73,7 @@
 <div class="container-fluid" id="content">
     <div class="row bg-green p-0 m-0">
         <div class="row p-3 m-0">
-            <div class="col s12">
+            <div class="col s12" id="btnNewDiv">
                 <a href="#modal1" id="btnNew"
                     class="waves-effect blue-text waves-light btn blue white-text modal-trigger">
                     <i class="material-icons">add</i>
@@ -109,12 +109,34 @@
                         <textarea name="" id="inDescription" cols="6" rows="6" class="materialize-textarea"
                             placeholder="Descripción" maxlength="50"></textarea>
                         <h5>Valores mínimos</h5>
-                        <h6>Temperatura</h6>                      
+                        <h6>Temperatura</h6>
                         <input type="number" name="" id="inLowestPT" min="1" placeholder="Temperatura">
-                        <h6>Humedad</h6> 
+                        <h6>Humedad</h6>
                         <input type="number" name="" id="inLowestPH" min="1" placeholder="Humedad">
-                        <h6>Radiación</h6> 
+                        <h6>Radiación</h6>
                         <input type="number" name="" id="inLowestPR" min="1" placeholder="Radiación">
+                        <h5>Usuarios</h5>
+                        <input type="text" id="inUser" class="col s10" placeholder="Correo">
+                        <a href="#" class="col s1" id="btnUserSearch"><i class="fas fa-search fa-2x black-text"></i></a>
+                        <div class="container-fluid">
+                            <div id="divUsers">
+                                <div id="divUserSearched">
+
+                                </div>
+                                <div id="divUserAllowed">
+                                    <div class="col s12">
+                                        <p><strong>Permitidos</strong></p>
+                                    </div>
+                                    <div class="col s9">
+                                        <h6>Nombre</h6>
+                                        <p>Correo</p>
+                                    </div>
+                                    <div class="col s3" style="padding-top: 10px;">
+                                        <a href="#" class="btn red"><i class="material-icons">delete</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

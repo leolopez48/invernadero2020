@@ -1,5 +1,5 @@
 const url = 'http://localhost:8000/api/stations/';
-const urlBase = 'http://localhost:8000/'
+const urlBase = 'http://localhost:8000/';
 
 //Listeners
 document.getElementById('btnNew').addEventListener('click', (ev) => {
@@ -158,28 +158,56 @@ document.getElementById('saveStation').addEventListener('click', (ev) => {
     }
 });
 
-function evaluateState(ev) {
-    let state;
-    if (ev.target.parentNode.parentNode.parentNode.parentNode.firstChild.textContent.toString() == "Habilitadas") {
-        state = {
-            state: "habilitará",
-            action: "Habilitar"
-        }
-    } else {
-        state = {
-            state: "deshabilitará",
-            action: "Deshabilitar"
-        }
-    }
-    return state;
-}
-
 document.getElementById('inFile').addEventListener('change', (ev) => {
     loadPreview(ev);
 });
+
+document.getElementById('btnUserSearch').addEventListener('click', (ev)=>{
+    ev.preventDefault();
+
+    const email = document.getElementById('inUser').value;
+    
+    const data = {
+        email: email,
+    }
+    console.log(data)
+    getUser(data);
+    
+})
 // END LISTENERS
 
 //FUNCTIONS
+function getUser(data){
+    fetch(urlBase+'api/users/get', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'default',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    }).then((response)=>{return response.json();})
+    .then((data)=>{
+        showUser(data.user)
+    });
+}
+
+function showUser(data){
+    const divUserSearched = document.getElementById('divUserSearched');
+    const user = document.createElement('div');
+    user.innerHTML = `
+    <div class="col s9">
+        <h6>${data[0].name}</h6>
+        <p>${data[0].email}</p>
+    </div>
+    <div class="col s3" style="padding-top: 10px;">
+        <a href="#" class="btn blue"><i class="material-icons">add</i></a>
+    </div>
+    `;
+    divUserSearched.appendChild(user);
+}
+
 function addStation(data) {
     fetch(url + 'add', {
             method: 'POST',
@@ -196,7 +224,6 @@ function addStation(data) {
             return response.json();
         })
         .then((data) => {
-            console.log(data)
             loadStations();
         });
 }
@@ -246,7 +273,8 @@ function loadStations() {
     cleanDivStations();
     openLoader();
     const enabled = {
-        state: true
+        state: true,
+        action: 'admin'
     }
     getData(enabled, "Habilitadas"); // Get enabled stations
     const disabled = {
@@ -271,8 +299,15 @@ function getData(body, state) {
             return response.json();
         })
         .then(function (data) {
-            loadData(data, state);
+            loadData(data.stations, state);
+            if(data.typeAccess > 1){
+                hideByAccess();
+            }
         });
+}
+
+function hideByAccess(){
+    document.getElementById('btnNewDiv').style.display = 'none';
 }
 
 function loadData(data, stationType) {
@@ -334,6 +369,10 @@ function resetForm() {
     document.getElementById('inFile').value = "";
     document.getElementById('inName').value = "";
     document.getElementById('inDescription').value = "";
+
+    document.getElementById('inLowestPH').value = "";
+    document.getElementById('inLowestPT').value = "";
+    document.getElementById('inLowestPR').value = "";
 }
 
 function loadPreview(ev) {
@@ -357,6 +396,22 @@ function sendData(type, data) {
         .catch((error) => {
             console.log("Error: " + error.message);
         });
+}
+
+function evaluateState(ev) {
+    let state;
+    if (ev.target.parentNode.parentNode.parentNode.parentNode.firstChild.textContent.toString() == "Habilitadas") {
+        state = {
+            state: "habilitará",
+            action: "Habilitar"
+        }
+    } else {
+        state = {
+            state: "deshabilitará",
+            action: "Deshabilitar"
+        }
+    }
+    return state;
 }
 // END FUNCTION
 

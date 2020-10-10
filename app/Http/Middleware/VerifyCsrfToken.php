@@ -16,6 +16,7 @@ class VerifyCsrfToken extends Middleware
         'api/stations/edit',
         'api/stations/delete',
         'api/stations/get',
-        'api/stations/add'
+        'api/stations/add',
+        'api/users/get'
     ];
 }
