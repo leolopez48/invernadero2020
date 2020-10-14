@@ -125,7 +125,7 @@
                                 </div>
                                 <div id="divUserAllowed">
                                     <div class="col s12">
-                                        <p><strong>Permitidos</strong></p>
+                                        <h6><strong>Permitidos</strong></h6>
                                     </div>
                                     <div class="col s9">
                                         <h6>Nombre</h6>

@@ -59,8 +59,7 @@ function getStations(body) {
             return response.json();
         })
         .then(function (data) {
-            //selectStation(data);
-            loadStations(data);
+            loadStations(data.stations);
         });
 }
 

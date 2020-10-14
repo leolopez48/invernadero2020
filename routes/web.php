@@ -42,11 +42,14 @@ Route::post('/api/stations/add', 'StationController@add');
 
 //Users
 Route::post('/api/users/get/', 'UserController@findUser');
+Route::post('/api/users/addStation/', 'UserController@addStationUser');
 
-//Admin
-Route::get('/admin', function(){
-    return view('admin');
-})->middleware(Users::class);
+Route::group(['middleware'=>'auth'], function () {
+    //Admin
+    Route::get('/admin', function(){
+        return view('admin');
+    });
+});
 
 //Auth
 Auth::routes(['register' => true], ['password.request' => false]);

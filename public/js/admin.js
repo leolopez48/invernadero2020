@@ -116,7 +116,6 @@ document.getElementById('saveStation').addEventListener('click', (ev) => {
     if (document.getElementById('titleModal').textContent === "Editar estación") {
 
         const id = document.getElementById('inId').textContent;
-        const photoPre = document.getElementById('inPhotoPre').src;
         const name = document.getElementById('inName').value;
         const desc = document.getElementById('inDescription').value;
         const temperature = document.getElementById('inLowestPT').value;
@@ -166,18 +165,47 @@ document.getElementById('btnUserSearch').addEventListener('click', (ev)=>{
     ev.preventDefault();
 
     const email = document.getElementById('inUser').value;
-    
+    const id = document.getElementById('inId').textContent;
     const data = {
+        idStation: id,
         email: email,
+
     }
-    console.log(data)
-    getUser(data);
+    findUser(data);
     
-})
+});
+
+document.getElementById('divUserSearched').addEventListener('click', (ev)=>{
+    const id = document.getElementById('inId').textContent;
+    const email = ev.target.parentNode.parentNode.parentNode.querySelector('#userEmail').firstChild.nodeValue;
+
+    const data = {
+        idStation: id,
+        email: email
+    }
+    
+    addUserStation(data);
+});
 // END LISTENERS
 
 //FUNCTIONS
-function getUser(data){
+function addUserStation(data){
+    fetch(urlBase+'api/users/addStation', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'default',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    }).then((response)=>{return response.json();})
+    .then((data)=>{
+        console.log(data)
+    });
+}
+
+function findUser(data){
     fetch(urlBase+'api/users/get', {
         method: 'POST',
         mode: 'cors',
@@ -189,8 +217,20 @@ function getUser(data){
         }
     }).then((response)=>{return response.json();})
     .then((data)=>{
-        showUser(data.user)
+        if(data.message == 'Station already added.'){
+            message('Usuario registrado', data.user[0].name + ' ya ha sido asignado.', 'error');
+        }else{
+            showUser(data.user)
+        }
     });
+}
+
+function message(title, message, icon){
+    Swal.fire(
+        title,
+        message,
+        icon
+      );
 }
 
 function showUser(data){
@@ -199,10 +239,10 @@ function showUser(data){
     user.innerHTML = `
     <div class="col s9">
         <h6>${data[0].name}</h6>
-        <p>${data[0].email}</p>
+        <p id="userEmail">${data[0].email}</p>
     </div>
     <div class="col s3" style="padding-top: 10px;">
-        <a href="#" class="btn blue"><i class="material-icons">add</i></a>
+        <a href="#" class="btn blue add-user"><i class="material-icons">add</i></a>
     </div>
     `;
     divUserSearched.appendChild(user);
@@ -278,7 +318,8 @@ function loadStations() {
     }
     getData(enabled, "Habilitadas"); // Get enabled stations
     const disabled = {
-        state: false
+        state: false,
+        action: 'admin'
     }
     getData(disabled, "Deshabilitadas"); // Get disabled stations
     resetForm();
@@ -299,6 +340,7 @@ function getData(body, state) {
             return response.json();
         })
         .then(function (data) {
+            console.log(data)
             loadData(data.stations, state);
             if(data.typeAccess > 1){
                 hideByAccess();

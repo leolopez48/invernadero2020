@@ -62,13 +62,16 @@ class StationController extends Controller
 
     public function index(Request $request)
     {
+        // $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+        // $out->writeln("Stations: ".$request->user());   
+        return response()->json(["typeAccess"=>Auth::user()]);
         if($request->action == 'admin'){
 
             $allStations = DB::table('station')->where(['state'=> $request->state])->get();
-
+            
             $i = 0;
             $stSus = $request->user()->stationsSuscribed;
-            $countStSus = count($request->user()->stationsSuscribed);
+            $countStSus = count(Auth::user()->stationsSuscribed);
             $stations = array();
             
             foreach($allStations as $st){
@@ -85,7 +88,8 @@ class StationController extends Controller
         }else{
             $stations = DB::table('station')->where(['state'=> $request->state])->get();
         }
-        return response()->json(['stations'=>$stations, 'typeAccess'=>$request->user()->typeAccess]);
+       
+        //return response()->json(['stations'=>$stations, 'typeAccess'=>Auth::user()->typeAccess]);
     }
 
     public function edit(Request $request){
