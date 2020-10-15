@@ -123,17 +123,11 @@
                                 <div id="divUserSearched">
 
                                 </div>
+                                <div class="col s12">
+                                    <h6><strong>Permitidos</strong></h6>
+                                </div>
                                 <div id="divUserAllowed">
-                                    <div class="col s12">
-                                        <h6><strong>Permitidos</strong></h6>
-                                    </div>
-                                    <div class="col s9">
-                                        <h6>Nombre</h6>
-                                        <p>Correo</p>
-                                    </div>
-                                    <div class="col s3" style="padding-top: 10px;">
-                                        <a href="#" class="btn red"><i class="material-icons">delete</i></a>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>

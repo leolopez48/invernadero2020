@@ -73,10 +73,11 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
 
     if (ev.target.classList[1] === 'edit' || ev.target.classList[4] === 'a-edit') {
         ev.preventDefault();
+        let id = 0;
 
         document.getElementById('titleModal').textContent = 'Editar estación';
         if (ev.target.classList[1] === 'edit') {
-            const id = ev.target.parentNode.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue;
+            id = ev.target.parentNode.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue;
             const title = ev.target.parentNode.parentNode.parentNode.querySelector("#titleStation").firstChild.nodeValue;
             const desc = ev.target.parentNode.parentNode.parentNode.querySelector("#descStation").firstChild.nodeValue;
             const photo = ev.target.parentNode.parentNode.parentNode.querySelector("#photoStation").src;
@@ -93,7 +94,7 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
             document.getElementById('inLowestPT').value = temperature;
 
         } else {
-            const id = ev.target.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue;
+            id = ev.target.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue;
             const title = ev.target.parentNode.parentNode.querySelector("#titleStation").firstChild.nodeValue;
             const desc = ev.target.parentNode.parentNode.querySelector("#descStation").firstChild.nodeValue;
             const photo = ev.target.parentNode.parentNode.querySelector("#photoStation").src;
@@ -109,6 +110,11 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
             document.getElementById('inLowestPR').value = radiation;
             document.getElementById('inLowestPT').value = temperature;
         }
+
+        const data = {
+            idStation: id
+        }
+        getUsersAllowed(data);
     }
 });
 
@@ -172,7 +178,7 @@ document.getElementById('btnUserSearch').addEventListener('click', (ev)=>{
 
     }
     findUser(data);
-    
+
 });
 
 document.getElementById('divUserSearched').addEventListener('click', (ev)=>{
@@ -183,13 +189,85 @@ document.getElementById('divUserSearched').addEventListener('click', (ev)=>{
         idStation: id,
         email: email
     }
-    
-    addUserStation(data);
+
+    console.log(data)
+
+    addUserStation(data, data);
+});
+
+document.getElementById('divUserAllowed').addEventListener('click', (ev)=>{
+    if(ev.target.textContent == 'delete'){
+
+        Swal.fire({
+            title: '¿Deseas eliminar a este usuario?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: `Eliminar`,
+            denyButtonText: `Cancelar`,
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const id = ev.target.parentNode.parentNode.parentNode.parentNode.
+                parentNode.parentNode.parentNode.parentNode.querySelector('#inId').firstChild.nodeValue;
+
+                const email = ev.target.parentNode.parentNode.parentNode.querySelector('#userEmail').firstChild.nodeValue;
+
+                const data = {
+                    idStation: id,
+                    email: email,
+                }
+
+                const users = {
+                    idStation: id
+                }
+
+                deleteUserSuscription(data, users);
+            }
+          })
+
+    }
 });
 // END LISTENERS
 
 //FUNCTIONS
-function addUserStation(data){
+function deleteUserSuscription(data, users){
+    fetch(urlBase+'api/users/deleteSuscription', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'default',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    }).then((response)=>{return response.json();})
+    .then((data)=>{
+        if(data.message == 'success'){
+            message('¡Hecho!', 'Se ha eliminado este usuario.', 'success');
+        }else{
+            message('Error', 'No fue posible eliminar este usuario.', 'error');
+        }
+        getUsersAllowed(users);
+    });
+}
+
+function getUsersAllowed(data){
+    fetch(urlBase+'api/users/getSuscribed', {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'default',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    }).then((response)=>{return response.json();})
+    .then((data)=>{
+        removeChilds(document.getElementById('divUserAllowed'));
+        showUser(data.users);
+    });
+}
+
+function addUserStation(data, users){
     fetch(urlBase+'api/users/addStation', {
         method: 'POST',
         mode: 'cors',
@@ -202,7 +280,56 @@ function addUserStation(data){
     }).then((response)=>{return response.json();})
     .then((data)=>{
         console.log(data)
+        if(data.message == 'success'){
+            message('¡Hecho!', 'Se ha agregado este usuario.', 'success');
+        }else{
+            message('Error', 'No fue posible agregar este usuario.', 'error');
+        }
+        removeChilds(document.getElementById('divUserSearched'));
+        getUsersAllowed(users);
+        document.getElementById('inUser').value = '';
     });
+}
+
+function showUserSearched(data){
+    const divUserSearched = document.getElementById('divUserSearched');
+    const user = document.createElement('div');
+    user.innerHTML = `
+    <div class="col s9">
+        <h6>${data[0].name}</h6>
+        <p id="userEmail">${data[0].email}</p>
+    </div>
+    <div class="col s3" style="padding-top: 10px;">
+        <a href="#" class="btn blue add-user"><i class="material-icons">add</i></a>
+    </div>
+    `;
+    divUserSearched.appendChild(user);
+}
+
+function showUser(data){
+    const divUserSearched = document.getElementById('divUserAllowed');
+    for (let i = 0; i < data.length; i++) {
+        const user = document.createElement('div');
+        user.innerHTML = `
+            <div id="user">
+                <div class="col s9">
+                    <h6>${data[i].name}</h6>
+                    <p id="userEmail">${data[i].email}</p>
+                </div>
+                <div class="col s3" style="padding-top: 10px;">
+                    <a href="#" class="btn red"><i class="material-icons">delete</i></a>
+                </div>
+            </div>
+        `;
+        divUserSearched.appendChild(user);
+    }
+
+}
+
+function removeChilds(myNode){
+    while (myNode.firstChild) {
+      myNode.removeChild(myNode.lastChild);
+    }
 }
 
 function findUser(data){
@@ -217,10 +344,13 @@ function findUser(data){
         }
     }).then((response)=>{return response.json();})
     .then((data)=>{
-        if(data.message == 'Station already added.'){
+        if(data.message == 'User not found.'){
+            message('¡Error!','Usuario no encontrado.', 'error');
+        }
+        else if(data.message == 'Station already added.'){
             message('Usuario registrado', data.user[0].name + ' ya ha sido asignado.', 'error');
         }else{
-            showUser(data.user)
+            showUserSearched(data.user);
         }
     });
 }
@@ -231,21 +361,6 @@ function message(title, message, icon){
         message,
         icon
       );
-}
-
-function showUser(data){
-    const divUserSearched = document.getElementById('divUserSearched');
-    const user = document.createElement('div');
-    user.innerHTML = `
-    <div class="col s9">
-        <h6>${data[0].name}</h6>
-        <p id="userEmail">${data[0].email}</p>
-    </div>
-    <div class="col s3" style="padding-top: 10px;">
-        <a href="#" class="btn blue add-user"><i class="material-icons">add</i></a>
-    </div>
-    `;
-    divUserSearched.appendChild(user);
 }
 
 function addStation(data) {
@@ -340,7 +455,6 @@ function getData(body, state) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data)
             loadData(data.stations, state);
             if(data.typeAccess > 1){
                 hideByAccess();

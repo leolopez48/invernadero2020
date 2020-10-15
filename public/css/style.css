@@ -7,6 +7,11 @@
  */
 
 /* Modal Materialize css custom*/
+
+.modal {
+    max-height: 85% !important;
+}
+
 @media (max-width: 500px) {
     .modal {
         position: absolute !important;
