@@ -43,6 +43,7 @@ Route::post('/api/stations/add', 'StationController@add');
 //Users
 Route::post('/api/users/get/', 'UserController@findUser');
 Route::post('/api/users/addStation/', 'UserController@addStationUser');
+Route::get('/user', 'UserController@user');
 
 Route::group(['middleware'=>'auth'], function () {
     //Admin

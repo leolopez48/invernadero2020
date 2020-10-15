@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Station;
 use Illuminate\Http\Request;
+use App\Station;
 use DB;
 use Storage;
 use Auth;
@@ -64,7 +64,7 @@ class StationController extends Controller
     {
         // $out = new \Symfony\Component\Console\Output\ConsoleOutput();
         // $out->writeln("Stations: ".$request->user());   
-        return response()->json(["typeAccess"=>Auth::user()]);
+        //return response()->json(["typeAccess"=>Auth::user()]);
         if($request->action == 'admin'){
 
             $allStations = DB::table('station')->where(['state'=> $request->state])->get();
@@ -89,7 +89,7 @@ class StationController extends Controller
             $stations = DB::table('station')->where(['state'=> $request->state])->get();
         }
        
-        //return response()->json(['stations'=>$stations, 'typeAccess'=>Auth::user()->typeAccess]);
+        return response()->json(['stations'=>$stations, 'typeAccess'=>Auth::user()->typeAccess]);
     }
 
     public function edit(Request $request){

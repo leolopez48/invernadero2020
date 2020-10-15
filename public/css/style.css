@@ -6,6 +6,16 @@
  * Made By MaterializeCSS.com
  */
 
+/* Modal Materialize css custom*/
+@media (max-width: 500px) {
+    .modal {
+        position: absolute !important;
+        top: 10px;
+        width: 98% !important;
+        max-height: 85% !important;
+    }
+}
+
 nav ul a,
 nav .brand-logo {
     color: #444;

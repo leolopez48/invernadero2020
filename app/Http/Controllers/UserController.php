@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 
 class UserController extends Controller
 {
@@ -41,5 +42,9 @@ class UserController extends Controller
 
         DB::table('users')->where(["_id"=>$id])->update(['stationsSuscribed'=>$newStations]);
         return response()->json(['message'=>'success']);
+    }
+
+    public function user(){
+        dd(Auth::user()->stationsSuscribed);
     }
 }
