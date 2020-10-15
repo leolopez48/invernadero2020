@@ -199,11 +199,11 @@ document.getElementById('divUserAllowed').addEventListener('click', (ev)=>{
     if(ev.target.textContent == 'delete'){
 
         Swal.fire({
+            icon: 'warning',
             title: '¿Deseas eliminar a este usuario?',
-            showDenyButton: true,
+            text: 'Esta acción no se puede deshacer.',
             showCancelButton: true,
             confirmButtonText: `Eliminar`,
-            denyButtonText: `Cancelar`,
           }).then((result) => {
             if (result.isConfirmed) {
                 const id = ev.target.parentNode.parentNode.parentNode.parentNode.
