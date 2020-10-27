@@ -4,7 +4,8 @@
         $('.sidenav').sidenav();
         $('.parallax').parallax();
         $(".dropdown-trigger").dropdown({
-            hover: true
+            hover: true,
+            constrainWidth: false
         });
         $('.modal').modal();
 

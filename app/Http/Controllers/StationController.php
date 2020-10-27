@@ -59,15 +59,15 @@ class StationController extends Controller
 
     public function index(Request $request)
     {
-        // $out = new \Symfony\Component\Console\Output\ConsoleOutput();
-        // $out->writeln("Stations: ".$request->user());
-        //return response()->json(["typeAccess"=>Auth::user()]);
+        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $out->writeln("Stations: ".$request->user());
+        // return response()->json(["typeAccess"=>Auth::user()]);
         if ($request->action == 'admin') {
 
             $allStations = DB::table('station')->where(['state' => $request->state])->get();
 
             $i = 0;
-            $stSus = $request->user()->stationsSuscribed;
+            $stSus = Auth::user()->stationsSuscribed;
             $countStSus = count(Auth::user()->stationsSuscribed);
             $stations = array();
 
@@ -81,11 +81,12 @@ class StationController extends Controller
                 }
                 $i += 1;
             }
+            return response()->json(['stations' => $stations, 'typeAccess' => Auth::user()->typeAccess]);
         } else {
             $stations = DB::table('station')->where(['state' => $request->state])->get();
+            return response()->json(['stations' => $stations]);
         }
 
-        return response()->json(['stations' => $stations, 'typeAccess' => Auth::user()->typeAccess]);
     }
 
     public function edit(Request $request)

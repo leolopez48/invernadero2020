@@ -20,6 +20,7 @@ class VerifyCsrfToken extends Middleware
         'api/users/get',
         'api/users/addStation',
         'api/users/getSuscribed',
-        'api/users/deleteSuscription'
+        'api/users/deleteSuscription',
+        'api/filter'
     ];
 }

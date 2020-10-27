@@ -6,7 +6,7 @@
         <div class="col s12 m8 offset-m2">
             <div class="card ">
                 <div class="card-header">
-                    <h4 class="padding-60 grey-text text-darken-1">Iniciar sesión</h4>
+                    <h4 class="padding-20 grey-text text-darken-1">Iniciar sesión</h4>
                 </div>
 
                 <div class="card-body">
@@ -45,7 +45,7 @@
                             </div>
                         </div>
 
-                        <div class="row padding-60">
+                        <div class="row padding-20">
                             <div class="col m8 offset-m2 offset-s4">
                                 <button type="submit" class="btn btn-primary">
                                     Iniciar sesión

@@ -175,8 +175,8 @@ document.getElementById('btnUserSearch').addEventListener('click', (ev)=>{
     const data = {
         idStation: id,
         email: email,
-
     }
+
     findUser(data);
 
 });
@@ -226,6 +226,7 @@ document.getElementById('divUserAllowed').addEventListener('click', (ev)=>{
 
     }
 });
+
 // END LISTENERS
 
 //FUNCTIONS
@@ -455,6 +456,7 @@ function getData(body, state) {
             return response.json();
         })
         .then(function (data) {
+            console.log(data)
             loadData(data.stations, state);
             if(data.typeAccess > 1){
                 hideByAccess();

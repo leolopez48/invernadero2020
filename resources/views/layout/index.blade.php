@@ -25,8 +25,7 @@
         <div class="nav-wrapper container">
             <a id="logo-container" href="{{url('/')}}" class="brand-logo">Invernadero</a>
             <ul class="right hide-on-med-and-down">
-                <li><a href="{{url('/')}}">Inicio</a></li>
-                <li><a href="{{url('/nosotros')}}">Nosotros</a></li>
+                <li><a href="{{url('/')}}"><i class=" large material-icons">home</i></a></li>
                 @guest
                 <li>
                     <a class="nav-link navbar-brand" href="{{ route('login') }}">Iniciar sesión</a>
@@ -37,29 +36,91 @@
                 </li>
                 @endif
                 @else
+                @if(count(Auth::user()->stationsSuscribed) > 0)
                 <li>
-                    <a class="nav-link" href="{{ url('/admin') }}">Ajustes</a>
-                    <ul id='dropdown1' class='dropdown-content'>
-                        <li><a href="#!">one</a></li>
-                        <li><a href="#!">two</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li><a href="#!">three</a></li>
-                        <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-                        <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-                      </ul>
+                    <a class='dropdown-trigger nav-link' href='#' data-target='dropdownNoti'><i
+                            class="material-icons">notifications</i>
+                    </a>
                 </li>
-                <li>
-                    <div aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                            Cerrar sesión
-                        </a>
+                <ul id="dropdownNoti" class="dropdown-content">
+                    <table class="responsive-table striped" style="padding: 0px; margin:0px;">
+                        <tbody>
+                            <tr>
+                                <td colspan="3" class="center">
+                                    <h5><strong>Notificaciones</strong></h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="http://localhost:8000/storage/e38qbMsvTpyi9QLvxWhfJcYOuAAtFMTgzGhqRL7E.jpeg"
+                                        alt="" height="60px" width="80px"
+                                        style="margin-left: 10px; top: 0px; border-radius: 10px;">
+                                </td>
+                                <td>
+                                    <strong>Invernadero</strong><br>
+                                    Temp: 15.0 <br>
+                                    Radiación: 20 <br>
+                                    Humedad: 30
+                                    <a href="#" class="red white-text" style="border-radius: 10px; width: 101px;">No
+                                        válidos</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="http://localhost:8000/storage/e38qbMsvTpyi9QLvxWhfJcYOuAAtFMTgzGhqRL7E.jpeg"
+                                        alt="" height="60px" width="80px"
+                                        style="margin-left: 10px; top: 0px; border-radius: 10px;">
+                                </td>
+                                <td>
+                                    <strong>Invernadero</strong><br>
+                                    Temp: 15.0 <br>
+                                    Radiación: 20 <br>
+                                    Humedad: 30
+                                    <a href="#" class="green white-text"
+                                        style="border-radius: 10px; width: 95px;">Correctos</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="http://localhost:8000/storage/e38qbMsvTpyi9QLvxWhfJcYOuAAtFMTgzGhqRL7E.jpeg"
+                                        alt="" height="60px" width="80px"
+                                        style="margin-left: 10px; top: 0px; border-radius: 10px;">
+                                </td>
+                                <td>
+                                    <strong>Invernadero</strong><br>
+                                    Temp: 15.0 <br>
+                                    Radiación: 20 <br>
+                                    Humedad: 30
+                                    <a href="#" class="green white-text"
+                                        style="border-radius: 10px; width: 95px;">Correctos</a>
+                                </td>
+                            </tr>
 
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </div>
+                        </tbody>
+                    </table>
+                    </a>
+                </ul>
+                <li>
+                    <a class="nav-link" href="{{ url('/admin') }}"><i class="material-icons">settings</i>
+                    </a>
                 </li>
+                @endif
+                <li>
+
+                    <a class='dropdown-trigger nav-link' href='#' data-target='dropdown1'><i
+                            class="material-icons">arrow_drop_down</i> </a>
+                </li>
+                <ul id='dropdown1' class='dropdown-content'>
+                    <li><a class="black-text" href="{{url('/nosotros')}}"><i
+                                class="material-icons">people</i>Nosotros</a>
+                    </li>
+                    <li>
+                        <a class="nav-link black-text" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                            <i class="material-icons">arrow_back</i> Cerrar sesión
+                        </a>
+                    </li>
+                </ul>
                 @endguest
             </ul>
 
@@ -75,10 +136,10 @@
                         <a href="#email"><span class="white-text email"> </span></a>
                     </div>
                 </li>
-                <li><a href="{{route('login')}}">Iniciar sesión</a></li>
+                <li><a href="{{route('login')}}"><i class="material-icons">arrow_forward</i>Iniciar sesión</a></li>
                 <li class="divider"></li>
-                <li><a href="{{url('/')}}">Inicio</a></li>
-                <li><a href="{{url('/nosotros')}}">Nosotros</a></li>
+                <li><a href="{{url('/')}}"><i class="material-icons">home</i>Inicio</a></li>
+                <li><a href="{{url('/nosotros')}}"><i class="material-icons">people</i>Nosotros</a></li>
                 @else
                 <li>
                     <div class="user-view">
@@ -90,24 +151,23 @@
                         <a href="#email"><span class="white-text email"> {{ Auth::user()->email }}</span></a>
                     </div>
                 </li>
-                <li><a href="{{url('/')}}">Inicio</a></li>
-                <li><a href="{{url('/nosotros')}}">Nosotros</a></li>
+                <li><a href="{{url('/')}}"><i class="material-icons">home</i>Inicio</a></li>
+                <li><a href="{{url('/nosotros')}}"><i class="material-icons">people</i>Nosotros</a></li>
+                @if(count(Auth::user()->stationsSuscribed) > 0)
                 <li class="divider"></li>
-            <li><a href="{{url('/admin')}}">Ajustes</a></li>
-                <div aria-labelledby="navbarDropdown">
-                    <li>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                <li><a href="{{url('/admin')}}"><i class="material-icons">settings</i>Administración</a></li>
+                @endif
+                <li>
+                    <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                            Cerrar sesión
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                </div>
+                        <i class="material-icons">arrow_back</i>Cerrar sesión
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
                 </li>
                 @endguest
-
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>

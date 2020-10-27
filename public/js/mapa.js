@@ -10,13 +10,33 @@ $('document').ready(function () {
     document.getElementById('divData').style.display = 'none';
     document.getElementById('divTable').style.display = 'none';
     document.getElementById('titleGraphics').textContent = '';
+    //Init modal filter
+    var modal = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(modal);
+});
+
+document.getElementById('btnModalFilter').addEventListener('click', (ev) => {
+
+    ev.preventDefault();
+
+    const id = document.getElementById('IdEst').firstChild.textContent;
+    const fStart = document.getElementById('filterStart').value;
+    const fEnd = document.getElementById('filterEnd').value;
+
+    const data = {
+        'id': id,
+        'start': fStart,
+        'end': fEnd
+    }
+
+    filterRecords(data);
 });
 
 document.getElementById('stations').addEventListener('click', (ev) => {
     ev.preventDefault();
 
     if (ev.target.classList[0] === 'card-panel') {
-        const stId = ev.target.querySelector('#stId').firstChild.nodeValue;
+        const stId = ev.target.querySelector('#stId').textContent;
         const stPhoto = ev.target.querySelector('#stPhoto').src;
         const stTitle = ev.target.querySelector('#stTitle').firstChild.nodeValue;
         const stDescription = ev.target.querySelector('#stDescription').firstChild.nodeValue;
@@ -24,11 +44,55 @@ document.getElementById('stations').addEventListener('click', (ev) => {
         document.getElementById('tituloEst').textContent = stTitle;
         document.getElementById('descEst').textContent = stDescription;
         document.getElementById('stBackground').src = stPhoto;
+        document.getElementById('IdEst').textContent = stId;
 
-        getData(stId, stTitle);
+        getData(stId);
         message(stTitle);
     }
 });
+
+document.getElementById('btnDelFilter').addEventListener('click', (ev)=>{
+    ev.preventDefault();
+    const id = document.getElementById('IdEst').firstChild.textContent;
+    getData(id);
+    document.getElementById('btnDelFilter').style.visibility = 'hidden';
+});
+
+function filterRecords(data) {
+    fetch(url+'filter', {
+        method: 'POST',
+        mode: "cors",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        if (data.message == 'success') {
+            if(data.records.length > 0){
+                loadTable(data.records);
+                loadGraphics(data);
+                showMessage('Datos actualizados','', 'success');
+                document.getElementById('btnDelFilter').style.visibility = 'visible';
+            }else{
+                showMessage('No se encontraron datos.','','warning');
+            }
+            filterReset();
+        } else {
+            showMessage('Datos incorrectos, inténtalo de nuevo!', 'danger');
+        }
+    });
+}
+
+function showMessage(title, description, icon){
+    Swal.fire(
+        title,
+        description,
+        icon
+      );
+}
 
 function getData(id) {
     fetch(url + `get/${id}`, {
@@ -38,7 +102,6 @@ function getData(id) {
         })
         .then((response) => response.json())
         .then((data) => {
-            // console.log(data)
             loadTable(data.records);
             loadGraphics(data);
         });
@@ -63,10 +126,16 @@ function getStations(body) {
         });
 }
 
+function filterReset(){
+    document.getElementById('filterStart').value = 'Y-m-d';
+    document.getElementById('filterEnd').value = 'Y-m-d';
+}
+
 function selectStation(station) {
     document.getElementById('tituloEst').textContent = station[0].title;
     document.getElementById('descEst').textContent = station[0].description;
     document.getElementById('stBackground').src = station[0].photo;
+    document.getElementById('IdSelected').textContent = station[0].id;
 }
 
 function loadStations(stations) {

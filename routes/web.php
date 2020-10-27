@@ -33,6 +33,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Records
 Route::post('/api/add/', 'RecordController@add');
 Route::get('/api/get/{id}', 'RecordController@get');
+Route::post('/api/filter', 'RecordController@filterRecords')->name('filterRecords');
 
 //Stations
 Route::post('/api/stations/get/', 'StationController@index');
@@ -45,6 +46,7 @@ Route::post('/api/users/get/', 'UserController@findUser');
 Route::post('/api/users/addStation/', 'UserController@addStationUser');
 Route::post('/api/users/getSuscribed/', 'UserController@getUsersSuscribed');
 Route::post('/api/users/deleteSuscription/', 'UserController@deleteUserSuscription');
+Route::get('/user', 'UserController@user');
 
 Route::group(['middleware'=>'auth'], function () {
     //Admin
