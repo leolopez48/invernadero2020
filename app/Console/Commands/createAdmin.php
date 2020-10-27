@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\User;
+use App\Station;
 use Illuminate\Support\Facades\Hash;
 
 class createAdmin extends Command
@@ -20,7 +21,7 @@ class createAdmin extends Command
      *
      * @var string
      */
-    protected $description = 'Create the default user which is the admin. 
+    protected $description = 'Create the default user which is the admin.
     This command is needed to run only the first time.';
 
     /**
@@ -45,7 +46,7 @@ class createAdmin extends Command
             'email' => 'admin@gmail.com',
             'password' => Hash::make('12345678'),
             'typeAccess' => 1,
-            'stationsSuscribed' => collect(["1", "2"])->toArray(),
+            'stationsSuscribed' => collect(["1"])->toArray(),
         ]);
         User::create([
             'name' => 'Usuario 1',
@@ -53,6 +54,17 @@ class createAdmin extends Command
             'password' => Hash::make('12345678'),
             'typeAccess' => 2,
             'stationsSuscribed' => collect(["1"])->toArray(),
+        ]);
+
+        Station::create([
+            'id'=>"1",
+            'title'=>"Estación 1",
+            'description'=>'Descripción 1',
+            'humidity'=>15,
+            'radiation'=>16,
+            'temperature'=>20,
+            'photo'=>'',
+            'state'=>true
         ]);
         return 0;
     }

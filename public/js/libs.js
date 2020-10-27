@@ -8,3 +8,12 @@ export function openLoader() {
     document.getElementById('loader-toggle').classList.add('active');
 }
 // END LOADER
+
+class Libs {
+
+    removeChilds(myNode){
+        while (myNode.firstChild) {
+          myNode.removeChild(myNode.lastChild);
+        }
+    }
+}

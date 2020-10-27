@@ -1,5 +1,8 @@
+// const url = 'http://192.168.1.24:81/api/stations/';
+// const urlBase = 'http://192.168.1.24:81/';
 const url = 'http://localhost:8000/api/stations/';
 const urlBase = 'http://localhost:8000/';
+
 
 //Listeners
 document.getElementById('btnNew').addEventListener('click', (ev) => {
@@ -461,6 +464,8 @@ function getData(body, state) {
             if(data.typeAccess > 1){
                 hideByAccess();
             }
+        }).catch((error)=>{
+            closeLoader();
         });
 }
 

@@ -5,18 +5,18 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class Station extends Eloquent
+class Notification extends Eloquent
 {
     protected $connection = 'mongodb';
-    protected $table = 'station';
+    protected $table = 'notification';
 
     protected $fillable = [
-        'id', 'title', 'description','humidity', 'temperature', 'radiation', 'photo', 'state', 'updated_at', 'created_at'
+        'id', 'temperature', 'radiation', 'humidity', 'updated_at', 'created_at', 'state'
     ];
 
     protected $dateFormat = 'U';
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:m:s',

@@ -25,6 +25,23 @@
         width: 98% !important;
         max-height: 85% !important;
     }
+
+    .dropdown-content {
+        top: 10px;
+        left: 0px;
+        width: 98% !important;
+    }
+}
+
+@media (max-width: 900px) {
+
+    .dropdown-content {
+        top: -64px;
+        left: 0px;
+        width: 100% !important;
+    }
+
+
 }
 
 nav ul a,

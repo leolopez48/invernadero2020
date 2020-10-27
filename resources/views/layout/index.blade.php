@@ -24,6 +24,25 @@
     <nav class="white z-depth-3" role="navigation">
         <div class="nav-wrapper container">
             <a id="logo-container" href="{{url('/')}}" class="brand-logo">Invernadero</a>
+            <ul class="right hide-on-med-and-up">
+                @guest
+                @else
+                @if(count(Auth::user()->stationsSuscribed) > 0 || Auth::user()->typeAccess == 1)
+                <li>
+                    <a class='dropdown-trigger nav-link' href='#' data-target='dropNotiMob'><i
+                            class="material-icons">notifications</i>
+                    </a>
+                </li>
+                <ul id="dropNotiMob" class="dropdown-content">
+                    <table class="striped" style="padding: 0px; margin:0px;">
+                        <tbody id="notificationsMobile">
+
+                        </tbody>
+                    </table>
+                </ul>
+                @endif
+                @endif
+            </ul>
             <ul class="right hide-on-med-and-down">
                 <li><a href="{{url('/')}}"><i class=" large material-icons">home</i></a></li>
                 @guest
@@ -36,7 +55,7 @@
                 </li>
                 @endif
                 @else
-                @if(count(Auth::user()->stationsSuscribed) > 0)
+                @if(count(Auth::user()->stationsSuscribed) > 0 || Auth::user()->typeAccess == 1)
                 <li>
                     <a class='dropdown-trigger nav-link' href='#' data-target='dropdownNoti'><i
                             class="material-icons">notifications</i>
@@ -44,57 +63,14 @@
                 </li>
                 <ul id="dropdownNoti" class="dropdown-content">
                     <table class="responsive-table striped" style="padding: 0px; margin:0px;">
-                        <tbody>
-                            <tr>
-                                <td colspan="3" class="center">
-                                    <h5><strong>Notificaciones</strong></h5>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="http://localhost:8000/storage/e38qbMsvTpyi9QLvxWhfJcYOuAAtFMTgzGhqRL7E.jpeg"
-                                        alt="" height="60px" width="80px"
-                                        style="margin-left: 10px; top: 0px; border-radius: 10px;">
-                                </td>
-                                <td>
-                                    <strong>Invernadero</strong><br>
-                                    Temp: 15.0 <br>
-                                    Radiación: 20 <br>
-                                    Humedad: 30
-                                    <a href="#" class="red white-text" style="border-radius: 10px; width: 101px;">No
-                                        válidos</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="http://localhost:8000/storage/e38qbMsvTpyi9QLvxWhfJcYOuAAtFMTgzGhqRL7E.jpeg"
-                                        alt="" height="60px" width="80px"
-                                        style="margin-left: 10px; top: 0px; border-radius: 10px;">
-                                </td>
-                                <td>
-                                    <strong>Invernadero</strong><br>
-                                    Temp: 15.0 <br>
-                                    Radiación: 20 <br>
-                                    Humedad: 30
-                                    <a href="#" class="green white-text"
-                                        style="border-radius: 10px; width: 95px;">Correctos</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="http://localhost:8000/storage/e38qbMsvTpyi9QLvxWhfJcYOuAAtFMTgzGhqRL7E.jpeg"
-                                        alt="" height="60px" width="80px"
-                                        style="margin-left: 10px; top: 0px; border-radius: 10px;">
-                                </td>
-                                <td>
-                                    <strong>Invernadero</strong><br>
-                                    Temp: 15.0 <br>
-                                    Radiación: 20 <br>
-                                    Humedad: 30
-                                    <a href="#" class="green white-text"
-                                        style="border-radius: 10px; width: 95px;">Correctos</a>
-                                </td>
-                            </tr>
+                        <thead>
+                            <th>
+                            <td colspan="3" class="center">
+                                <h5><strong>Notificaciones</strong></h5>
+                            </td>
+                            </th>
+                        </thead>
+                        <tbody id="notificationWeb">
 
                         </tbody>
                     </table>

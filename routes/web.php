@@ -48,6 +48,9 @@ Route::post('/api/users/getSuscribed/', 'UserController@getUsersSuscribed');
 Route::post('/api/users/deleteSuscription/', 'UserController@deleteUserSuscription');
 Route::get('/user', 'UserController@user');
 
+//Notifications
+Route::post('/api/notifications/get', 'NotificationController@get');
+
 Route::group(['middleware'=>'auth'], function () {
     //Admin
     Route::get('/admin', function(){

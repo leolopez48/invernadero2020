@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Record;
 use App\Station;
+use App\Notification;
 use Illuminate\Http\Request;
 use DB;
 
@@ -19,9 +20,20 @@ class RecordController extends Controller
             $record->updated_at = date("Y-m-d h:i:s A", time());
             $record->created_at = date("Y-m-d h:i:s A", time());
             $record->save();
+
+            $notification = new Notification();
+            $notification->id = $request->id;
+            $notification->temperature = $request->temperature;
+            $notification->humidity = $request->humidity;
+            $notification->radiation = $request->radiation;
+            $notification->updated_at = date("Y-m-d h:i:s A", time());
+            $notification->created_at = date("Y-m-d h:i:s A", time());
+            $not = new NotificationController();
+            $not->add($notification);
+
             return response()->json(['message'=>'success']);
         } catch (\Throwable $th) {
-            return response()->json(['message'=>'failed']);
+           return response()->json(['message'=>'failed']);
         }
    }
 

@@ -1,6 +1,7 @@
 var LowestLimit = 15;
 const DefaultValue = 0;
 const url = 'http://localhost:8000/api/';
+// const url = 'http://192.168.1.24:81/api/';
 
 $('document').ready(function () {
     const enabled = {
