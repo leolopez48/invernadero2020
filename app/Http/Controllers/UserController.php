@@ -28,11 +28,9 @@ class UserController extends Controller
         }
     }
 
-    public function addStationUser(Request $request)
+    public function addStationUser($idStation, $email)
     {
-
-        $email = $request->email;
-        $stationId = (int)$request->idStation;
+        $stationId = (int)$idStation;
 
         $stations = DB::table('users')->select('email', '_id', 'stationsSuscribed')->where(["email" => $email])->get();
         $st = $stations->toArray();
@@ -42,7 +40,7 @@ class UserController extends Controller
         } else {
             $newStations = array(strval($st[0]['stationsSuscribed'][0]), strval($stationId));
         }
-        // dd($newStations);
+
         $id = $stations[0]['_id'];
         DB::table('users')->where(["_id" => $id])->update(['stationsSuscribed' => $newStations]);
 

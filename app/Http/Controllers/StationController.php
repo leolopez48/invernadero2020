@@ -37,6 +37,10 @@ class StationController extends Controller
                 $radiation = $request->radiation;
                 $state = true;
 
+                //Add user suscription
+                $user = new UserController();
+                $user->addStationUser($newId, Auth::user()->email);
+
                 $st = new Station();
                 $st->id = $newId;
                 $st->title = $title;
@@ -67,8 +71,8 @@ class StationController extends Controller
             $allStations = DB::table('station')->where(['state' => $request->state])->get();
 
             $i = 0;
-            $stSus = Auth::user()->stationsSuscribed;
-            $countStSus = count(Auth::user()->stationsSuscribed);
+            $stSus = $request->user()->stationsSuscribed;
+            $countStSus = count($request->user()->stationsSuscribed);
             $stations = array();
 
             foreach ($allStations as $st) {

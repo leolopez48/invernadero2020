@@ -1,7 +1,7 @@
-// const url = 'http://192.168.1.24:81/api/stations/';
-// const urlBase = 'http://192.168.1.24:81/';
-const url = 'http://localhost:8000/api/stations/';
-const urlBase = 'http://localhost:8000/';
+const url = 'http://192.168.1.24:82/api/stations/';
+const urlBase = 'http://192.168.1.24:82/';
+// const url = 'http://localhost:8000/api/stations/';
+// const urlBase = 'http://localhost:8000/';
 
 
 //Listeners
@@ -268,6 +268,7 @@ function getUsersAllowed(data){
     .then((data)=>{
         removeChilds(document.getElementById('divUserAllowed'));
         showUser(data.users);
+        console.log(data)
     });
 }
 

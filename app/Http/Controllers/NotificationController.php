@@ -54,6 +54,6 @@ class NotificationController extends Controller
             array_push($stations, $st);
         }
 
-        return response()->json(['message'=>'success', 'notification'=>$notifications, 'stations'=>$stations]);
+        return response()->json(['message'=>'success', 'notification'=>$notifications, 'stations'=>collect($stations)]);
     }
 }

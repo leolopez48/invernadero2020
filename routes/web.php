@@ -49,7 +49,7 @@ Route::post('/api/users/deleteSuscription/', 'UserController@deleteUserSuscripti
 Route::get('/user', 'UserController@user');
 
 //Notifications
-Route::post('/api/notifications/get', 'NotificationController@get');
+Route::get('/api/notifications/get', 'NotificationController@get');
 
 Route::group(['middleware'=>'auth'], function () {
     //Admin
