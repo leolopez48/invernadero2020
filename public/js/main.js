@@ -7,6 +7,6 @@ const urlBase = 'http://localhost:8000/';
 
 let not = new Notification();
 
-document.addEventListener('DOMContentLoaded', (ev)=>{
-    not.getNotifications(urlBase+'api/notifications/get');
+document.addEventListener('DOMContentLoaded', (ev) => {
+    not.getNotifications(urlBase + 'api/notifications/get');
 });

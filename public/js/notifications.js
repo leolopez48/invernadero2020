@@ -38,7 +38,6 @@ export default class Notification{
                 state = 'red';
             }
 
-            // k = 0;
             for (let j = 0; j < data.stations.length; j++) {
                 if(data.stations[j][0].id == data.notification[i].id){
                     photo = data.stations[j][0].photo;

@@ -51,12 +51,12 @@ Route::get('/user', 'UserController@user');
 //Notifications
 Route::get('/api/notifications/get', 'NotificationController@get');
 
-Route::group(['middleware'=>'auth'], function () {
+// Route::group(['middleware'=>'web'], function () {
     //Admin
     Route::get('/admin', function(){
         return view('admin');
     });
-});
+// });
 
 //Auth
 Auth::routes(['register' => true], ['password.request' => false]);

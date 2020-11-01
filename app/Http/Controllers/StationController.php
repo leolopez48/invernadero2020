@@ -71,8 +71,8 @@ class StationController extends Controller
             $allStations = DB::table('station')->where(['state' => $request->state])->get();
 
             $i = 0;
-            $stSus = $request->user()->stationsSuscribed;
-            $countStSus = count($request->user()->stationsSuscribed);
+            $stSus = auth()->user()->stationsSuscribed;
+            $countStSus = count(auth()->user()->stationsSuscribed);
             $stations = array();
 
             foreach ($allStations as $st) {

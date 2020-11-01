@@ -36,9 +36,9 @@
 @media (max-width: 900px) {
 
     .dropdown-content {
-        top: -64px;
+        top: 10px;
         left: 0px;
-        width: 100% !important;
+        width: 98% !important;
     }
 
 
