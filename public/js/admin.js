@@ -495,7 +495,7 @@ function loadData(data, stationType) {
                 <div class=" col s12 center">
                     <img class="circle center-align p-1" src="${data[i].photo}" width="130px" height="130px" alt="" id="photoStation">
                 </div>
-                <div class="col s12 center">
+                <div class="col s12 m12 center">
                     <p id="idStation" style="display:none">${data[i].id}</p>
                     <strong class="center black-text" id="titleStation">${data[i].title}</strong>
                     <p class="black-text p-1 left-align" id="descStation" >${data[i].description}</p>

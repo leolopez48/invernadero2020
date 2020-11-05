@@ -24,7 +24,7 @@
     <nav class="white z-depth-3" role="navigation">
         <div class="nav-wrapper container">
             <a id="logo-container" href="{{url('/')}}" class="brand-logo">Invernadero</a>
-            <ul class="right hide-on-med-and-up">
+            <ul class="right mobile">
                 @guest
                 @else
                 @if(count(Auth::user()->stationsSuscribed) > 0 || Auth::user()->typeAccess == 1)
@@ -43,7 +43,7 @@
                 @endif
                 @endif
             </ul>
-            <ul class="right hide-on-med-and-down">
+            <ul class="right desktop">
                 <li><a href="{{url('/')}}"><i class=" large material-icons">home</i></a></li>
                 @guest
                 <li>
