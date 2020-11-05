@@ -115,19 +115,21 @@
                         <input type="number" name="" id="inLowestPH" min="1" placeholder="Humedad">
                         <h6>Radiación</h6>
                         <input type="number" name="" id="inLowestPR" min="1" placeholder="Radiación">
-                        <h5>Usuarios</h5>
-                        <input type="text" id="inUser" class="col s10" placeholder="Correo">
-                        <a href="#" class="col s1" id="btnUserSearch"><i class="fas fa-search fa-2x black-text"></i></a>
-                        <div class="container-fluid">
-                            <div id="divUsers">
-                                <div id="divUserSearched">
+                        <div id="divSearch">
+                            <h5>Usuarios</h5>
+                            <input type="text" id="inUser" class="col s10" placeholder="Correo">
+                            <a href="#" class="col s1" id="btnUserSearch"><i class="fas fa-search fa-2x black-text"></i></a>
+                            <div class="container-fluid">
+                                <div id="divUsers">
+                                    <div id="divUserSearched">
 
-                                </div>
-                                <div class="col s12">
-                                    <h6><strong>Permitidos</strong></h6>
-                                </div>
-                                <div id="divUserAllowed">
+                                    </div>
+                                    <div class="col s12">
+                                        <h6><strong>Permitidos</strong></h6>
+                                    </div>
+                                    <div id="divUserAllowed">
 
+                                    </div>
                                 </div>
                             </div>
                         </div>

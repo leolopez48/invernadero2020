@@ -30,15 +30,48 @@ class UserController extends Controller
 
     public function addStationUser($idStation, $email)
     {
+
         $stationId = (int)$idStation;
 
         $stations = DB::table('users')->select('email', '_id', 'stationsSuscribed')->where(["email" => $email])->get();
         $st = $stations->toArray();
 
+        $newStations = array();
         if (count($stations[0]['stationsSuscribed']) == 0) {
-            $newStations = array(strval($stationId));
+            array_push($newStations, strval($stationId));
         } else {
-            $newStations = array(strval($st[0]['stationsSuscribed'][0]), strval($stationId));
+            $i = 0;
+            for ($j = 0; $j < count($stations[0]['stationsSuscribed']); $j++) {
+                array_push($newStations, strval($stations[0]['stationsSuscribed'][$i]));
+                $i += 1;
+            }
+            array_push($newStations, strval($stationId));
+        }
+
+        $id = $stations[0]['_id'];
+        DB::table('users')->where(["_id" => $id])->update(['stationsSuscribed' => $newStations]);
+
+        return response()->json(['message' => $newStations]);
+    }
+
+    public function addStationToUser(Request $request)
+    {
+        $email = $request->email;
+        $stationId = $request->idStation;
+
+        $stations = DB::table('users')->select('email', '_id', 'stationsSuscribed')->where(["email" => $email])->get();
+        $st = $stations->toArray();
+
+        $newStations = array();
+        if (count($stations[0]['stationsSuscribed']) == 0) {
+            array_push($newStations, strval($stationId));
+        } else {
+            $i = 0;
+            for ($j = 0; $j < count($stations[0]['stationsSuscribed']); $j++) {
+                array_push($newStations, strval($stations[0]['stationsSuscribed'][$i]));
+                $i += 1;
+            }
+            array_push($newStations, strval($stationId));
         }
 
         $id = $stations[0]['_id'];

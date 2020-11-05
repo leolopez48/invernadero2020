@@ -4,26 +4,28 @@ import Libs from './libs.js';
 
 const lib = new Libs();
 
-export default class Notification{
+const url = 'http://localhost:8000/api/stations/';
+const urlBase = 'http://localhost:8000/';
 
-    getNotifications(url){
+export default class Notification {
+
+    getNotifications(url) {
         fetch(url, {
-            method: 'GET',
-            mode: 'cors',
-            cache: 'default'
-        })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data)
-            this.loadNotifications(data);
-        });
+                method: 'GET',
+                mode: 'cors',
+                cache: 'default'
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                const mob = document.getElementById('notificationMobile');
+                this.loadNotifications(data, mob);
+                const web = document.getElementById('notificationWeb');
+                this.loadNotifications(data, web);
+            });
     }
 
-    loadNotifications(data) {
-        const mob = document.getElementById('notificationMobile');
-        const web = document.getElementById('notificationWeb');
-        //lib.removeChilds(mob);
-        //lib.removeChilds(web);
+    loadNotifications(data, div) {
+        lib.removeChilds(div);
 
         let state;
 
@@ -32,14 +34,14 @@ export default class Notification{
             let photo = "https://picsum.photos/id/60/60";
             let title = "Invernadero";
 
-            if(data.notification[i].state == 'Correcto'){
+            if (data.notification[i].state == 'Correcto') {
                 state = 'green';
-            }else{
+            } else {
                 state = 'red';
             }
 
             for (let j = 0; j < data.stations.length; j++) {
-                if(data.stations[j][0].id == data.notification[i].id){
+                if (data.stations[j][0].id == data.notification[i].id) {
                     photo = data.stations[j][0].photo;
                     title = data.stations[j][0].title;
                     break;
@@ -50,7 +52,7 @@ export default class Notification{
             <td class="center">
                 <img style="border-radius:10px" style="padding-left:20px" src="${photo}" alt="" width="60px" height="60px">
             </td>
-            <td>
+            <td >
                 <strong>${title}</strong><br>
                 Temp: ${data.notification[i].temperature.toFixed(2)}<br>
                 Radiación: ${data.notification[i].radiation.toFixed(2)} <br>
@@ -59,8 +61,7 @@ export default class Notification{
             </td>
             `;
 
-            mob.appendChild(tr);
-            web.appendChild(tr);
+            div.appendChild(tr);
 
         }
     }

@@ -43,7 +43,7 @@ Route::post('/api/stations/add', 'StationController@add');
 
 //Users
 Route::post('/api/users/get/', 'UserController@findUser');
-Route::post('/api/users/addStation/', 'UserController@addStationUser');
+Route::post('/api/users/addStation/', 'UserController@addStationToUser');
 Route::post('/api/users/getSuscribed/', 'UserController@getUsersSuscribed');
 Route::post('/api/users/deleteSuscription/', 'UserController@deleteUserSuscription');
 Route::get('/user', 'UserController@user');

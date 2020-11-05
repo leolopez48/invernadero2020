@@ -55,7 +55,7 @@ p {
     }
 
     .dropdown-content {
-        top: 10px;
+        top: -55px;
         left: 0px;
         width: 98% !important;
     }
@@ -87,9 +87,9 @@ p {
     }
 
     .dropdown-content {
-        top: 10px;
+        top: -55px;
         left: 0px;
-        width: 98% !important;
+        width: 70% !important;
     }
 
     .mobile {
@@ -118,9 +118,9 @@ p {
     }
 
     .dropdown-content {
-        top: 10px;
-        left: 0px;
-        width: 98% !important;
+        top: -55px;
+        left: -10px;
+        width: 60% !important;
     }
 
     .mobile {
@@ -157,13 +157,13 @@ p {
         position: absolute !important;
         top: 10px;
         width: 98% !important;
-        max-height: 85% !important;
+        max-height: 80% !important;
     }
 
     .dropdown-content {
-        top: 10px;
-        left: 0px;
-        width: 98% !important;
+        top: -60px;
+        left: -10%;
+        width: 68% !important;
     }
 
     .mobile {
@@ -176,6 +176,15 @@ p {
 
     #logo-container {
         display: initial;
+    }
+}
+
+@media only screen and (min-width : 700px) {
+
+    .dropdown-content {
+        top: -60px;
+        left: 0%;
+        width: 40% !important;
     }
 }
 

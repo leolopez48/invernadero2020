@@ -39,7 +39,12 @@ class StationController extends Controller
 
                 //Add user suscription
                 $user = new UserController();
-                $user->addStationUser($newId, Auth::user()->email);
+                if(Auth::user()->typeAccess == 1){
+                    $user->addStationUser($newId, 'admin@gmail.com');
+                }else{
+                    $user->addStationUser($newId, 'admin@gmail.com');
+                    $user->addStationUser($newId, Auth::user()->email);
+                }
 
                 $st = new Station();
                 $st->id = $newId;
@@ -56,32 +61,25 @@ class StationController extends Controller
             } else {
                 return response()->json(["message" => "error"]);
             }
-        } catch (\Throwable $th) {
+       } catch (\Throwable $th) {
             return response()->json(["message" => $th->getMessage()]);
         }
     }
 
     public function index(Request $request)
     {
-        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $out->writeln("Stations: ".$request->user());
-        // return response()->json(["typeAccess"=>Auth::user()]);
         if ($request->action == 'admin') {
 
             $allStations = DB::table('station')->where(['state' => $request->state])->get();
 
             $i = 0;
-            $stSus = auth()->user()->stationsSuscribed;
-            $countStSus = count(auth()->user()->stationsSuscribed);
+            $stSus =Auth::user()->stationsSuscribed;
+            $countStSus = count(Auth::user()->stationsSuscribed);
             $stations = array();
 
             foreach ($allStations as $st) {
                 if ($i != $countStSus) {
-                    if ($stSus[$i] == $st['id']) {
                         array_push($stations, $st);
-                    }
-                } else {
-                    break;
                 }
                 $i += 1;
             }
