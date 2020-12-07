@@ -52,7 +52,7 @@ document.getElementById('stations').addEventListener('click', (ev) => {
     }
 });
 
-document.getElementById('btnDelFilter').addEventListener('click', (ev)=>{
+document.getElementById('btnDelFilter').addEventListener('click', (ev) => {
     ev.preventDefault();
     const id = document.getElementById('IdEst').firstChild.textContent;
     getData(id);
@@ -60,7 +60,7 @@ document.getElementById('btnDelFilter').addEventListener('click', (ev)=>{
 });
 
 function filterRecords(data) {
-    fetch(url+'filter', {
+    fetch(url + 'filter', {
         method: 'POST',
         mode: "cors",
         headers: {
@@ -72,13 +72,13 @@ function filterRecords(data) {
         return response.json();
     }).then(function (data) {
         if (data.message == 'success') {
-            if(data.records.length > 0){
+            if (data.records.length > 0) {
                 loadTable(data.records);
                 loadGraphics(data);
-                showMessage('Datos actualizados','', 'success');
+                showMessage('Datos actualizados', '', 'success');
                 document.getElementById('btnDelFilter').style.visibility = 'visible';
-            }else{
-                showMessage('No se encontraron datos.','','warning');
+            } else {
+                showMessage('No se encontraron datos.', '', 'warning');
             }
             filterReset();
         } else {
@@ -87,12 +87,12 @@ function filterRecords(data) {
     });
 }
 
-function showMessage(title, description, icon){
+function showMessage(title, description, icon) {
     Swal.fire(
         title,
         description,
         icon
-      );
+    );
 }
 
 function getData(id) {
@@ -127,7 +127,7 @@ function getStations(body) {
         });
 }
 
-function filterReset(){
+function filterReset() {
     document.getElementById('filterStart').value = 'Y-m-d';
     document.getElementById('filterEnd').value = 'Y-m-d';
 }
@@ -333,6 +333,7 @@ function graphics(graphicName, data, type) {
                 date: date,
                 value1: value,
                 value2: LowestLimit,
+                value3: 25,
                 date2: date
             });
         }
@@ -348,7 +349,7 @@ function graphics(graphicName, data, type) {
         series.dataFields.valueY = "value1";
         series.dataFields.dateX = "date";
         series.strokeWidth = 2;
-        series.minBulletDistance = 10;
+        series.minBulletDistance = 20;
         series.tooltipText = "[bold]{date.formatDate()}:[/] {value1}\n[bold]{previousDate.formatDate()}:[/] {value2}";
         series.tooltip.pointerOrientation = "vertical";
         series.stroke = am4core.color("blue").lighten(0.5);
@@ -360,6 +361,15 @@ function graphics(graphicName, data, type) {
         series2.strokeWidth = 2;
         series2.strokeDasharray = "3,4";
         series2.stroke = am4core.color("red");
+
+        // Create series
+        var series2 = chart.series.push(new am4charts.LineSeries());
+        series2.dataFields.valueY = "value3";
+        series2.dataFields.dateX = "date";
+        series2.strokeWidth = 2;
+        series2.strokeDasharray = "3,4";
+        series2.stroke = am4core.color("red");
+
         // Add cursor
         chart.cursor = new am4charts.XYCursor();
         chart.cursor.xAxis = dateAxis;

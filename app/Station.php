@@ -11,7 +11,7 @@ class Station extends Eloquent
     protected $table = 'station';
 
     protected $fillable = [
-        'id', 'title', 'description','humidity', 'temperature', 'radiation', 'photo', 'state', 'updated_at', 'created_at'
+        'id', 'title', 'description', 'humidity', 'temperature', 'radiation', 'photo', 'state', 'updated_at', 'created_at'
     ];
 
     protected $dateFormat = 'U';

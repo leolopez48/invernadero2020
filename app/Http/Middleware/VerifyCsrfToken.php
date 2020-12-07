@@ -23,5 +23,6 @@ class VerifyCsrfToken extends Middleware
         'api/users/deleteSuscription',
         'api/filter',
         'api/notifications/get',
+        'prueba',
     ];
 }

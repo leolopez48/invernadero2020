@@ -132,4 +132,26 @@ class StationController extends Controller
         }
         return response()->json(["id" => $request->id, "message" => "success"]);
     }
+
+    public function prueba(Request $request){
+
+        $medidas = $request->stations;
+        $minimos = $request->minimos;
+        $title = $request->title;
+        $description = $request->description;
+        $date = date('Y-m-d\TH:m:s');
+
+        $ultimoId = Station::all('id')->last()->id + 1;
+        DB::table('station')->insert([
+            'id'=>strval($ultimoId),
+            'title'=>$title,
+            'description'=>$description,
+            'created_at'=> $date,
+            'updated_at'=> $date,
+        ]);
+
+        for($i = 0; $i < count($minimos); $i++){
+            DB::table('station')->where(['id'=>strval($ultimoId)])->update([$medidas[$i] => $minimos[$i]]);
+        }
+    }
 }
