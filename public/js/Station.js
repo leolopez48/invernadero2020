@@ -23,6 +23,7 @@ export default class Station {
                 return response.json();
             })
             .then((data) => {
+                console.log(data)
                 const st = new Station();
                 st.loadStations();
             }).catch((error) => {

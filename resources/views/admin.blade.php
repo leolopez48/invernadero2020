@@ -104,21 +104,93 @@
                     </div>
                     <div class="col s12 pt-2">
                         <p id="inId" style="display: none"></p>
-                        <input type="file" name="" id="inFile" accept=".png, .jpg, .jpeg">
+                        <input type="file" name="" id="inFile" accept=".png, .jpg, .jpeg" class="file-path validate">
                         <input type="text" name="" id="inName" placeholder="Nombre" maxlength="30">
                         <textarea name="" id="inDescription" cols="6" rows="6" class="materialize-textarea"
                             placeholder="Descripción" maxlength="50"></textarea>
-                        <h5>Valores mínimos</h5>
-                        <h6>Temperatura</h6>
-                        <input type="number" name="" id="inLowestPT" min="1" placeholder="Temperatura">
-                        <h6>Humedad</h6>
-                        <input type="number" name="" id="inLowestPH" min="1" placeholder="Humedad">
-                        <h6>Radiación</h6>
-                        <input type="number" name="" id="inLowestPR" min="1" placeholder="Radiación">
+
+                        <h5>Tipo estación</h5>
+                        <div class="p-1" id="divTypeButtons">
+                            <a id="btnTypeInv" class="waves-effect waves-light btn teal lighten-1">Invernadero</a>
+                            <a id="btnTypeAcu" class="waves-effect waves-light btn teal lighten-1">Acuícola</a>
+                        </div>
+
+                        <div id="divVar" style="display: none;">
+                            <div>
+                                <a class="waves-effect waves-light btn light-blue lighten-1 m-1" id="btnMinValues">Nueva
+                                    variable</a>
+                            </div>
+                            <!-- Buttons -->
+                            <div class="p-1" id="minValueButtonsInv" style="display: none;">
+                                <a id="btnMinTemp" class="waves-effect waves-light btn teal lighten-1">Temperatura</a>
+                                <a id="btnMinHum" class="waves-effect waves-light btn teal lighten-1">Humedad</a>
+                                <a id="btnMinRad" class="waves-effect waves-light btn teal lighten-1">Radiación</a>
+                            </div>
+                            <div class="p-1" id="minValueButtonsAcu" style="display: none;">
+                                <a id="btnMinPH" class="waves-effect waves-light btn teal lighten-1">PH</a>
+                                <a id="btnMinTempAcu"
+                                    class="waves-effect waves-light btn teal lighten-1">Temperatura</a>
+                                <a id="btnMinOx" class="waves-effect waves-light btn teal lighten-1">Oxígeno</a>
+                            </div>
+                            <!-- End buttons -->
+                            <h5>Valores mínimos</h5>
+
+                            <div id="divInputsLow">
+                                <div id="divLowTemp" style="display: none;">
+                                    <h6>Temperatura</h6>
+                                    <input type="number" name="" id="inLowestPT" min="1" placeholder="Temperatura">
+                                </div>
+                                <div id="divLowHum" style="display: none;">
+                                    <h6>Húmedad</h6>
+                                    <input type="number" name="" id="inLowestPH" min="1" placeholder="Húmedad">
+                                </div>
+                                <div id="divLowRad" style="display: none;">
+                                    <h6>Radiación</h6>
+                                    <input type="number" name="" id="inLowestPR" min="1" placeholder="Radiación">
+                                </div>
+
+                                <div id="divLowPHL" style="display: none;">
+                                    <h6>PH</h6>
+                                    <input type="number" name="" id="inLowestPHL" min="1" placeholder="PH">
+                                </div>
+                                <div id="divLowOx" style="display: none;">
+                                    <h6>Oxígeno</h6>
+                                    <input type="number" name="" id="inLowestOX" min="1" placeholder="Oxígeno">
+                                </div>
+                            </div>
+
+                            <h5>Valores máximos</h5>
+
+                            <div id="divInputsHigh">
+                                <div id="divHighTemp" style="display: none;">
+                                    <h6>Temperatura</h6>
+                                    <input type="number" name="" id="inHighestPT" min="1" placeholder="Temperatura">
+                                </div>
+                                <div id="divHighHum" style="display: none;">
+                                    <h6>Húmedad</h6>
+                                    <input type="number" name="" id="inHighestPH" min="1" placeholder="Húmedad">
+                                </div>
+                                <div id="divHighRad" style="display: none;">
+                                    <h6>Radiación</h6>
+                                    <input type="number" name="" id="inHighestPR" min="1" placeholder="Radiación">
+                                </div>
+
+                                <div id="divHighPHL" style="display: none;">
+                                    <h6>PH</h6>
+                                    <input type="number" name="" id="inHighestPHL" min="1" placeholder="PH">
+                                </div>
+                                <div id="divHighOx" style="display: none;">
+                                    <h6>Oxígeno</h6>
+                                    <input type="number" name="" id="inHighestOX" min="1" placeholder="Oxígeno">
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="divSearch">
                             <h5>Usuarios</h5>
                             <input type="text" id="inUser" class="col s10" placeholder="Correo">
-                            <a href="#" class="col s1" id="btnUserSearch"><i class="fas fa-search fa-2x black-text"></i></a>
+                            <a href="#" class="col s1" id="btnUserSearch"><i
+                                    class="fas fa-search fa-2x black-text"></i></a>
                             <div class="container-fluid">
                                 <div id="divUsers">
                                     <div id="divUserSearched">

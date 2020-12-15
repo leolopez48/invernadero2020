@@ -59,4 +59,35 @@ export default class Libs {
         const divStations = document.getElementById('divStations');
         this.removeChilds(divStations);
     }
+
+    hideInputs(input) {
+        input.style.display === 'initial' ? input.style.display = 'none' : input.style.display = 'initial';
+    }
+
+    hideInputsBoolean(boolean) {
+        if (boolean) {
+            document.getElementById('divLowTemp').style.display = 'none';
+            document.getElementById('divLowHum').style.display = 'none';
+            document.getElementById('divLowRad').style.display = 'none';
+            document.getElementById('divHighTemp').style.display = 'none';
+            document.getElementById('divHighHum').style.display = 'none';
+            document.getElementById('divHighRad').style.display = 'none';
+            document.getElementById('divLowPHL').style.display = 'none';
+            document.getElementById('divLowOx').style.display = 'none';
+            document.getElementById('divHighPHL').style.display = 'none';
+            document.getElementById('divHighOx').style.display = 'none';
+        } else {
+            document.getElementById('divLowTemp').style.display = 'initial';
+            document.getElementById('divLowHum').style.display = 'initial';
+            document.getElementById('divLowRad').style.display = 'initial';
+            document.getElementById('divHighTemp').style.display = 'initial';
+            document.getElementById('divHighHum').style.display = 'initial';
+            document.getElementById('divHighRad').style.display = 'initial';
+            document.getElementById('divLowPHL').style.display = 'initial';
+            document.getElementById('divLowOx').style.display = 'initial';
+            document.getElementById('divHighPHL').style.display = 'initial';
+            document.getElementById('divHighOx').style.display = 'initial';
+        }
+    }
+
 }

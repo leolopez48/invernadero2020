@@ -7,12 +7,36 @@ use App\Station;
 use DB;
 use Storage;
 use Auth;
+use MongoDB\BSON\Decimal128;
 
 class StationController extends Controller
 {
 
+    public function prueba(Request $request){
+
+        $medidas = $request->stations;
+        $minimos = $request->minimos;
+        $title = $request->title;
+        $description = $request->description;
+        $date = date('Y-m-d\TH:m:s');
+
+        $ultimoId = Station::all('id')->last()->id + 1;
+        DB::table('station')->insert([
+            'id'=>strval($ultimoId),
+            'title'=>$title,
+            'description'=>$description,
+            'created_at'=> $date,
+            'updated_at'=> $date,
+        ]);
+
+        for($i = 0; $i < count($minimos); $i++){
+            DB::table('station')->where(['id'=>strval($ultimoId)])->update([$medidas[$i] => $minimos[$i]]);
+        }
+    }
+
     public function add(Request $request)
     {
+
         try {
             if ($request->user()->typeAccess == 1) {
 
@@ -32,10 +56,17 @@ class StationController extends Controller
                 $newId = strval($lastId);
                 $title = $request->title;
                 $description = $request->description;
-                $temperature = $request->temperature;
-                $humidity = $request->humidity;
-                $radiation = $request->radiation;
                 $state = true;
+                $date = date('Y-m-d\TH:m:s');
+
+                //FormData append the arrays as a unique string value, so it's needed
+                //to split it
+                $vars = array();
+                $vars = explode(',', $request->minVars);
+                $minimums = array();
+                $minimums = explode(',', $request->minimums);
+                $maximums = array();
+                $maximums = explode(',', $request->maximums);
 
                 //Add user suscription
                 $user = new UserController();
@@ -52,10 +83,44 @@ class StationController extends Controller
                 $st->description = $description;
                 $st->photo = $fullUrl;
                 $st->state = $state;
-                $st->temperature = (int)$temperature;
-                $st->humidity = (int)$humidity;
-                $st->radiation = (int)$radiation;
-                $stSaved = $st->save();
+                DB::table('station')->insert([
+                    'id'=>strval($newId),
+                    'title'=>$title,
+                    'description'=>$description,
+                    'created_at'=> $date,
+                    'updated_at'=> $date,
+                    'state'=> $state,
+                    'photo'=> $fullUrl
+                ]);
+                for($i = 0; $i < count($minimums); $i++){
+
+                    /*if($vars[$i] == 'temperature'){
+                        DB::table('station')->where(['id'=>strval($newId)])
+                        ->update(['temperature' => new Decimal128($minimums[$i]),
+                        'temperatureM'=>new Decimal128($maximums[$i])]);
+                    }
+                    if($vars[$i] == 'humidity'){
+                        DB::table('station')->where(['id'=>strval($newId)])
+                        ->update(['humidity' => $minimums[$i],
+                        'humidityM'=>$maximums[$i]]);
+                    }
+                    if($vars[$i] == 'radiation'){
+                        DB::table('station')->where(['id'=>strval($newId)])
+                        ->update(['radiation' => $minimums[$i],
+                        'radiationM'=>$maximums[$i]]);
+                    }
+                    if($vars[$i] == 'ph'){
+                        DB::table('station')->where(['id'=>strval($newId)])
+                        ->update(['ph' => $minimums[$i],
+                        'phM'=>$maximums[$i]]);
+                    }
+                    if($vars[$i] == 'oxigen'){
+                        DB::table('station')->where(['id'=>strval($newId)])
+                        ->update(['oxigen' => $minimums[$i],
+                        'oxigenM'=>$maximums[$i]]);
+                    }*/
+                    $this->addVar($vars[$i], $newId, $minimums[$i], $maximums[$i]);
+                }
 
                 return response()->json(["message" => "success"]);
             } else {
@@ -64,6 +129,12 @@ class StationController extends Controller
        } catch (\Throwable $th) {
             return response()->json(["message" => $th->getMessage()]);
         }
+    }
+
+    public function addVar($variable, $id, $minimum, $maximum){
+        DB::table('station')->where(['id'=>strval($id)])
+        ->update([$variable => new Decimal128($minimum),
+        $variable.'M'=> new Decimal128($maximum)]);
     }
 
     public function index(Request $request)
@@ -131,27 +202,5 @@ class StationController extends Controller
             $stationA = DB::table('station')->where(['id' => $id])->update(["state" => true]);
         }
         return response()->json(["id" => $request->id, "message" => "success"]);
-    }
-
-    public function prueba(Request $request){
-
-        $medidas = $request->stations;
-        $minimos = $request->minimos;
-        $title = $request->title;
-        $description = $request->description;
-        $date = date('Y-m-d\TH:m:s');
-
-        $ultimoId = Station::all('id')->last()->id + 1;
-        DB::table('station')->insert([
-            'id'=>strval($ultimoId),
-            'title'=>$title,
-            'description'=>$description,
-            'created_at'=> $date,
-            'updated_at'=> $date,
-        ]);
-
-        for($i = 0; $i < count($minimos); $i++){
-            DB::table('station')->where(['id'=>strval($ultimoId)])->update([$medidas[$i] => $minimos[$i]]);
-        }
     }
 }
