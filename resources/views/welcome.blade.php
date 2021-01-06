@@ -72,15 +72,15 @@
                     style="visibility: hidden;"><i class="material-icons">delete_sweep</i> Eliminar filtro</a>
             </div>
             <div class="col s12 m4">
-                <h6 class="center blue-text text-darken-4">Temperatura</h6>
+                <h6 class="center blue-text text-darken-4" id="titleGraph1">Temperatura</h6>
                 <div class="" id="graphicLineDiv"></div>
             </div>
             <div class="col s12 m4 ">
-                <h6 class="center blue-text text-darken-4">Húmedad</h6>
+                <h6 class="center blue-text text-darken-4" id="titleGraph2">Húmedad</h6>
                 <div class="" id="graphicLineHumDiv"></div>
             </div>
             <div class="col s12 m4 ">
-                <h6 class="center blue-text text-darken-4">Radiación solar</h6>
+                <h6 class="center blue-text text-darken-4" id="titleGraph3">Radiación solar</h6>
                 <div class="" id="graphicLineRadDiv"></div>
             </div>
         </div>
@@ -90,15 +90,19 @@
 
 <div class="container">
     <div class="section ">
-        <div class="row center" id="divTable">
+        <div class="row-fluid center" id="divTable">
             <div class="col s12 m12 padding-20" id="containerTable">
-                <table class="responsive-table highlight">
-                    <thead>
+                <table class="responsive-table highlight" id="idHeader">
+                    <thead style="width: 40%;">
+                        <!-- <tr> -->
                         <th>ID</th>
                         <th>Fecha</th>
-                        <th>Temperatura (°C)</th>
-                        <th>Húmedad</th>
-                        <th>Radiación solar</th>
+                        <th style="display: none;" id="idHeadPh">PH</th>
+                        <th style="display: none;" id="idHeadTe">Temperatura (°C)</th>
+                        <th style="display: none;" id="idHeadOx">Oxígeno</th>
+                        <th style="display: none;" id="idHeadHum">Húmedad</th>
+                        <th style="display: none;" id="idHeadRa">Radiación</th>
+                        <!-- </tr> -->
                     </thead>
                     <tbody id="idTabla">
                     </tbody>
@@ -137,5 +141,5 @@
 
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-<script src="{{asset('js/mapa.js')}}"></script>
+<script src="{{asset('js/mapa.js')}}" type="module"></script>
 @endsection

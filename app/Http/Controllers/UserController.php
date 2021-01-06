@@ -19,7 +19,7 @@ class UserController extends Controller
             $statSuscribed = $user[0]['stationsSuscribed'];
             $i = 0;
             foreach ($statSuscribed as $st) {
-                if ($idStation == $st[$i]) {
+                if ($idStation == $st) {
                     return response()->json(['message' => 'Station already added.', 'user' => $user]);
                 }
                 $i += 1;
@@ -30,7 +30,6 @@ class UserController extends Controller
 
     public function addStationUser($idStation, $email)
     {
-
         $stationId = (int)$idStation;
 
         $stations = DB::table('users')->select('email', '_id', 'stationsSuscribed')->where(["email" => $email])->get();
@@ -82,7 +81,6 @@ class UserController extends Controller
 
     public function getUsersSuscribed(Request $request)
     {
-
         $usersSucribed = array();
 
         $users = DB::table('users')->select('name', 'email', 'typeAccess', 'stationsSuscribed')->get();
@@ -132,7 +130,8 @@ class UserController extends Controller
         return response()->json(['message' => 'success']);
     }
 
-public function user(){
-    dd(Auth::user());
-}
+    public function user()
+    {
+        dd(Auth::user());
+    }
 }

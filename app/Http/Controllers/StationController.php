@@ -11,35 +11,10 @@ use MongoDB\BSON\Decimal128;
 
 class StationController extends Controller
 {
-
-    public function prueba(Request $request){
-
-        $medidas = $request->stations;
-        $minimos = $request->minimos;
-        $title = $request->title;
-        $description = $request->description;
-        $date = date('Y-m-d\TH:m:s');
-
-        $ultimoId = Station::all('id')->last()->id + 1;
-        DB::table('station')->insert([
-            'id'=>strval($ultimoId),
-            'title'=>$title,
-            'description'=>$description,
-            'created_at'=> $date,
-            'updated_at'=> $date,
-        ]);
-
-        for($i = 0; $i < count($minimos); $i++){
-            DB::table('station')->where(['id'=>strval($ultimoId)])->update([$medidas[$i] => $minimos[$i]]);
-        }
-    }
-
     public function add(Request $request)
     {
-
         try {
             if ($request->user()->typeAccess == 1) {
-
                 if ($request->hasFile('photo')) {
                     $photo = Storage::put('public', $request->photo);
                     $url = Storage::url($photo);
@@ -70,19 +45,13 @@ class StationController extends Controller
 
                 //Add user suscription
                 $user = new UserController();
-                if(Auth::user()->typeAccess == 1){
+                if (Auth::user()->typeAccess == 1) {
                     $user->addStationUser($newId, 'admin@gmail.com');
-                }else{
+                } else {
                     $user->addStationUser($newId, 'admin@gmail.com');
                     $user->addStationUser($newId, Auth::user()->email);
                 }
 
-                $st = new Station();
-                $st->id = $newId;
-                $st->title = $title;
-                $st->description = $description;
-                $st->photo = $fullUrl;
-                $st->state = $state;
                 DB::table('station')->insert([
                     'id'=>strval($newId),
                     'title'=>$title,
@@ -92,33 +61,7 @@ class StationController extends Controller
                     'state'=> $state,
                     'photo'=> $fullUrl
                 ]);
-                for($i = 0; $i < count($minimums); $i++){
-
-                    /*if($vars[$i] == 'temperature'){
-                        DB::table('station')->where(['id'=>strval($newId)])
-                        ->update(['temperature' => new Decimal128($minimums[$i]),
-                        'temperatureM'=>new Decimal128($maximums[$i])]);
-                    }
-                    if($vars[$i] == 'humidity'){
-                        DB::table('station')->where(['id'=>strval($newId)])
-                        ->update(['humidity' => $minimums[$i],
-                        'humidityM'=>$maximums[$i]]);
-                    }
-                    if($vars[$i] == 'radiation'){
-                        DB::table('station')->where(['id'=>strval($newId)])
-                        ->update(['radiation' => $minimums[$i],
-                        'radiationM'=>$maximums[$i]]);
-                    }
-                    if($vars[$i] == 'ph'){
-                        DB::table('station')->where(['id'=>strval($newId)])
-                        ->update(['ph' => $minimums[$i],
-                        'phM'=>$maximums[$i]]);
-                    }
-                    if($vars[$i] == 'oxigen'){
-                        DB::table('station')->where(['id'=>strval($newId)])
-                        ->update(['oxigen' => $minimums[$i],
-                        'oxigenM'=>$maximums[$i]]);
-                    }*/
+                for ($i = 0; $i < count($minimums); $i++) {
                     $this->addVar($vars[$i], $newId, $minimums[$i], $maximums[$i]);
                 }
 
@@ -126,12 +69,105 @@ class StationController extends Controller
             } else {
                 return response()->json(["message" => "error"]);
             }
-       } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             return response()->json(["message" => $th->getMessage()]);
         }
     }
 
-    public function addVar($variable, $id, $minimum, $maximum){
+    public function edit(Request $request)
+    {
+        try {
+            //dd($request);
+            $id = $request->id;
+            $title = $request->title;
+            $description = $request->description;
+            $date = date('Y-m-d\TH:m:s');
+
+            //FormData append the arrays as a unique string value, so it's needed
+            //to split it
+            $vars = array();
+            $vars = explode(',', $request->minVars);
+            $minimums = array();
+            $minimums = explode(',', $request->minimums);
+            $maximums = array();
+            $maximums = explode(',', $request->maximums);
+
+            $stationOld = DB::table('station')
+            ->where(['id'=>$id])
+            ->get();
+
+            $deleted = DB::table('station')
+            ->where(['id'=>$id])
+            ->delete();
+
+            if (isset($stationOld[0]['humidity'])) {
+                array_push($minimums, strval($stationOld[0]['humidity']));
+                array_push($maximums, strval($stationOld[0]['humidityM']));
+            }
+            if (isset($stationOld[0]['temperature'])) {
+                array_push($minimums, strval($stationOld[0]['temperature']));
+                array_push($maximums, strval($stationOld[0]['temperatureM']));
+            }
+            if (isset($stationOld[0]['radiation'])) {
+                array_push($minimums, strval($stationOld[0]['radiation']));
+                array_push($maximums, strval($stationOld[0]['radiationM']));
+            }
+            if (isset($stationOld[0]['ph'])) {
+                array_push($minimums, strval($stationOld[0]['ph']));
+                array_push($maximums, strval($stationOld[0]['phM']));
+            }
+            if (isset($stationOld[0]['oxigen'])) {
+                array_push($minimums, strval($stationOld[0]['oxigen']));
+                array_push($maximums, strval($stationOld[0]['oxigenM']));
+            }
+
+            if ($request->hasFile('photo')) {
+                $photo = Storage::put('public', $request->photo);
+                $url = Storage::url($photo);
+                $fullUrl = asset($url);
+
+                $stationU = DB::table('station')->insert([
+                'id'=>$id,
+                'title'=>$title,
+                'description'=>$description,
+                'created_at'=> $date,
+                'updated_at'=> $date,
+                'state'=> true,
+                'photo'=> $fullUrl
+            ]);
+
+                for ($i = 0; $i < count($minimums); $i++) {
+                    $this->addVar($vars[$i], $id, $minimums[$i], $maximums[$i]);
+                }
+
+
+                return response()->json(["stationU" => $stationU, 'id' => $id, "message" => "success"]);
+            } else {
+                $photo = $stationOld[0]["photo"];
+
+                $stationU = DB::table('station')->insert([
+                'id'=>$id,
+                'title'=>$title,
+                'description'=>$description,
+                'created_at'=> $date,
+                'updated_at'=> $date,
+                'state'=> true,
+                'photo'=> $photo
+            ]);
+
+                for ($i = 0; $i < count($minimums); $i++) {
+                    $this->addVar($vars[$i], $id, $minimums[$i], $maximums[$i]);
+                }
+
+                return response()->json(["id" => $stationU, "message" => "success"]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(["message" => "Error: ".$th]);
+        }
+    }
+
+    public function addVar($variable, $id, $minimum, $maximum)
+    {
         DB::table('station')->where(['id'=>strval($id)])
         ->update([$variable => new Decimal128($minimum),
         $variable.'M'=> new Decimal128($maximum)]);
@@ -140,7 +176,6 @@ class StationController extends Controller
     public function index(Request $request)
     {
         if ($request->action == 'admin') {
-
             $allStations = DB::table('station')->where(['state' => $request->state])->get();
 
             $i = 0;
@@ -150,45 +185,72 @@ class StationController extends Controller
 
             foreach ($allStations as $st) {
                 if ($i != $countStSus) {
-                        array_push($stations, $st);
+                    $station = new Station();
+                    $station->title = $st['title'];
+                    $station->id = $st['id'];
+                    $station->description = $st['description'];
+                    $station->photo = $st['photo'];
+                    $station->created_at = $st['created_at'];
+
+                    if (isset($st['humidity'])) {
+                        $station->humidity = strval($st['humidity']);
+                        $station->humidityM = strval($st['humidityM']);
+                    }
+                    if (isset($st['temperature'])) {
+                        $station->temperature = strval($st['temperature']);
+                        $station->temperatureM = strval($st['temperatureM']);
+                    }
+                    if (isset($st['radiation'])) {
+                        $station->radiation = strval($st['radiation']);
+                        $station->radiationM = strval($st['radiationM']);
+                    }
+                    if (isset($st['ph'])) {
+                        $station->ph = strval($st['ph']);
+                        $station->phM = strval($st['phM']);
+                    }
+                    if (isset($st['oxigen'])) {
+                        $station->oxigen = strval($st['oxigen']);
+                        $station->oxigenM = strval($st['oxigenM']);
+                    }
+                    array_push($stations, $station);
                 }
                 $i += 1;
             }
             return response()->json(['stations' => $stations, 'typeAccess' => Auth::user()->typeAccess]);
         } else {
             $stations = DB::table('station')->where(['state' => $request->state])->get();
-            return response()->json(['stations' => $stations]);
-        }
+            $allStations = array();
+            foreach ($stations as $st) {
+                $station = new Station();
+                $station->title = $st['title'];
+                $station->id = $st['id'];
+                $station->description = $st['description'];
+                $station->photo = $st['photo'];
+                $station->created_at = $st['created_at'];
 
-    }
-
-    public function edit(Request $request)
-    {
-        $id = $request->id;
-        $title = $request->title;
-        $description = $request->description;
-        $temperature = $request->temperature;
-        $humidity = $request->humidity;
-        $radiation = $request->radiation;
-
-        if ($request->hasFile('photo')) {
-
-            $photo = Storage::put('public', $request->photo);
-            $url = Storage::url($photo);
-            $fullUrl = asset($url);
-
-            $stationU = DB::table('station')->where(['id' => $id])->update([
-                "photo" => $fullUrl, "title" => $title,
-                "description" => $description, "humidity" => $humidity, "temperature" => $temperature, "radiation" => $radiation
-            ]);
-
-            return response()->json(["stationU" => $stationU, 'id' => $id, "message" => "success"]);
-        } else {
-            $stationU = DB::table('station')->where(['id' => $id])->update([
-                "title" => $title,
-                "description" => $description, "humidity" => $humidity, "temperature" => $temperature, "radiation" => $radiation
-            ]);
-            return response()->json(["id" => $stationU, "message" => "success"]);
+                if (isset($st['humidity'])) {
+                    $station->humidity = strval($st['humidity']);
+                    $station->humidityM = strval($st['humidityM']);
+                }
+                if (isset($st['temperature'])) {
+                    $station->temperature = strval($st['temperature']);
+                    $station->temperatureM = strval($st['temperatureM']);
+                }
+                if (isset($st['radiation'])) {
+                    $station->radiation = strval($st['radiation']);
+                    $station->radiationM = strval($st['radiationM']);
+                }
+                if (isset($st['ph'])) {
+                    $station->ph = strval($st['ph']);
+                    $station->phM = strval($st['phM']);
+                }
+                if (isset($st['oxigen'])) {
+                    $station->oxigen = strval($st['oxigen']);
+                    $station->oxigenM = strval($st['oxigenM']);
+                }
+                array_push($allStations, $station);
+            }
+            return response()->json(['stations' => $allStations]);
         }
     }
 

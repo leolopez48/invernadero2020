@@ -176,6 +176,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src=" {{ asset('js/init.js') }}"></script>
+    <script src=" {{ asset('js/notification-push.js') }}"></script>
     <script src=" {{ asset('js/main.js') }}" type="module"></script>
     <script src=" {{ asset('js/libs.js') }}" type="module"></script>
     <script src=" {{ asset('js/notifications.js') }}" type="module"></script>

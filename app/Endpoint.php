@@ -3,20 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class Record extends Eloquent
+class enpoints extends Model
 {
     protected $connection = 'mongodb';
-    protected $table = 'record';
+    protected $table = 'endpoints';
 
     protected $fillable = [
-        'id',
-        'humidity',
-        'temperature',
-        'radiation',
-        'ph',
-        'oxigen',
+        'endpoint',
+        'expirationTime',
+        'keys',
         'updated_at',
         'created_at'
     ];

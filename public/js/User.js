@@ -130,6 +130,7 @@ export default class User {
                 return response.json();
             })
             .then((data) => {
+                console.log(data)
                 const us = new User();
                 if (data.message == 'User not found.') {
                     lib.message('¡Error!', 'Usuario no encontrado.', 'error');

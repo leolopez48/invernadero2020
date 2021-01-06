@@ -28,6 +28,7 @@ export default class Notification {
         lib.removeChilds(div);
 
         let state;
+        let string;
 
         for (let i = 0; i < data.notification.length; i++) {
             let tr = document.createElement('tr');
@@ -48,18 +49,44 @@ export default class Notification {
                 }
             }
 
-            tr.innerHTML = `
+            string = `
             <td class="center">
                 <img style="border-radius:10px" style="padding-left:20px" src="${photo}" alt="" width="60px" height="60px">
             </td>
-            <td >
+            <td>
+                <strong>${title}</strong><br>`;
+
+            if (data.notification[i].temperature) {
+                string += `Temp: ${parseInt(data.notification[i].temperature).toFixed(2)}<br>`;
+            }
+            if (data.notification[i].humidity) {
+                string += `Temp: ${parseInt(data.notification[i].humidity).toFixed(2)}<br>`;
+            }
+            if (data.notification[i].radiation) {
+                string += `Temp: ${parseInt(data.notification[i].radiation).toFixed(2)}<br>`;
+            }
+            if (data.notification[i].ph) {
+                string += `Temp: ${parseInt(data.notification[i].ph).toFixed(2)}<br>`;
+            }
+            if (data.notification[i].oxigen) {
+                string += `Temp: ${parseInt(data.notification[i].oxigen).toFixed(2)}<br>`;
+            }
+            string += `<a href="#" class="${state} white-text" style="border-radius: 10px; width: 101px;">${data.notification[i].state}</a>
+            </td>`;
+
+            tr.innerHTML = string;
+            /*`
+            <td class="center">
+                <img style="border-radius:10px" style="padding-left:20px" src="${photo}" alt="" width="60px" height="60px">
+            </td>
+            <td>
                 <strong>${title}</strong><br>
                 Temp: ${data.notification[i].temperature.toFixed(2)}<br>
                 Radiación: ${data.notification[i].radiation.toFixed(2)} <br>
                 Humedad: ${data.notification[i].humidity.toFixed(2)}
                 <a href="#" class="${state} white-text" style="border-radius: 10px; width: 101px;">${data.notification[i].state}</a>
             </td>
-            `;
+            `;*/
 
             div.appendChild(tr);
 

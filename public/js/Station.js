@@ -46,6 +46,7 @@ export default class Station {
                 return response.json();
             })
             .then(function (data) {
+                console.log(data)
                 const st = new Station();
                 st.loadData(data.stations, state);
                 if (data.typeAccess > 1) {
@@ -147,9 +148,16 @@ export default class Station {
                         <p id="idStation" style="display:none">${data[i].id}</p>
                         <strong class="center black-text" id="titleStation">${data[i].title}</strong>
                         <p class="black-text p-1 left-align" id="descStation" >${data[i].description}</p>
-                        <p class="black-text p-1 left-align" id="humidityL" style="display:none;">${data[i].humidity}</p>
-                        <p class="black-text p-1 left-align" id="temperatureL" style="display:none;">${data[i].temperature}</p>
-                        <p class="black-text p-1 left-align" id="radiationL" style="display:none;">${data[i].radiation}</p>
+                        <p class="black-text p-1 left-align" id="humidityL" style="display: none;">${data[i].humidity}</p>
+                        <p class="black-text p-1 left-align" id="temperatureL" style="display: none;">${data[i].temperature}</p>
+                        <p class="black-text p-1 left-align" id="radiationL" style="display: none;">${data[i].radiation}</p>
+                        <p class="black-text p-1 left-align" id="phL" style="display: none;">${data[i].ph}</p>
+                        <p class="black-text p-1 left-align" id="oxigenL" style="display: none;">${data[i].oxigen}</p>
+                        <p class="black-text p-1 left-align" id="humidityM" style="display: none;">${data[i].humidityM}</p>
+                        <p class="black-text p-1 left-align" id="temperatureM" style="display: none;">${data[i].temperatureM}</p>
+                        <p class="black-text p-1 left-align" id="radiationM" style="display: none;">${data[i].radiationM}</p>
+                        <p class="black-text p-1 left-align" id="phM" style="display: none;">${data[i].phM}</p>
+                        <p class="black-text p-1 left-align" id="oxigenM" style="display: none;">${data[i].oxigenM}</p>
                     </div>
                     <div class="col s12 center m-1">
                         <a class="station modal-trigger btn blue a-edit" id="btnEdit" href="#modal1">

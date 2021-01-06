@@ -36,6 +36,8 @@ export default class Libs {
     }
 
     resetForm() {
+        document.getElementById('btnTypeInv').style.display = 'initial';
+        document.getElementById('btnTypeAcu').style.display = 'initial';
         document.getElementById('inPhotoPre').src = `${urlBase}default/no-image.png`;
         document.getElementById('inPhotoPre').value = "";
 
@@ -46,6 +48,11 @@ export default class Libs {
         document.getElementById('inLowestPH').value = "";
         document.getElementById('inLowestPT').value = "";
         document.getElementById('inLowestPR').value = "";
+        document.getElementById('inHighestPH').value = "";
+        document.getElementById('inHighestPT').value = "";
+        document.getElementById('inHighestPR').value = "";
+        document.getElementById('divInputsLow').style.display = 'none';
+        document.getElementById('divVar').style.display = 'none';
         const users = document.getElementById('divUserAllowed');
         this.removeChilds(users);
         document.getElementById('divSearch').style.display = 'none';

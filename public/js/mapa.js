@@ -1,7 +1,11 @@
+import Libs from "./Libs.js";
+
 var LowestLimit = 15;
+let highestLimit = 50;
 const DefaultValue = 0;
 const url = 'http://localhost:8000/api/';
 // const url = 'http://192.168.1.24:82/api/';
+let dataStations;
 
 $('document').ready(function () {
     const enabled = {
@@ -123,13 +127,15 @@ function getStations(body) {
             return response.json();
         })
         .then(function (data) {
+            dataStations = data;
             loadStations(data.stations);
+            // console.log(dataStations)
         });
 }
 
 function filterReset() {
-    document.getElementById('filterStart').value = 'Y-m-d';
-    document.getElementById('filterEnd').value = 'Y-m-d';
+    document.getElementById('filterStart').value = 'yyyy-MM-ddThh:mm';
+    document.getElementById('filterEnd').value = 'yyyy-MM-ddThh:mm';
 }
 
 function selectStation(station) {
@@ -169,23 +175,107 @@ function loadStations(stations) {
 }
 
 function loadTable(records) {
+
     $('#idTabla').empty();
+    document.getElementById('idHeadPh').style.display = 'none';
+    document.getElementById('idHeadTe').style.display = 'none';
+    document.getElementById('idHeadHum').style.display = 'none';
+    document.getElementById('idHeadOx').style.display = 'none';
+    document.getElementById('idHeadRa').style.display = 'none';
 
-    for (let i = 0; i < records.length; i++) {
-        let temperatura = records[i].temperature;
-        let humedad = records[i].humidity;
-        let radiacion = records[i].radiation;
-        let created_at = records[i].created_at;
+    if (records.length > 0) {
 
-        $('#idTabla').append(
-            '<tr>' +
-            '<td>' + (i + 1) + '</td>' +
-            '<td>' + created_at + '</td>' +
-            '<td>' + temperatura + '</td>' +
-            '<td>' + humedad + '</td>' +
-            '<td>' + radiacion + '</td>' +
-            '</tr>'
-        );
+        let ph = Array();
+        let temperature = Array();
+        let oxigen = Array();
+        let humidity = Array();
+        let radiation = Array();
+
+        for (let i = 0; i < records.length; i++) {
+            let string = "<tr>" +
+                '<td>' + (i + 1) + '</td>' +
+                '<td>' + records[i].created_at + '</td>';
+
+
+            if (records[0].ph) {
+                ph.push(records[i].ph);
+                string += '<td>' + records[i].ph + '</td>';
+                if (window.screen.width > 992) {
+                    document.getElementById('idHeadPh').style.display = 'table-cell';
+                } else {
+                    document.getElementById('idHeadPh').style.display = 'block';
+                    document.getElementById('idHeadPh').style.width = '100%';
+
+                    document.getElementById('idHeadPh').style.float = 'left';
+                    document.getElementById('idHeadPh').style.position = 'relative';
+                }
+            }
+
+            if (records[0].temperature) {
+                temperature.push(records[i].temperature);
+                string += '<td>' + records[i].temperature + '</td>';
+
+                if (window.screen.width > 992) {
+                    document.getElementById('idHeadTe').style.display = 'table-cell';
+                } else {
+                    document.getElementById('idHeadTe').style.display = 'block';
+                    document.getElementById('idHeadTe').style.width = '100%';
+                    document.getElementById('idHeadTe').style.float = 'left';
+                    document.getElementById('idHeadTe').style.position = 'relative';
+                }
+            }
+
+            if (records[0].oxigen) {
+                oxigen.push(records[i].oxigen);
+                string += '<td>' + records[i].oxigen + '</td>';
+
+                if (window.screen.width > 992) {
+                    document.getElementById('idHeadOx').style.display = 'table-cell';
+                } else {
+                    document.getElementById('idHeadOx').style.display = 'block';
+                    document.getElementById('idHeadTe').style.width = '100%';
+                    document.getElementById('idHeadOx').style.float = 'left';
+                    document.getElementById('idHeadOx').style.position = 'relative';
+                }
+            }
+
+            if (records[0].humidity) {
+                humidity.push(records[i].humidity);
+                string += '<td>' + records[i].humidity + '</td>';
+
+                if (window.screen.width > 992) {
+                    document.getElementById('idHeadHum').style.display = 'table-cell';
+                } else {
+                    document.getElementById('idHeadHum').style.display = 'block';
+                    document.getElementById('idHeadHum').style.width = '100%';
+                    document.getElementById('idHeadHum').style.float = 'left';
+                    document.getElementById('idHeadHum').style.position = 'relative';
+                }
+            }
+
+            if (records[0].radiation) {
+                radiation.push(records[i].radiation);
+                string += '<td>' + records[i].radiation + '</td>';
+
+                if (window.screen.width > 992) {
+                    document.getElementById('idHeadRa').style.display = 'table-cell';
+                } else {
+                    document.getElementById('idHeadRa').style.display = 'block';
+                    document.getElementById('idHeadRa').style.width = '100%';
+                    document.getElementById('idHeadRa').style.float = 'left';
+                    document.getElementById('idHeadRa').style.position = 'relative';
+                }
+            }
+            $('#idTabla').append(
+                string += '</tr>'
+            );
+        }
+    } else {
+        Swal.fire(
+            'Estación sin registros.',
+            '',
+            'success'
+        )
     }
 }
 
@@ -281,11 +371,50 @@ function message(estacion) {
 
 function loadGraphics(data) {
     if (data.records.length != 0) {
+
         showDivData();
         am4core.disposeAllCharts(); //Advertencia 'Chart was not disposed'
-        graphics('graphicLineDiv', data, 1);
-        graphics('graphicLineHumDiv', data, 2);
-        graphics('graphicLineRadDiv', data, 3);
+
+        if (data.station[0].temperature) {
+            graphics('graphicLineDiv', data, 1);
+            document.getElementById('titleGraph1').textContent = 'Temperatura';
+            document.getElementById('titleGraph1').style.display = 'initial';
+        } else {
+            document.getElementById('titleGraph1').style.display = 'none';
+        }
+
+        if (data.station[0].humidity) {
+            graphics('graphicLineHumDiv', data, 2);
+            document.getElementById('titleGraph2').textContent = 'Húmedad';
+            document.getElementById('titleGraph2').style.display = 'initial';
+        } else {
+            document.getElementById('titleGraph2').style.display = 'none';
+        }
+
+        if (data.station[0].radiation) {
+            graphics('graphicLineRadDiv', data, 3);
+            document.getElementById('titleGraph3').textContent = 'Radiación solar';
+            document.getElementById('titleGraph3').style.display = 'initial';
+        } else {
+            document.getElementById('titleGraph3').style.display = 'none';
+        }
+
+        if (data.station[0].ph) {
+            graphics('graphicLineHumDiv', data, 4);
+            document.getElementById('titleGraph2').textContent = 'PH';
+            document.getElementById('titleGraph2').style.display = 'initial';
+        } else {
+            document.getElementById('titleGraph2').style.display = 'none';
+        }
+
+        if (data.station[0].oxigen) {
+            graphics('graphicLineRadDiv', data, 5);
+            document.getElementById('titleGraph3').textContent = 'Oxígeno';
+            document.getElementById('titleGraph3').style.display = 'initial';
+        } else {
+            document.getElementById('titleGraph3').style.display = 'none';
+        }
+
     } else {
         hideDivData();
     }
@@ -313,28 +442,42 @@ function graphics(graphicName, data, type) {
         // Add data
         var value, date;
         for (var i = 0; i < data.records.length; i++) {
+
             switch (type) {
                 case 1:
                     value = data.records[i].temperature;
-                    LowestLimit = data.temperatureL;
+                    LowestLimit = dataStations.stations[0].temperature;
+                    highestLimit = dataStations.stations[0].temperatureM;
                     break;
                 case 2:
                     value = data.records[i].humidity;
-                    LowestLimit = data.humidityL;
+                    LowestLimit = dataStations.stations[0].humidity;
+                    highestLimit = dataStations.stations[0].humidityM;
                     break;
                 case 3:
                     value = data.records[i].radiation;
-                    LowestLimit = data.radiationL;
+                    LowestLimit = dataStations.stations[0].radiation;
+                    highestLimit = dataStations.stations[0].radiationM;
+                    break;
+                case 4:
+                    value = data.records[i].ph;
+                    LowestLimit = dataStations.stations[0].ph;
+                    highestLimit = dataStations.stations[0].phM;
+                    break;
+                case 5:
+                    value = data.records[i].ph;
+                    LowestLimit = dataStations.stations[0].oxigen;
+                    highestLimit = dataStations.stations[0].oxigenM;
                     break;
             }
-            date = new Date(data.records[i].created_at);
 
+            date = new Date(data.records[i].created_at);
             chart.data.push({
                 date: date,
                 value1: value,
                 value2: LowestLimit,
-                value3: 25,
-                date2: date
+                value3: highestLimit,
+                date2: date.toLocaleDateString()
             });
         }
 
@@ -368,7 +511,7 @@ function graphics(graphicName, data, type) {
         series2.dataFields.dateX = "date";
         series2.strokeWidth = 2;
         series2.strokeDasharray = "3,4";
-        series2.stroke = am4core.color("red");
+        series2.stroke = am4core.color("green");
 
         // Add cursor
         chart.cursor = new am4charts.XYCursor();

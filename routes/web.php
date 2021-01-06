@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/suscriptions', function(){
+Route::get('/suscriptions', function () {
     return view('subscriptions');
 })->name('suscriptions');
 
@@ -50,10 +50,12 @@ Route::get('/user', 'UserController@user');
 
 //Notifications
 Route::get('/api/notifications/get', 'NotificationController@get');
+// Route::post('/api/notificate/', 'NotificationController@notificate');
+Route::post('/api/suscribe/', 'NotificationController@suscribe');
 
-Route::group(['middleware'=>'web'], function () {
+Route::group(['middleware'=>'auth'], function () {
     //Admin
-    Route::get('/admin', function(){
+    Route::get('/admin', function () {
         return view('admin');
     });
 });

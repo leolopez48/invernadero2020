@@ -102,6 +102,11 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
     if (ev.target.classList[1] === 'edit' || ev.target.classList[4] === 'a-edit') {
         ev.preventDefault();
         let id = 0;
+        const divMinBtnsInv = document.getElementById('minValueButtonsInv');
+        const divMinBtnsAcu = document.getElementById('minValueButtonsAcu');
+
+        divMinBtnsInv.style.display = 'none';
+        divMinBtnsAcu.style.display = 'none';
 
         document.getElementById('titleModal').textContent = 'Editar estación';
         if (ev.target.classList[1] === 'edit') {
@@ -112,14 +117,77 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
             const humidity = ev.target.parentNode.parentNode.parentNode.querySelector("#humidityL").firstChild.nodeValue;
             const temperature = ev.target.parentNode.parentNode.parentNode.querySelector("#temperatureL").firstChild.nodeValue;
             const radiation = ev.target.parentNode.parentNode.parentNode.querySelector("#radiationL").firstChild.nodeValue;
+            const ph = ev.target.parentNode.parentNode.parentNode.querySelector("#phL").firstChild.nodeValue;
+            const oxigen = ev.target.parentNode.parentNode.parentNode.querySelector("#oxigenL").firstChild.nodeValue;
+            const humidityM = ev.target.parentNode.parentNode.parentNode.querySelector("#humidityM").firstChild.nodeValue;
+            const temperatureM = ev.target.parentNode.parentNode.parentNode.querySelector("#temperatureM").firstChild.nodeValue;
+            const radiationM = ev.target.parentNode.parentNode.parentNode.querySelector("#radiationM").firstChild.nodeValue;
+            const phM = ev.target.parentNode.parentNode.parentNode.querySelector("#phM").firstChild.nodeValue;
+            const oxigenM = ev.target.parentNode.parentNode.parentNode.querySelector("#oxigenM").firstChild.nodeValue;
 
             document.getElementById('inId').textContent = id;
             document.getElementById('inPhotoPre').src = photo;
             document.getElementById('inName').value = title;
             document.getElementById('inDescription').value = desc;
             document.getElementById('inLowestPH').value = humidity;
+            document.getElementById('inLowestPHL').value = ph;
+            document.getElementById('inLowestOX').value = oxigen;
             document.getElementById('inLowestPR').value = radiation;
             document.getElementById('inLowestPT').value = temperature;
+            document.getElementById('inHighestPH').value = humidityM;
+            document.getElementById('inHighestPR').value = radiationM;
+            document.getElementById('inHighestPT').value = temperatureM;
+            document.getElementById('inHighestPHL').value = phM;
+            document.getElementById('inHighestOX').value = oxigenM;
+
+            document.getElementById('divInputsLow').style.display = 'initial';
+            document.getElementById('divVar').style.display = 'initial';
+
+            if (document.getElementById('inLowestPH').value === "") {
+                document.getElementById('divLowHum').style.display = 'none';
+                document.getElementById('divHighHum').style.display = 'none';
+            } else {
+                document.getElementById('divLowHum').style.display = 'initial';
+                document.getElementById('divHighHum').style.display = 'initial';
+            }
+
+            if (document.getElementById('inLowestPT').value === "") {
+                document.getElementById('divLowTemp').style.display = 'none';
+                document.getElementById('divHighTemp').style.display = 'none';
+            } else {
+                document.getElementById('divLowTemp').style.display = 'initial';
+                document.getElementById('divHighTemp').style.display = 'initial';
+            }
+
+            if (document.getElementById('inLowestPHL').value === "") {
+                document.getElementById('divLowPHL').style.display = 'none';
+                document.getElementById('divHighPHL').style.display = 'none';
+            } else {
+                document.getElementById('divLowPHL').style.display = 'initial';
+                document.getElementById('divHighPHL').style.display = 'initial';
+            }
+
+            if (document.getElementById('inLowestPR').value === "") {
+                document.getElementById('divLowRad').style.display = 'none';
+                document.getElementById('divHighRad').style.display = 'none';
+            } else {
+                document.getElementById('divLowRad').style.display = 'initial';
+                document.getElementById('divHighRad').style.display = 'initial';
+            }
+
+            if (document.getElementById('inLowestPH').value != "" || document.getElementById('inLowestPR').value != "") {
+                document.getElementById('btnTypeAcu').style.display = 'none';
+                document.getElementById('btnTypeInv').style.display = 'initial';
+                typeStation = 'Invernadero';
+                // console.log('invernadero')
+            }
+
+            if (document.getElementById('inLowestPHL').value != "" || document.getElementById('inLowestOX').value != "") {
+                document.getElementById('btnTypeAcu').style.display = 'initial';
+                document.getElementById('btnTypeInv').style.display = 'none';
+                typeStation = 'Acuicola';
+                // console.log('Acuicola')
+            }
 
         } else {
             id = ev.target.parentNode.parentNode.querySelector("#idStation").firstChild.nodeValue;
@@ -129,14 +197,75 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
             const humidity = ev.target.parentNode.parentNode.querySelector("#humidityL").firstChild.nodeValue;
             const temperature = ev.target.parentNode.parentNode.querySelector("#temperatureL").firstChild.nodeValue;
             const radiation = ev.target.parentNode.parentNode.querySelector("#radiationL").firstChild.nodeValue;
+            const ph = ev.target.parentNode.parentNode.querySelector("#phL").firstChild.nodeValue;
+            const oxigen = ev.target.parentNode.parentNode.querySelector("#oxigenL").firstChild.nodeValue;
+            const humidityM = ev.target.parentNode.parentNode.querySelector("#humidityM").firstChild.nodeValue;
+            const temperatureM = ev.target.parentNode.parentNode.querySelector("#temperatureM").firstChild.nodeValue;
+            const radiationM = ev.target.parentNode.parentNode.querySelector("#radiationM").firstChild.nodeValue;
+            const phM = ev.target.parentNode.parentNode.querySelector("#phM").firstChild.nodeValue;
+            const oxigenM = ev.target.parentNode.parentNode.querySelector("#oxigenM").firstChild.nodeValue;
 
             document.getElementById('inId').textContent = id;
             document.getElementById('inPhotoPre').src = photo;
             document.getElementById('inName').value = title;
             document.getElementById('inDescription').value = desc;
             document.getElementById('inLowestPH').value = humidity;
+            document.getElementById('inLowestPHL').value = ph;
+            document.getElementById('inLowestOX').value = oxigen;
             document.getElementById('inLowestPR').value = radiation;
             document.getElementById('inLowestPT').value = temperature;
+            document.getElementById('inHighestPH').value = humidityM;
+            document.getElementById('inHighestPR').value = radiationM;
+            document.getElementById('inHighestPT').value = temperatureM;
+            document.getElementById('inHighestPHL').value = phM;
+            document.getElementById('inHighestOX').value = oxigenM;
+
+            document.getElementById('divInputsLow').style.display = 'initial';
+            document.getElementById('divVar').style.display = 'initial';
+
+            if (document.getElementById('inLowestPH').value === "") {
+                document.getElementById('divLowHum').style.display = 'none';
+                document.getElementById('divHighHum').style.display = 'none';
+            } else {
+                document.getElementById('divLowHum').style.display = 'initial';
+                document.getElementById('divHighHum').style.display = 'initial';
+            }
+
+            if (document.getElementById('inLowestPT').value === "") {
+                document.getElementById('divLowTemp').style.display = 'none';
+                document.getElementById('divHighTemp').style.display = 'none';
+            } else {
+                document.getElementById('divLowTemp').style.display = 'initial';
+                document.getElementById('divHighTemp').style.display = 'initial';
+            }
+
+            if (document.getElementById('inLowestPHL').value === "") {
+                document.getElementById('divLowPHL').style.display = 'none';
+                document.getElementById('divHighPHL').style.display = 'none';
+            } else {
+                document.getElementById('divLowPHL').style.display = 'initial';
+                document.getElementById('divHighPHL').style.display = 'initial';
+            }
+
+            if (document.getElementById('inLowestPR').value === "") {
+                document.getElementById('divLowRad').style.display = 'none';
+                document.getElementById('divHighRad').style.display = 'none';
+            } else {
+                document.getElementById('divLowRad').style.display = 'initial';
+                document.getElementById('divHighRad').style.display = 'initial';
+            }
+
+            if (document.getElementById('inLowestPH').value != "" || document.getElementById('inLowestPR').value != "") {
+                document.getElementById('btnTypeAcu').style.display = 'none';
+                document.getElementById('btnTypeInv').style.display = 'initial';
+                // console.log('invernadero')
+            }
+
+            if (document.getElementById('inLowestPHL').value != "" || document.getElementById('inLowestOX').value != "") {
+                document.getElementById('btnTypeAcu').style.display = 'initial';
+                document.getElementById('btnTypeInv').style.display = 'none';
+                // console.log('Acuicola')
+            }
         }
 
         const data = {
@@ -154,17 +283,66 @@ document.getElementById('saveStation').addEventListener('click', (ev) => {
         const id = document.getElementById('inId').textContent;
         const name = document.getElementById('inName').value;
         const desc = document.getElementById('inDescription').value;
+
+        //Greenhouse
         const temperature = document.getElementById('inLowestPT').value;
         const humidity = document.getElementById('inLowestPH').value;
         const radiation = document.getElementById('inLowestPR').value;
+        const maxTemperature = document.getElementById('inHighestPT').value;
+        const maxHumidity = document.getElementById('inHighestPH').value;
+        const maxRadiation = document.getElementById('inHighestPR').value;
+        //Aquaculture
+        const ph = document.getElementById('inLowestPHL').value;
+        const ox = document.getElementById('inLowestOX').value;
+        const maxPh = document.getElementById('inHighestPHL').value;
+        const maxOx = document.getElementById('inHighestOX').value;
+
+        let minVars = new Array();
+        let maximums = new Array();
+        let minimums = new Array();
+
+        //If the values are true will be push to the array
+        if (typeStation === 'Invernadero') {
+            if (minTemperature) {
+                minVars.push('temperature');
+                minimums.push(temperature);
+                maximums.push(maxTemperature);
+            }
+            if (minHumidity) {
+                minVars.push('humidity');
+                minimums.push(humidity);
+                maximums.push(maxHumidity);
+            }
+            if (minRadiation) {
+                minVars.push('radiation');
+                minimums.push(radiation);
+                maximums.push(maxRadiation);
+            }
+        } else {
+            if (minTemperature) {
+                minVars.push('temperature');
+                minimums.push(temperature);
+                maximums.push(maxTemperature);
+            }
+            if (minPh) {
+                minVars.push('ph');
+                minimums.push(ph);
+                maximums.push(maxPh);
+            }
+            if (minOxigen) {
+                minVars.push('oxigen');
+                minimums.push(ox);
+                maximums.push(maxOx);
+            }
+        }
 
         const data = new FormData();
         data.append('id', id);
         data.append('title', name);
         data.append('description', desc);
-        data.append('humidity', humidity);
-        data.append('temperature', temperature);
-        data.append('radiation', radiation);
+        data.append('minVars', minVars);
+        data.append('minimums', minimums);
+        data.append('maximums', maximums);
 
         if (document.getElementById('inFile').files[0] !== undefined) {
             const photo = document.getElementById('inFile');
@@ -192,7 +370,6 @@ document.getElementById('saveStation').addEventListener('click', (ev) => {
         const maxOx = document.getElementById('inHighestOX').value;
 
         let minVars = new Array();
-        let maxVars = new Array();
         let maximums = new Array();
         let minimums = new Array();
 
@@ -284,10 +461,25 @@ document.getElementById('divUserAllowed').addEventListener('click', (ev) => {
             confirmButtonText: `Eliminar`,
         }).then((result) => {
             if (result.isConfirmed) {
-                const id = ev.target.parentNode.parentNode.parentNode.parentNode.
-                parentNode.parentNode.parentNode.parentNode.querySelector('#inId').firstChild.nodeValue;
+                let id;
+                let email;
 
-                const email = ev.target.parentNode.parentNode.parentNode.querySelector('#userEmail').firstChild.nodeValue;
+                if (ev.target.classList[0] === 'btn') {
+                    id = ev.target.parentNode.parentNode.parentNode.parentNode.
+                    parentNode.parentNode.parentNode.parentNode.querySelector('#inId').firstChild.nodeValue;
+
+                    email = ev.target.parentNode.parentNode.parentNode.querySelector('#userEmail').firstChild.nodeValue;
+                    // console.log(email)
+                    // console.log(id)
+                    // console.log(ev.target.classList[0])
+                } else if (ev.target.classList[0] === 'material-icons') {
+                    // console.log(ev.target.classList[0])
+                    email = ev.target.parentNode.parentNode.parentNode.querySelector('#userEmail').firstChild.nodeValue;
+                    // console.log(email)
+                    // console.log(ev.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('#inId').firstChild.nodeValue)
+                    id = ev.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('#inId').firstChild.nodeValue
+
+                }
 
                 const data = {
                     idStation: id,
@@ -317,6 +509,7 @@ document.getElementById('divTypeButtons').addEventListener('click', (ev) => {
     lib.hideInputsBoolean(true);
 
     const idButton = ev.target.id;
+    console.log(idButton)
     if (idButton == 'btnTypeInv') {
         typeStation = 'Invernadero';
     } else {
@@ -334,8 +527,8 @@ document.getElementById('btnMinValues').addEventListener('click', () => {
     divMinBtnsAcu.style.display = 'none';
     document.getElementById('divInputsLow').style.display = 'initial';
     document.getElementById('divInputsHigh').style.display = 'initial';
-
-    if (typeStation === 'Invernadero') {
+    console.log(typeStation)
+    if (typeStation == 'Invernadero') {
         if (divMinBtnsInv.style.display === 'initial') {
             divMinBtnsInv.style.display = 'none'
         } else {

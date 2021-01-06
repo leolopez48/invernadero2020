@@ -110,9 +110,9 @@
                             placeholder="Descripción" maxlength="50"></textarea>
 
                         <h5>Tipo estación</h5>
-                        <div class="p-1" id="divTypeButtons">
-                            <a id="btnTypeInv" class="waves-effect waves-light btn teal lighten-1">Invernadero</a>
-                            <a id="btnTypeAcu" class="waves-effect waves-light btn teal lighten-1">Acuícola</a>
+                        <div id="divTypeButtons">
+                            <a id="btnTypeInv" class="waves-effect waves-light btn teal lighten-1 p-1">Invernadero</a>
+                            <a id="btnTypeAcu" class="waves-effect waves-light btn teal lighten-1 p-1">Acuícola</a>
                         </div>
 
                         <div id="divVar" style="display: none;">
