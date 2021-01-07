@@ -24,8 +24,14 @@ class StationController extends Controller
                 if ((int)Station::all('id')->count() == 0) {
                     $lastId = 1;
                 } else {
-                    $lastId = (int)Station::all('id')->last()->id; //Get the lastest id value of stations
-                    $lastId += 1; //Add 1 to set the new value to the station
+                    $lastId = Station::all('id'); //Get the lastest id value of stations
+                    $id = 0;
+                    foreach ($lastId as $last) {
+                        if ($last['id'] >= $id) {
+                            $id = (int)$last['id'];
+                        }
+                    }
+                    $lastId = $id+1; //Add 1 to set the new value to the station
                 }
 
                 $newId = strval($lastId);

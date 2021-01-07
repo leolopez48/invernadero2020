@@ -465,20 +465,16 @@ document.getElementById('divUserAllowed').addEventListener('click', (ev) => {
                 let email;
 
                 if (ev.target.classList[0] === 'btn') {
+
                     id = ev.target.parentNode.parentNode.parentNode.parentNode.
                     parentNode.parentNode.parentNode.parentNode.querySelector('#inId').firstChild.nodeValue;
 
                     email = ev.target.parentNode.parentNode.parentNode.querySelector('#userEmail').firstChild.nodeValue;
-                    // console.log(email)
-                    // console.log(id)
-                    // console.log(ev.target.classList[0])
                 } else if (ev.target.classList[0] === 'material-icons') {
-                    // console.log(ev.target.classList[0])
-                    email = ev.target.parentNode.parentNode.parentNode.querySelector('#userEmail').firstChild.nodeValue;
-                    // console.log(email)
-                    // console.log(ev.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('#inId').firstChild.nodeValue)
-                    id = ev.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('#inId').firstChild.nodeValue
 
+                    email = ev.target.parentNode.parentNode.parentNode.querySelector('#userEmail').firstChild.nodeValue;
+
+                    id = ev.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('#inId').firstChild.nodeValue
                 }
 
                 const data = {
