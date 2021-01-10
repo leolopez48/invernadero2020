@@ -4,6 +4,7 @@ var LowestLimit = 15;
 let highestLimit = 50;
 const DefaultValue = 0;
 const url = 'http://localhost:8000/api/';
+// const url = 'http://192.168.1.21/api/';
 // const url = 'http://192.168.1.24:82/api/';
 let dataStations;
 
@@ -378,8 +379,8 @@ function loadGraphics(data) {
         showDivData();
         am4core.disposeAllCharts(); //Advertencia 'Chart was not disposed'
 
-        if (!titleState2) {
-            titleState2 = true;
+        if (!titleState1) {
+            titleState1 = true;
             if (data.station[0].temperature) {
                 graphics('graphicLineDiv', data, 1);
                 document.getElementById('titleGraph1').textContent = 'Temperatura';

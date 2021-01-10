@@ -178,7 +178,7 @@
     <script src=" {{ asset('js/init.js') }}"></script>
     <script src=" {{ asset('js/notification-push.js') }}"></script>
     <script src=" {{ asset('js/main.js') }}" type="module"></script>
-    <script src=" {{ asset('js/libs.js') }}" type="module"></script>
+    <script src=" {{ asset('js/Libs.js') }}" type="module"></script>
     <script src=" {{ asset('js/notifications.js') }}" type="module"></script>
     @section('js')
     @show

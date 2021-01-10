@@ -1,11 +1,13 @@
 'use strict';
 
-import Libs from './libs.js';
+import Libs from './Libs.js';
 
 const lib = new Libs();
 
-const url = 'http://localhost:8000/api/stations/';
-const urlBase = 'http://localhost:8000/';
+// const url = 'http://localhost:8000/api/stations/';
+// const urlBase = 'http://localhost:8000/';
+const url = 'http://192.168.1.21/api/stations/';
+const urlBase = 'http://192.168.1.21/';
 
 export default class Notification {
 
