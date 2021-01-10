@@ -25,10 +25,16 @@ class NotificationController extends Controller
             ->get();
 
             $validated = false;
+            $vars = "";
 
             if ($validated) {
                 if (isset($not->humidity)) {
-                    $validated = ($lowest[0]['humidity'] < $not->humidity || $lowest[0]['humidityM'] > $not->humidity) ? true : false;
+                    if ($lowest[0]['humidity'] < $not->humidity || $lowest[0]['humidityM'] > $not->humidity) {
+                        $validated = true;
+                    } else {
+                        $vars += ' Húmedad';
+                        $validated = false;
+                    }
                 }
             } else {
                 $validated = false;
@@ -36,7 +42,12 @@ class NotificationController extends Controller
 
             if ($validated) {
                 if (isset($not->temperature)) {
-                    $validated = ($lowest[0]['temperature'] <= $not->temperature || $lowest[0]['temperatureM'] >= $not->temperature) ? true : false;
+                    if ($lowest[0]['temperature'] < $not->temperature || $lowest[0]['temperatureM'] > $not->temperature) {
+                        $validated = true;
+                    } else {
+                        $vars += ' Temperatura';
+                        $validated = false;
+                    }
                 }
             } else {
                 $validated = false;
@@ -44,7 +55,12 @@ class NotificationController extends Controller
 
             if ($validated) {
                 if (isset($not->radiation)) {
-                    $validated = ($lowest[0]['radiation'] <= $not->radiation || $lowest[0]['radiationM'] >= $not->radiation) ? true : false;
+                    if ($lowest[0]['radiation'] < $not->radiation || $lowest[0]['radiationM'] > $not->radiation) {
+                        $validated = true;
+                    } else {
+                        $vars += ' Radiación';
+                        $validated = false;
+                    }
                 }
             } else {
                 $validated = false;
@@ -52,7 +68,12 @@ class NotificationController extends Controller
 
             if ($validated) {
                 if (isset($not->ph)) {
-                    $validated = ($lowest[0]['ph'] <= $not->ph || $lowest[0]['phM'] >= $not->ph) ? true : false;
+                    if ($lowest[0]['ph'] < $not->ph || $lowest[0]['phM'] > $not->ph) {
+                        $validated = true;
+                    } else {
+                        $vars += ' PH';
+                        $validated = false;
+                    }
                 }
             } else {
                 $validated = false;
@@ -60,7 +81,12 @@ class NotificationController extends Controller
 
             if ($validated) {
                 if (isset($not->oxigen)) {
-                    $validated = ($lowest[0]['oxigen'] <= $not->oxigen || $lowest[0]['oxigenM'] > $not->oxigen) ? true : false;
+                    if ($lowest[0]['oxigen'] < $not->oxigen || $lowest[0]['oxigenM'] > $not->oxigen) {
+                        $validated = true;
+                    } else {
+                        $vars += ' Oxígeno';
+                        $validated = false;
+                    }
                 }
             } else {
                 $validated = false;
@@ -72,7 +98,7 @@ class NotificationController extends Controller
                 $not->state = 'No válido';
             }
 
-            $this->notificate($lowest[0]['title'], 'Nuevo registro no válido.');
+            $this->notificate($lowest[0]['title'], 'Lectura fuera de los límites establecidos. Variables no válidas:'.$vars);
 
             $not->save();
         } catch (\Throwable $th) {

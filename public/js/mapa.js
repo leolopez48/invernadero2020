@@ -370,49 +370,67 @@ function message(estacion) {
 }
 
 function loadGraphics(data) {
+    let titleState1 = false;
+    let titleState2 = false;
+    let titleState3 = false;
     if (data.records.length != 0) {
 
         showDivData();
         am4core.disposeAllCharts(); //Advertencia 'Chart was not disposed'
 
-        if (data.station[0].temperature) {
-            graphics('graphicLineDiv', data, 1);
-            document.getElementById('titleGraph1').textContent = 'Temperatura';
-            document.getElementById('titleGraph1').style.display = 'initial';
-        } else {
-            document.getElementById('titleGraph1').style.display = 'none';
+        if (!titleState2) {
+            titleState2 = true;
+            if (data.station[0].temperature) {
+                graphics('graphicLineDiv', data, 1);
+                document.getElementById('titleGraph1').textContent = 'Temperatura';
+                document.getElementById('titleGraph1').style.display = 'initial';
+            } else {
+                document.getElementById('titleGraph1').style.display = 'none';
+            }
         }
 
-        if (data.station[0].humidity) {
-            graphics('graphicLineHumDiv', data, 2);
-            document.getElementById('titleGraph2').textContent = 'Húmedad';
-            document.getElementById('titleGraph2').style.display = 'initial';
-        } else {
-            document.getElementById('titleGraph2').style.display = 'none';
+        if (!titleState2) {
+            titleState2 = true;
+            if (data.station[0].humidity) {
+                graphics('graphicLineHumDiv', data, 2);
+                document.getElementById('titleGraph2').textContent = 'Húmedad';
+                document.getElementById('titleGraph2').style.display = 'initial';
+            } else {
+                document.getElementById('titleGraph2').style.display = 'none';
+            }
         }
 
-        if (data.station[0].radiation) {
-            graphics('graphicLineRadDiv', data, 3);
-            document.getElementById('titleGraph3').textContent = 'Radiación solar';
-            document.getElementById('titleGraph3').style.display = 'initial';
-        } else {
-            document.getElementById('titleGraph3').style.display = 'none';
+        if (!titleState3) {
+            titleState3 = true;
+            if (data.station[0].radiation) {
+                graphics('graphicLineRadDiv', data, 3);
+                document.getElementById('titleGraph3').textContent = 'Radiación solar';
+                document.getElementById('titleGraph3').style.display = 'initial';
+            } else {
+                document.getElementById('titleGraph3').style.display = 'none';
+            }
         }
 
-        if (data.station[0].ph) {
-            graphics('graphicLineHumDiv', data, 4);
-            document.getElementById('titleGraph2').textContent = 'PH';
-            document.getElementById('titleGraph2').style.display = 'initial';
-        } else {
-            document.getElementById('titleGraph2').style.display = 'none';
+        if (!titleState2) {
+            titleState2 = true;
+            if (data.station[0].ph) {
+                graphics('graphicLineHumDiv', data, 4);
+                document.getElementById('titleGraph2').textContent = 'PH';
+                document.getElementById('titleGraph2').style.display = 'initial';
+            } else {
+                document.getElementById('titleGraph2').style.display = 'none';
+            }
         }
 
-        if (data.station[0].oxigen) {
-            graphics('graphicLineRadDiv', data, 5);
-            document.getElementById('titleGraph3').textContent = 'Oxígeno';
-            document.getElementById('titleGraph3').style.display = 'initial';
-        } else {
-            document.getElementById('titleGraph3').style.display = 'none';
+        if (!titleState3) {
+            titleState3 = true;
+            if (data.station[0].oxigen) {
+                graphics('graphicLineRadDiv', data, 5);
+                document.getElementById('titleGraph3').textContent = 'Oxígeno';
+                document.getElementById('titleGraph3').style.display = 'initial';
+            } else {
+                document.getElementById('titleGraph3').style.display = 'none';
+            }
         }
 
     } else {

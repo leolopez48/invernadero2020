@@ -143,7 +143,7 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
             document.getElementById('divInputsLow').style.display = 'initial';
             document.getElementById('divVar').style.display = 'initial';
 
-            if (document.getElementById('inLowestPH').value === "") {
+            if (document.getElementById('inLowestPH').value == "") {
                 document.getElementById('divLowHum').style.display = 'none';
                 document.getElementById('divHighHum').style.display = 'none';
             } else {
@@ -151,7 +151,7 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
                 document.getElementById('divHighHum').style.display = 'initial';
             }
 
-            if (document.getElementById('inLowestPT').value === "") {
+            if (document.getElementById('inLowestPT').value == "") {
                 document.getElementById('divLowTemp').style.display = 'none';
                 document.getElementById('divHighTemp').style.display = 'none';
             } else {
@@ -159,7 +159,7 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
                 document.getElementById('divHighTemp').style.display = 'initial';
             }
 
-            if (document.getElementById('inLowestPHL').value === "") {
+            if (document.getElementById('inLowestPHL').value == "") {
                 document.getElementById('divLowPHL').style.display = 'none';
                 document.getElementById('divHighPHL').style.display = 'none';
             } else {
@@ -167,7 +167,7 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
                 document.getElementById('divHighPHL').style.display = 'initial';
             }
 
-            if (document.getElementById('inLowestPR').value === "") {
+            if (document.getElementById('inLowestPR').value == "") {
                 document.getElementById('divLowRad').style.display = 'none';
                 document.getElementById('divHighRad').style.display = 'none';
             } else {
@@ -175,11 +175,20 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
                 document.getElementById('divHighRad').style.display = 'initial';
             }
 
+            if (document.getElementById('inLowestOX').value == "") {
+                document.getElementById('divLowOx').style.display = 'none';
+                document.getElementById('divHighOx').style.display = 'none';
+            } else {
+                document.getElementById('divLowOx').style.display = 'initial';
+                document.getElementById('divHighOx').style.display = 'initial';
+            }
+
             if (document.getElementById('inLowestPH').value != "" || document.getElementById('inLowestPR').value != "") {
                 document.getElementById('btnTypeAcu').style.display = 'none';
                 document.getElementById('btnTypeInv').style.display = 'initial';
                 typeStation = 'Invernadero';
-                // console.log('invernadero')
+                // console.log('Invernadero')
+                // console.log(typeStation)
             }
 
             if (document.getElementById('inLowestPHL').value != "" || document.getElementById('inLowestOX').value != "") {
@@ -187,6 +196,7 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
                 document.getElementById('btnTypeInv').style.display = 'none';
                 typeStation = 'Acuicola';
                 // console.log('Acuicola')
+                // console.log(typeStation)
             }
 
         } else {
@@ -255,6 +265,14 @@ document.getElementById('divStations').addEventListener('click', (ev) => {
                 document.getElementById('divHighRad').style.display = 'initial';
             }
 
+            if (document.getElementById('inLowestOX').value == "") {
+                document.getElementById('divLowOx').style.display = 'none';
+                document.getElementById('divHighOx').style.display = 'none';
+            } else {
+                document.getElementById('divLowOx').style.display = 'initial';
+                document.getElementById('divHighOx').style.display = 'initial';
+            }
+
             if (document.getElementById('inLowestPH').value != "" || document.getElementById('inLowestPR').value != "") {
                 document.getElementById('btnTypeAcu').style.display = 'none';
                 document.getElementById('btnTypeInv').style.display = 'initial';
@@ -303,33 +321,33 @@ document.getElementById('saveStation').addEventListener('click', (ev) => {
 
         //If the values are true will be push to the array
         if (typeStation === 'Invernadero') {
-            if (minTemperature) {
+            if (temperature) {
                 minVars.push('temperature');
                 minimums.push(temperature);
                 maximums.push(maxTemperature);
             }
-            if (minHumidity) {
+            if (humidity) {
                 minVars.push('humidity');
                 minimums.push(humidity);
                 maximums.push(maxHumidity);
             }
-            if (minRadiation) {
+            if (radiation) {
                 minVars.push('radiation');
                 minimums.push(radiation);
                 maximums.push(maxRadiation);
             }
         } else {
-            if (minTemperature) {
+            if (temperature) {
                 minVars.push('temperature');
                 minimums.push(temperature);
                 maximums.push(maxTemperature);
             }
-            if (minPh) {
+            if (ph) {
                 minVars.push('ph');
                 minimums.push(ph);
                 maximums.push(maxPh);
             }
-            if (minOxigen) {
+            if (ox) {
                 minVars.push('oxigen');
                 minimums.push(ox);
                 maximums.push(maxOx);
@@ -348,7 +366,9 @@ document.getElementById('saveStation').addEventListener('click', (ev) => {
             const photo = document.getElementById('inFile');
             data.append('photo', photo.files[0]);
         }
-
+        // console.log(minVars)
+        // console.log(minimums)
+        // console.log(maximums)
         station.editStation(data);
 
     } else if (document.getElementById('titleModal').textContent === "Nueva estación") {
@@ -505,7 +525,7 @@ document.getElementById('divTypeButtons').addEventListener('click', (ev) => {
     lib.hideInputsBoolean(true);
 
     const idButton = ev.target.id;
-    console.log(idButton)
+    // console.log(idButton)
     if (idButton == 'btnTypeInv') {
         typeStation = 'Invernadero';
     } else {
@@ -523,7 +543,7 @@ document.getElementById('btnMinValues').addEventListener('click', () => {
     divMinBtnsAcu.style.display = 'none';
     document.getElementById('divInputsLow').style.display = 'initial';
     document.getElementById('divInputsHigh').style.display = 'initial';
-    console.log(typeStation)
+    // console.log(typeStation)
     if (typeStation == 'Invernadero') {
         if (divMinBtnsInv.style.display === 'initial') {
             divMinBtnsInv.style.display = 'none'

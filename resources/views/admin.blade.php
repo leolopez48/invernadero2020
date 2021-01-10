@@ -219,7 +219,7 @@
 <div style="height: 50px;"></div>
 @endsection
 @section('js')
-<script src="{{asset('js/libs.js')}}" type="module"></script>
+<script src="{{asset('js/Libs.js')}}" type="module"></script>
 <script src="{{asset('js/admin.js')}}" type="module"></script>
 <!-- SWEETALERT2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>

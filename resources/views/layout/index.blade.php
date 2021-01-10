@@ -37,7 +37,7 @@
                     <table class="striped" style="padding: 0px; margin:0px;">
                         <thead>
                             <th class="center" colspan="2">
-                                <h5><strong>Notificaciones</strong></h5>
+                                <h5><strong class="black-text">Notificaciones</strong></h5>
                             </th>
                         </thead>
                         <tbody id="notificationMobile">
