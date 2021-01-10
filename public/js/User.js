@@ -9,6 +9,10 @@ const urlBase = 'http://192.168.1.21/';
 
 export default class User {
 
+    /*
+        Se reliza la petición de los usuarios que están habilitados para una
+        estación específica.
+    */
     getUsersAllowed(data) {
         fetch(urlBase + 'api/users/getSuscribed', {
                 method: 'POST',
@@ -29,6 +33,9 @@ export default class User {
             });
     }
 
+    /*
+        Agrega un usuario a una estación específica en forma de suscripción.
+    */
     addUserStation(data, users) {
         fetch(urlBase + 'api/users/addStation', {
                 method: 'POST',
@@ -60,6 +67,10 @@ export default class User {
             });;
     }
 
+    /*
+        Crea el usuario usuario dinámicamente con la información que le será mostrada
+        al usuario para verificar que es el que desea agregarle la suscripción.
+    */
     showUserSearched(data) {
         const divUserSearched = document.getElementById('divUserSearched');
         const user = document.createElement('div');
@@ -75,6 +86,9 @@ export default class User {
         divUserSearched.appendChild(user);
     }
 
+    /*
+        Agrega los usuarios dinámicamente de los usuarios suscritos a una estación.
+    */
     showUser(data) {
         const divUserSearched = document.getElementById('divUserAllowed');
         for (let i = 0; i < data.length; i++) {
@@ -95,6 +109,9 @@ export default class User {
 
     }
 
+    /*
+        Realiza la petición del usuario para eliminar la suscripción de una estación.
+    */
     deleteUserSuscription(data, users) {
         fetch(urlBase + 'api/users/deleteSuscription', {
                 method: 'POST',
@@ -118,6 +135,9 @@ export default class User {
             });
     }
 
+    /*
+        Realiza la petición para buscar a un usuario específico.
+    */
     findUser(data) {
         fetch(urlBase + 'api/users/get', {
                 method: 'POST',

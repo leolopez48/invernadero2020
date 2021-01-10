@@ -11,6 +11,9 @@ const urlBase = 'http://192.168.1.21/';
 
 export default class Notification {
 
+    /*
+        Realiza la petición a la API habilitada para obtener las notificaciones.
+    */
     getNotifications(url) {
         fetch(url, {
                 method: 'GET',
@@ -26,6 +29,9 @@ export default class Notification {
             });
     }
 
+    /*
+        Crea las notificaciones con sus datos respectivos.
+    */
     loadNotifications(data, div) {
         lib.removeChilds(div);
 

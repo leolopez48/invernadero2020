@@ -11,6 +11,12 @@ use MongoDB\BSON\Decimal128;
 
 class RecordController extends Controller
 {
+    /*
+        Función que se encarga de agregar los nuevos registros que las estaciones hayan recolectado
+        a lo largo del tiempo. Está función es un endpoint al que apuntarán los dispositivos.
+        Verifica cada una de las variables asignadas en el request y en el caso de existir, serán guardadas
+        dentro de la base de datos.
+    */
     public function add(Request $request)
     {
         try {
@@ -66,6 +72,12 @@ class RecordController extends Controller
         }
     }
 
+    /*
+        Esta función se encarga de obtener los datos de una estación específica,
+        se obtienen tanto los datos de la estación como los registros que se han registrado
+        en cada una de las estaciones para ser luego los datos que serán mostrados en forma
+        de gráfico a los usuarios.
+    */
     public function get($id)
     {
         try {
@@ -127,6 +139,10 @@ class RecordController extends Controller
         }
     }
 
+    /*
+        Filtra los registros por fechas y devuelve los datos de la estación
+        que se haya seleccionado y sus registros dentro de ese período de tiempo.
+    */
     public function filterRecords(Request $request)
     {
         try {

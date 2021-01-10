@@ -9,6 +9,9 @@ const urlBase = 'http://192.168.1.21/';
 
 export default class Station {
 
+    /*
+        Envía los datos de la nueva estación que se creará.
+    */
     addStation(data) {
         fetch(url + 'add', {
                 method: 'POST',
@@ -33,6 +36,9 @@ export default class Station {
             });
     }
 
+    /*
+        Obtiene los registros de la estación que se desee.
+    */
     getData(body, state) {
         fetch(url + 'get', {
                 method: 'POST',
@@ -60,6 +66,9 @@ export default class Station {
             });
     }
 
+    /*
+        Realiza la petición para editar los datos de la estación que se desee.
+    */
     editStation(body) {
         fetch(url + 'edit', {
                 method: 'POST',
@@ -86,6 +95,9 @@ export default class Station {
             });
     }
 
+    /*
+        Realiza la petición para deshabilitar una estación específica.
+    */
     deleteStation(body) {
         fetch(url + 'delete', {
                 method: 'POST',
@@ -109,6 +121,10 @@ export default class Station {
             });
     }
 
+    /*
+        Carga las estaciones dependiendo del estado que se indique; ya sean,
+        las estaciones habilitadas o deshabilitadas.
+    */
     loadStations() {
         lib.cleanDivStations();
         lib.openLoader();
@@ -125,6 +141,9 @@ export default class Station {
         lib.resetForm();
     }
 
+    /*
+        Crea las estaciones dinámicamente dependiendo de los datos recibidos en la petición.
+    */
     loadData(data, stationType) {
         const stations = document.getElementById('divStations');
 
@@ -183,7 +202,7 @@ export default class Station {
         }
         lib.closeLoader();
     }
-    //
+
     sendData(type, data) {
         fetch(url + type, {
                 method: 'POST',
@@ -197,7 +216,10 @@ export default class Station {
                 console.log("Error: " + error.message);
             });
     }
-    //
+
+    /*
+    Verifica si la estación se habilitará o deshabilitará.
+    */
     evaluateState(ev) {
         let state;
         if (ev.target.parentNode.parentNode.parentNode.parentNode.firstChild.textContent.toString() == "Habilitadas") {

@@ -8,6 +8,10 @@ use Auth;
 
 class UserController extends Controller
 {
+    /*
+        Buscar un usuario por el correo electrónico con el que se ha registrado.
+        Esta función es la que se utiliza en el buscador de usuarios de la pestaña admin.
+    */
     public function findUser(Request $request)
     {
         $idStation = (int)$request->idStation;
@@ -28,6 +32,11 @@ class UserController extends Controller
         }
     }
 
+    /*
+    Si el usuario ha sido encontrado y el usuario quiere agregarlo para darle permisos
+    de administrador al email seleccionado se invocará este método para agregar al usuario
+    dentro de las suscripciones que la estación seleccionada.
+    */
     public function addStationUser($idStation, $email)
     {
         $stationId = (int)$idStation;
@@ -53,6 +62,11 @@ class UserController extends Controller
         return response()->json(['message' => $newStations]);
     }
 
+    /*
+    Si el usuario ha sido encontrado y el usuario quiere agregarlo para darle permisos
+    de administrador al email seleccionado se invocará este método para agregar al usuario
+    dentro de las suscripciones que la estación seleccionada.
+    */
     public function addStationToUser(Request $request)
     {
         $email = $request->email;
@@ -79,6 +93,10 @@ class UserController extends Controller
         return response()->json(['message' => 'success']);
     }
 
+    /*
+    Busca los usuarios que están suscritos a una estación específica y los retorna en forma de array
+    para luego ser mostrados en la pestaña de administración.
+    */
     public function getUsersSuscribed(Request $request)
     {
         $usersSucribed = array();
@@ -105,6 +123,10 @@ class UserController extends Controller
         return response()->json(["message" => "success", "users" => $usersSucribed]);
     }
 
+    /*
+        Si a un usuario específico ya no se le darán permisos de administrador
+        dentro de la estación esta función eliminará la estación de sus suscripciones.
+    */
     public function deleteUserSuscription(Request $request)
     {
         $email = $request->email;

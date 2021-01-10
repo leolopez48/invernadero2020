@@ -17,6 +17,9 @@ function urlBase64ToUint8Array(base64String) {
     return outputArray;
 }
 
+/*
+    Función que se encarga de las suscripciones para permitir las notificaciones.
+*/
 const suscription = async () => {
     //Service Worker
     const register = navigator.serviceWorker.register('/worker.js', {

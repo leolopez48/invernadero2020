@@ -11,6 +11,11 @@ use MongoDB\BSON\Decimal128;
 
 class StationController extends Controller
 {
+    /*
+    Registra una nueva estación, almacena la foto y todos los datos que son requeridos
+    como las variables que le fueron asignadas a la estación y por defecto se le asigna
+    al usuario administrador.
+    */
     public function add(Request $request)
     {
         try {
@@ -80,6 +85,11 @@ class StationController extends Controller
         }
     }
 
+    /*
+    Función encargada de modificar la estación, verifica las variables que están dentro
+    del array de máximo y mínimos para luego actualizarlos. En el caso de que no exista
+    una foto en el request, simplemente se modificarán los datos, más no la foto.
+    */
     public function edit(Request $request)
     {
         try {
@@ -172,6 +182,10 @@ class StationController extends Controller
         }
     }
 
+    /*
+    Agrega cada una de las variables que están dentro del array de máximos y mínimos para
+    actualizar la estación.
+    */
     public function addVar($variable, $id, $minimum, $maximum)
     {
         DB::table('station')->where(['id'=>strval($id)])
@@ -260,6 +274,10 @@ class StationController extends Controller
         }
     }
 
+    /*
+        Esta función realiza un borrado lógico de las estaciones identificandolas por medio
+        de un id que es asignado a cada una de las estaciones.
+    */
     public function delete(Request $request)
     {
         $id = $request->id;

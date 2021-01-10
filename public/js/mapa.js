@@ -8,6 +8,7 @@ const url = 'http://localhost:8000/api/';
 // const url = 'http://192.168.1.24:82/api/';
 let dataStations;
 
+//Listeners
 $('document').ready(function () {
     const enabled = {
         state: true
@@ -174,7 +175,12 @@ function loadStations(stations) {
         divStations.appendChild(station);
     }
 }
+// End Listeners
 
+/*
+Función que se encarga de agregar los registros de la estación seleccionada
+dinámicamente.
+*/
 function loadTable(records) {
 
     $('#idTabla').empty();
@@ -362,6 +368,9 @@ function map() {
     hs.properties.fill = am4core.color("#3c5bdc");
 }
 
+/*
+    Mensaje a mostrar cuando una estación es seleccionada.
+*/
 function message(estacion) {
     Swal.fire(
         'Estación seleccionada: ' + estacion,
@@ -370,6 +379,10 @@ function message(estacion) {
     )
 }
 
+/*
+    Carga los datos de los registros de las estaciones seleccionadas, verificando
+    y ocultando en el caso de que se muestren menos de 3 gráficos.
+*/
 function loadGraphics(data) {
     let titleState1 = false;
     let titleState2 = false;
@@ -439,12 +452,18 @@ function loadGraphics(data) {
     }
 }
 
+/*
+    Vacía los div de los gráficos.
+*/
 function emptyDiv() {
     $('#graphicLineDiv').empty();
     $('#graphicLineHumDiv').empty();
     $('#graphicLineRadDiv').empty();
 }
 
+/*
+    Crea las gráficos con los datos que recibe como parámetros
+*/
 function graphics(graphicName, data, type) {
 
     am4core.ready(function () {
@@ -539,12 +558,18 @@ function graphics(graphicName, data, type) {
     }); // end am4core.ready()
 }
 
+/*
+    Esconde los div de las gráficos, tabla y datos.
+*/
 function hideDivData() {
     document.getElementById('divData').style.display = 'none';
     document.getElementById('divTable').style.display = 'none';
     document.getElementById('titleGraphics').textContent = 'Estación sin registros';
 }
 
+/*
+    Muestra los div de las gráficos, tabla y datos.
+*/
 function showDivData() {
     document.getElementById('divData').style.display = 'initial';
     document.getElementById('divTable').style.display = 'initial';

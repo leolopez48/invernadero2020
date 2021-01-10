@@ -17,6 +17,9 @@ class NotificationController extends Controller
     {
     }
 
+    /*
+        Agrega notificaciones en su respectiva tabla validando los campos de la estación específica.
+    */
     public function add(Notification $not)
     {
         try {
@@ -106,6 +109,10 @@ class NotificationController extends Controller
         }
     }
 
+    /*
+        Retorna un JSON con las últimas 3 notificaciones, estas notificaciones son accedidas
+        por medio de una API que será consumida desde el frontend.
+    */
     public function get(Request $request)
     {
         $notifications = DB::table('notification')->take(3)->orderBy('created_at', 'desc')->get();
@@ -128,6 +135,10 @@ class NotificationController extends Controller
         return response()->json(['message'=>'success', 'notification'=>$notifications, 'stations'=>collect($stations)]);
     }
 
+    /*
+        Recupera cada una de los endpoints registrados para luego conectarse con el servidor de
+        notificaciones webpush para notificar a cada uno de los usuarios.
+    */
     public function notificate($title, $message)
     {
         try {
@@ -147,6 +158,12 @@ class NotificationController extends Controller
         }
     }
 
+    /*
+        Cuando un usuario se conecta a la aplicación este método se encarga de verificar si el usuario
+        ha sido registrado con anterioridad, y en el caso que no lo esté lo registra.
+        Los endpoints acá registrados serán luego utilizados por el método notificate para notificar
+        a cada uno de los usuarios registrados.
+    */
     public function suscribe(Request $request)
     {
         try {
