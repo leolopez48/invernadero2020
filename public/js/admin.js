@@ -2,10 +2,10 @@ import Station from './Station.js';
 import Libs from './Libs.js';
 import User from './User.js';
 
-// const url = 'http://localhost:8000/api/stations/';
-// const urlBase = 'http://localhost:8000/';
-const url = 'http://192.168.1.21/api/stations/';
-const urlBase = 'http://192.168.1.21/';
+const url = 'http://localhost:8000/api/stations/';
+const urlBase = 'http://localhost:8000/';
+// const url = 'http://192.168.1.21/api/stations/';
+// const urlBase = 'http://192.168.1.21/';
 let typeStation = "";
 //MinValues
 //Invernadero

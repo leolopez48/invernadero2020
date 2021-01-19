@@ -8,6 +8,7 @@ use DB;
 use Storage;
 use Auth;
 use MongoDB\BSON\Decimal128;
+use MongoDB\BSON\UTCDateTime as MongoDate;
 
 class StationController extends Controller
 {
@@ -43,7 +44,7 @@ class StationController extends Controller
                 $title = $request->title;
                 $description = $request->description;
                 $state = true;
-                $date = date('Y-m-d\TH:m:s');
+                $date = new MongoDate(date_create(date('Y-m-d H:i:s', time())));
 
                 //FormData append the arrays as a unique string value, so it's needed
                 //to split it
@@ -97,7 +98,7 @@ class StationController extends Controller
             $id = $request->id;
             $title = $request->title;
             $description = $request->description;
-            $date = date('Y-m-d\TH:m:s');
+            $date = new MongoDate(date_create(date('Y-m-d H:i:s', time())));
 
             //FormData append the arrays as a unique string value, so it's needed
             //to split it

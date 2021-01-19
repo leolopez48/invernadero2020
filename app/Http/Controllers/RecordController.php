@@ -8,6 +8,7 @@ use App\Notification;
 use Illuminate\Http\Request;
 use DB;
 use MongoDB\BSON\Decimal128;
+use MongoDB\BSON\UTCDateTime as MongoDate;
 
 class RecordController extends Controller
 {
@@ -39,8 +40,8 @@ class RecordController extends Controller
                 $record->oxigen = new Decimal128($request->oxigen);
             }
 
-            $record->updated_at = date("Y-m-d h:i:s A", time());
-            $record->created_at = date("Y-m-d h:i:s A", time());
+            $record->updated_at = new MongoDate(date_create(date('Y-m-d H:i:s', time())));
+            $record->created_at = new MongoDate(date_create(date('Y-m-d H:i:s', time())));
             $record->save();
 
             $notification = new Notification();
@@ -61,8 +62,8 @@ class RecordController extends Controller
             if (isset($request->oxigen)) {
                 $notification->oxigen = strval($request->oxigen);
             }
-            $notification->updated_at = date("Y-m-d h:i:s A", time());
-            $notification->created_at = date("Y-m-d h:i:s A", time());
+            $notification->updated_at = new MongoDate(date_create(date('Y-m-d H:i:s', time())));
+            $notification->created_at = new MongoDate(date_create(date('Y-m-d H:i:s', time())));
             $not = new NotificationController();
             $not->add($notification);
 
@@ -146,8 +147,9 @@ class RecordController extends Controller
     public function filterRecords(Request $request)
     {
         try {
-            $start = $request->start;
-            $end = $request->end;
+            // new MongoDate(date_create(date($request->start)));
+            $start = new MongoDate(date_create(date($request->start)));
+            $end = new MongoDate(date_create(date($request->end)));
             //$start = date("Y/m/d", strtotime($request->start));
             //$end = date("Y/m/d", strtotime($request->end));
             $id = $request->id;
