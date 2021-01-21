@@ -103,9 +103,8 @@ class NotificationController extends Controller
                 $not->state = 'Válido';
             } else {
                 $not->state = 'No válido';
+                $this->notificate($lowest[0]['title'], 'Lectura fuera de los límites establecidos. Variables no válidas:'.$vars);
             }
-            // dd('Var: '.$vars);
-            $this->notificate($lowest[0]['title'], 'Lectura fuera de los límites establecidos. Variables no válidas:'.$vars);
 
             $not->save();
         } catch (\Throwable $th) {
