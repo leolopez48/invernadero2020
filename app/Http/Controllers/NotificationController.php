@@ -27,80 +27,84 @@ class NotificationController extends Controller
             ->where(['id'=>$not->id])
             ->get();
 
-            $validated = false;
+            $validatedH = true;
+            $validatedT = true;
+            $validatedR = true;
+            $validatedO = true;
+            $validatedP = true;
             $vars = "";
 
-            if ($validated) {
+            if ($validatedH) {
                 if (isset($not->humidity)) {
-                    if ($lowest[0]['humidity'] < $not->humidity || $lowest[0]['humidityM'] > $not->humidity) {
-                        $validated = true;
+                    if ($not->humidity  < $lowest[0]['humidity'] || $not->humidity > $lowest[0]['humidityM']) {
+                        $vars = $vars.' Húmedad';
+                        $validatedH = false;
                     } else {
-                        $vars += ' Húmedad';
-                        $validated = false;
+                        $validatedH = true;
                     }
                 }
             } else {
-                $validated = false;
+                $validatedH = false;
             }
 
-            if ($validated) {
+            if ($validatedT) {
                 if (isset($not->temperature)) {
-                    if ($lowest[0]['temperature'] < $not->temperature || $lowest[0]['temperatureM'] > $not->temperature) {
-                        $validated = true;
+                    if ($not->temperature  < $lowest[0]['temperature'] || $not->temperature > $lowest[0]['temperatureM']) {
+                        $vars = $vars.' Temperatura';
+                        $validatedT = false;
                     } else {
-                        $vars += ' Temperatura';
-                        $validated = false;
+                        $validatedT = true;
                     }
                 }
             } else {
-                $validated = false;
+                $validatedT = false;
             }
 
-            if ($validated) {
+            if ($validatedR) {
                 if (isset($not->radiation)) {
-                    if ($lowest[0]['radiation'] < $not->radiation || $lowest[0]['radiationM'] > $not->radiation) {
-                        $validated = true;
+                    if ($not->radiation  < $lowest[0]['radiation'] || $not->radiation > $lowest[0]['radiationM']) {
+                        $vars = $vars.' Radiación';
+                        $validatedR = false;
                     } else {
-                        $vars += ' Radiación';
-                        $validated = false;
+                        $validatedR = true;
                     }
                 }
             } else {
-                $validated = false;
+                $validatedR = false;
             }
 
-            if ($validated) {
+            if ($validatedP) {
                 if (isset($not->ph)) {
-                    if ($lowest[0]['ph'] < $not->ph || $lowest[0]['phM'] > $not->ph) {
-                        $validated = true;
+                    if ($not->ph  < $lowest[0]['ph'] || $not->ph > $lowest[0]['phM']) {
+                        $vars = $vars.' PH';
+                        $validatedP = false;
                     } else {
-                        $vars += ' PH';
-                        $validated = false;
+                        $validatedP = true;
                     }
                 }
             } else {
-                $validated = false;
+                $validatedP = false;
             }
 
-            if ($validated) {
+            if ($validatedO) {
                 if (isset($not->oxigen)) {
-                    if ($lowest[0]['oxigen'] < $not->oxigen || $lowest[0]['oxigenM'] > $not->oxigen) {
-                        $validated = true;
+                    if ($not->oxigen  < $lowest[0]['oxigen'] || $not->oxigen > $lowest[0]['oxigenM']) {
+                        $vars = $vars.' Oxígeno';
+                        $validatedO = false;
                     } else {
-                        $vars += ' Oxígeno';
-                        $validated = false;
+                        $validatedO = true;
                     }
                 }
             } else {
-                $validated = false;
+                $validatedO = false;
             }
 
-            if ($validated) {
-                $not->state = 'Correcto';
+            if ($validatedH && $validatedT && $validatedR && $validatedO && $validatedP) {
+                $not->state = 'Válido';
             } else {
                 $not->state = 'No válido';
             }
-
+            // dd('Var: '.$vars);
             $this->notificate($lowest[0]['title'], 'Lectura fuera de los límites establecidos. Variables no válidas:'.$vars);
 
             $not->save();

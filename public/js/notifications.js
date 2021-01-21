@@ -43,7 +43,7 @@ export default class Notification {
             let photo = "https://picsum.photos/id/60/60";
             let title = "Invernadero";
 
-            if (data.notification[i].state == 'Correcto') {
+            if (data.notification[i].state == 'Válido') {
                 state = 'green';
             } else {
                 state = 'red';
