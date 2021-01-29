@@ -1,6 +1,6 @@
 const VAPID_PUBLIC_KEY = "BPZTwlFufPeNhwWk5-_7th0rRxGdtFV2D32Id-MR42Egggvx5jl759xoE_cHhAs0XSJdLOojhdPSl1OrHuLt0Uo";
-const urlBase = 'http://localhost:8000/';
-// const urlBase = 'http://192.168.1.21/';
+// const urlBase = 'http://localhost:8000/';
+const urlBase = 'http://192.168.1.24:8000/';
 
 function urlBase64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);

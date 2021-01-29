@@ -3,9 +3,9 @@ import Libs from "./Libs.js";
 var LowestLimit = 15;
 let highestLimit = 50;
 const DefaultValue = 0;
-const url = 'http://localhost:8000/api/';
+// const url = 'http://localhost:8000/api/';
 // const url = 'http://192.168.1.21/api/';
-// const url = 'http://192.168.1.24:82/api/';
+const url = 'http://192.168.1.24:8000/api/';
 let dataStations;
 
 //Listeners

@@ -22,10 +22,10 @@
         <div class="container">
             <br><br>
             <p id="IdEst" style="display:none;">0</p>
-            <h1 id="tituloEst" class="header center teal-text text-lighten-2 tituloEst">Invernadero ENA</h1>
+            <h1 id="tituloEst" class="header center teal-text text-lighten-2 tituloEst">Sistema de monitoreo y control</h1>
             <div class="row center">
                 <h5 class="header col s12 light text-bold">
-                    <p id="descEst" class="descEst">Invernadero ubicado en ENA</p>
+                    <p id="descEst" class="descEst">de variables microambientales</p>
                 </h5>
             </div>
             <br><br>

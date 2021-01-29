@@ -1,7 +1,7 @@
-const url = 'http://localhost:8000/api/stations/';
-const urlBase = 'http://localhost:8000/';
-// const url = 'http://192.168.1.21/api/stations/';
-// const urlBase = 'http://192.168.1.21/';
+// const url = 'http://localhost:8000/api/stations/';
+// const urlBase = 'http://localhost:8000/';
+const url = 'http://192.168.1.24:8000/api/stations/';
+const urlBase = 'http://192.168.1.24:8000/';
 export default class Libs {
 
 
